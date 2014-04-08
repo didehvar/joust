@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-var env = require('../env');
 var debug = require('debug')('joust');
 var app = require('../app');
 

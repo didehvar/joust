@@ -1,5 +1,9 @@
 var express = require('express');
 var path = require('path');
+var cookie_parser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var SteamStrategy = require('passport-steam').Strategy;
 var stylus = require('stylus');
 var nib = require('nib');
 
@@ -7,11 +11,41 @@ var routes = require('./routes');
 
 var app = express();
 
+// setup passport
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+
+passport.use(new SteamStrategy({
+    returnURL: 'http://localhost:8111/auth/steam/callback',
+    realm: 'http://localhost:8111',
+    apiKey: process.env.JOUST_STEAM_KEY
+  },
+  function(identifier, profile, done) {
+    process.nextTick(function() {
+      profile.identifier = identifier;
+      return done(null, profile);
+    });
+  })
+);
+
 // general configuration
 app.configure(function() {
   // setup views to use jade
   app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
+
+  // enable cookie parser and sessions
+  app.use(cookie_parser());
+  app.use(session({ secret: process.env.JOUST_SESSION_KEY, cookie: { secure: true } }));
+
+  // setup passport authentication
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   // enable router
   app.use(app.router);
@@ -21,6 +55,21 @@ app.configure(function() {
 
   // setup routes
   app.get('/', routes.index);
+
+  app.get('/auth/steam',
+    passport.authenticate('steam'),
+    function(req, res) {
+      // request redirected to Steam
+    }
+  );
+
+  app.get('/auth/steam/callback',
+    passport.authenticate('steam', { failureRedirect: '/login' } ),
+    function(req, res) {
+      // auth successful
+      res.redirect('/');
+    }
+  );
 
   // 404 route
   app.use(function(req, res, next) {

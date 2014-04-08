@@ -7,12 +7,32 @@ var routes = require('./routes');
 
 var app = express();
 
-// setup views to use jade
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// general configuration
+app.configure(function() {
+  // setup views to use jade
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
 
-// compile stylus files in development
+  // enable router
+  app.use(app.router);
+
+  // setup static assets
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  // setup routes
+  app.get('/', routes.index);
+
+  // 404 route
+  app.use(function(req, res, next) {
+    var err = new Error('not found');
+    err.status = 404;
+    next(err);
+  });
+});
+
+// development configuration
 app.configure('development', function() {
+  // configure stylus compilation from assets to public
   app.use(stylus.middleware({
     src: path.join(__dirname, 'assets'),
     dest: path.join(__dirname, 'public'),
@@ -26,26 +46,8 @@ app.configure('development', function() {
         .import('nib');
     }
   }));
-});
 
-// enable router
-app.use(app.router);
-
-// setup static assets
-app.use(express.static(path.join(__dirname, 'public')));
-
-// setup routes
-app.get('/', routes.index);
-
-// 404 route
-app.use(function(req, res, next) {
-  var err = new Error('not found');
-  err.status = 404;
-  next(err);
-});
-
-// catch and display errors
-app.configure('development', function() {
+  // display full error messages in development
   app.use(function(err, req, res, next) {
     res.render('error', {
       message: err.message,
@@ -55,6 +57,7 @@ app.configure('development', function() {
 });
 
 app.configure('production', function() {
+  // hide error messages in production
   app.use(function(err, req, res, next) {
     res.render('error', {
       message: err.message,

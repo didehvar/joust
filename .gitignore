@@ -3,3 +3,6 @@ npm-debug.log
 
 # exclude production assets directory
 public/
+
+# exclude env.js as contains keys
+env.js

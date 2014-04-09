@@ -3,8 +3,15 @@ var path = require('path');
 var url = require('url');
 var cookie_parser = require('cookie-parser');
 var session = require('express-session');
-var passport = require('passport');
-var SteamStrategy = require('passport-steam').Strategy;
+var openid = require('openid');
+var relying_party = new openid.RelyingParty(
+  process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
+  process.env.AUTH_REALM || 'http://localhost:8111',
+  true,
+  false,
+  []
+);
+
 var stylus = require('stylus');
 var nib = require('nib');
 var mongoose = require('mongoose');
@@ -16,81 +23,10 @@ var app = express();
 
 var util = require('util');
 
-// setup mongodb
-/*MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
-  var collection = db.collection('test');
-
-  // clear collection
-  collection.remove(function(err, result) {
-    if (err) {
-      return console.error(err);
-    }
-    console.log('collection cleared!');
-
-    // add some test documents
-    console.log('inserting test documents');
-    collection.insert([{ name: 'tester' }, { name: 'coder' }], function(err, docs) {
-      if (err) {
-        return console.error(err);
-      }
-
-      console.log('inserted ', docs.length, ' new documents');
-      collection.find({}).toArray(function(err, docs) {
-        if (err) {
-          return console.error(err);
-        }
-
-        docs.forEach(function(doc) {
-          console.log('found document: ', doc);
-        });
-      });
-    });
-  });
-});*/
-
+// connect to db
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 
-// setup passport
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
 
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-passport.use(new SteamStrategy({
-    returnURL: process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
-    realm: process.env.AUTH_REALM || 'http://localhost:8111',
-    apiKey: process.env.JOUST_STEAM_KEY || '1707CBE26A45706A2035BAE0384A18AA'
-  },
-  function(identifier, profile, done) {
-    // convert identifier url to id
-    var identifier_id = url.parse(identifier).pathname.split('/').pop();
-
-    console.log(util.inspect(identifier, false, null));
-    console.log(util.inspect(identifier_id, false, null));
-
-    User.findOne({ steamID: identifier_id }, function(err, user) {
-      if (err) { console.log(err); }
-      if (!err && user !== null) {
-        done(null, user);
-      } else {
-        var new_user = new User({
-          steamID: identifier_id
-        });
-        new_user.save(function(err) {
-          if (err) {
-            console.log(err);
-          } else {
-            console.log("saving user");
-            done(null, new_user);
-          }
-        });
-      }
-    });
-  })
-);
 
 // general configuration
 app.configure(function() {
@@ -102,10 +38,6 @@ app.configure(function() {
   app.use(cookie_parser());
   app.use(session({ secret: process.env.JOUST_SESSION_KEY || 'joust', cookie: { secure: true } }));
 
-  // setup passport authentication
-  app.use(passport.initialize());
-  app.use(passport.session());
-
   // enable router
   app.use(app.router);
 
@@ -115,20 +47,31 @@ app.configure(function() {
   // setup routes
   app.get('/', routes.index);
 
-  app.get('/auth/steam',
-    passport.authenticate('steam'),
-    function(req, res) {
-      // request redirected to Steam
-    }
-  );
+  app.get('/auth/steam', function(req, res, next) {
+    relying_party.authenticate('http://steamcommunity.com/openid', false, function(error, auth_url) {
+      if (error) {
+        var err = new Error('authentication failed: ' + error.message);
+        next(err);
+      } else if (!auth_url) {
+        var auth_err = new Error('authentication failed');
+        next(auth_err);
+      } else {
+        res.redirect(auth_url);
+      }
+    });
+  });
 
-  app.get('/auth/steam/callback',
-    passport.authenticate('steam', { failureRedirect: '/login' } ),
-    function(req, res) {
-      // auth successful
-      res.redirect('/');
-    }
-  );
+  app.get('/auth/steam/callback', function(req, res, next) {
+    relying_party.verifyAssertion(req, function(error, result) {
+      if (error || !result.authenticated) {
+        var err = new Error('authentication failed' + error.message);
+        next(err);
+      } else {
+        console.log(util.inspect(result, false, null));
+        res.redirect('/'); // authentication success
+      }
+    });
+  });
 
   // 404 route
   app.use(function(req, res, next) {

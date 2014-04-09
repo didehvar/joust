@@ -21,8 +21,8 @@ passport.deserializeUser(function(obj, done) {
 });
 
 passport.use(new SteamStrategy({
-    returnURL: 'http://localhost:8111/auth/steam/callback',
-    realm: 'http://localhost:8111',
+    returnURL: process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
+    realm: process.env.AUTH_REALM || 'http://localhost:8111',
     apiKey: process.env.JOUST_STEAM_KEY
   },
   function(identifier, profile, done) {

@@ -65,6 +65,7 @@ app.configure(function() {
     });
   });
 
+  // this really needs some love
   app.get('/auth/steam/callback', function(req, res, next) {
     relying_party.verifyAssertion(req, function(error, result) {
       if (error || !result.authenticated) {
@@ -76,7 +77,42 @@ app.configure(function() {
         steam.getPlayerSummaries({
           steamids: [ result.claimedIdentifier ],
           callback: function(err, data) {
-            console.log(data.response.players[0]);
+            if (err) {
+              var error = new Error('steam web api failed');
+              next(error);
+            } else {
+              console.log(data.response.players[0]);
+
+              var player = data.response.players[0];
+              if (!player) {
+                var error_web = new Error('unable to get steam player');
+                next(error_web);
+              } else {
+                console.log('checking db for user...');
+                User.findOne({ steamid: player.steamid }, function(err, user) {
+                  if (err) {
+                    console.log(err);
+                  }
+
+                  if (!err && user !== null) {
+                    console.log('user exists');
+                  } else {
+                    var new_user = new User({
+                      steamid: player.steamid,
+                      created: Date.now()
+                    });
+
+                    new_user.save(function(err) {
+                      if (err) {
+                        console.log(err);
+                      } else {
+                        console.log('saving user...');
+                      }
+                    });
+                  }
+                });
+              }
+            }
           }
         });
         res.redirect('/'); // authentication success

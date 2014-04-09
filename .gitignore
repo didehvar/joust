@@ -4,5 +4,6 @@ npm-debug.log
 # exclude production assets directory
 public/
 
-# exclude as contains keys
+# please see .env.fake and setup these vars in heroku using
+# heroku config:set NAME=VALUE
 .env

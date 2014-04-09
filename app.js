@@ -1,15 +1,54 @@
 var express = require('express');
 var path = require('path');
+var url = require('url');
 var cookie_parser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
 var SteamStrategy = require('passport-steam').Strategy;
 var stylus = require('stylus');
 var nib = require('nib');
+var mongoose = require('mongoose');
+var User = require('./db/users.js');
 
 var routes = require('./routes');
 
 var app = express();
+
+var util = require('util');
+
+// setup mongodb
+/*MongoClient.connect(process.env.MONGOHQ_URL, function(err, db) {
+  var collection = db.collection('test');
+
+  // clear collection
+  collection.remove(function(err, result) {
+    if (err) {
+      return console.error(err);
+    }
+    console.log('collection cleared!');
+
+    // add some test documents
+    console.log('inserting test documents');
+    collection.insert([{ name: 'tester' }, { name: 'coder' }], function(err, docs) {
+      if (err) {
+        return console.error(err);
+      }
+
+      console.log('inserted ', docs.length, ' new documents');
+      collection.find({}).toArray(function(err, docs) {
+        if (err) {
+          return console.error(err);
+        }
+
+        docs.forEach(function(doc) {
+          console.log('found document: ', doc);
+        });
+      });
+    });
+  });
+});*/
+
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 
 // setup passport
 passport.serializeUser(function(user, done) {
@@ -23,12 +62,32 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new SteamStrategy({
     returnURL: process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
     realm: process.env.AUTH_REALM || 'http://localhost:8111',
-    apiKey: process.env.JOUST_STEAM_KEY
+    apiKey: process.env.JOUST_STEAM_KEY || '1707CBE26A45706A2035BAE0384A18AA'
   },
   function(identifier, profile, done) {
-    process.nextTick(function() {
-      profile.identifier = identifier;
-      return done(null, profile);
+    // convert identifier url to id
+    var identifier_id = url.parse(identifier).pathname.split('/').pop();
+
+    console.log(util.inspect(identifier, false, null));
+    console.log(util.inspect(identifier_id, false, null));
+
+    User.findOne({ steamID: identifier_id }, function(err, user) {
+      if (err) { console.log(err); }
+      if (!err && user !== null) {
+        done(null, user);
+      } else {
+        var new_user = new User({
+          steamID: identifier_id
+        });
+        new_user.save(function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("saving user");
+            done(null, new_user);
+          }
+        });
+      }
     });
   })
 );

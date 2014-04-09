@@ -1,7 +1,11 @@
 # Instructions
 
-Setup values in .env.fake as environment variables in production.
-Defaults should work in local.
+Install [MongoDB](https://www.mongodb.org/), you can set the environment variable `MONGOHQ_URL` to
+your connection string. The deafult will use the `joust` collection.
 
-Start app using:
+Setup values in .env.fake as environment variables in production. Defaults should work in local,
+the app will run at [localhost](http://localhost:8111) on port 8111.
+
+Start the app using:
+
 `npm start`

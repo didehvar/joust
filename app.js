@@ -3,12 +3,13 @@ var path = require('path');
 var url = require('url');
 var cookie_parser = require('cookie-parser');
 var session = require('express-session');
+var steam_web = require('steam-web');
 var openid = require('openid');
 var relying_party = new openid.RelyingParty(
   process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
   process.env.AUTH_REALM || 'http://localhost:8111',
   true,
-  false,
+  true,
   []
 );
 
@@ -26,7 +27,10 @@ var util = require('util');
 // connect to db
 mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 
-
+// load environment variables in development
+app.configure('development', function() {
+  require('./.env.dev.js');
+});
 
 // general configuration
 app.configure(function() {
@@ -68,6 +72,13 @@ app.configure(function() {
         next(err);
       } else {
         console.log(util.inspect(result, false, null));
+        var steam = new steam_web({ apiKey: process.env.JOUST_STEAM_KEY, format: 'json' });
+        steam.getPlayerSummaries({
+          steamids: [ result.claimedIdentifier ],
+          callback: function(err, data) {
+            console.log(data.response.players[0]);
+          }
+        });
         res.redirect('/'); // authentication success
       }
     });

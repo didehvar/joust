@@ -15,6 +15,7 @@
     "nib": "1.0.2",
     "mongodb": "1.4.0",
     "mongoose": "3.8.8",
-    "openid": "0.5.5"
+    "openid": "0.5.5",
+    "steam-web": "^0.2.1"
   }
 }

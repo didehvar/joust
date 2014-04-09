@@ -41,7 +41,7 @@ app.configure(function() {
 
   // enable cookie parser and sessions
   app.use(cookie_parser());
-  app.use(session({ secret: process.env.JOUST_SESSION_KEY, cookie: { secure: true } }));
+  app.use(session({ secret: process.env.JOUST_SESSION_KEY || 'joust', cookie: { secure: true } }));
 
   // setup passport authentication
   app.use(passport.initialize());

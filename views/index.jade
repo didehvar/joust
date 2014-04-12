@@ -2,6 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
 
-  a(href="/auth/steam") Login with Steam
+  if user
+    p Welcome!
+  else
+    a(href="/auth/steam") Login with Steam

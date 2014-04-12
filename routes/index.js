@@ -1,10 +1,7 @@
-var index = require('express').Router();
+var router = require('express').Router();
 
-index.use(function(req, res) {
-  // check if logged in
-  //console.log(req);
-
-  res.render('index', { title: 'Welcome' });
+router.use(function(req, res) {
+  res.render('index', { title: 'Welcome', user: req.user });
 });
 
-module.exports.index = index;
+module.exports.index = router;

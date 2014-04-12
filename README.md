@@ -6,6 +6,4 @@ your connection string. The deafult will use the `joust` collection.
 Setup values in .env.fake as environment variables in production. Defaults should work in local,
 the app will run at [localhost](http://localhost:8111) on port 8111.
 
-Start the app using:
-
-`npm start`
+Start the app using `npm start` or `DEBUG=joust npm start`.

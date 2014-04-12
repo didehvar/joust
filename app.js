@@ -22,7 +22,20 @@ app.set('view engine', 'jade');
 
 // session setup
 app.use(require('cookie-parser')());
-app.use(require('express-session')({ secret: 'keyboard cat' }));
+
+var session = require('express-session');
+var mongo_session = require('connect-mongo')(session);
+
+app.use(session({
+  store: new mongo_session({
+    mongoose_connection: mongoose.connections[0]
+  }),
+  secret: 'keyboard cat',
+  cookie: {
+    path: '/',
+    maxAge: 1000 * 60 * 60 * 24 // one day
+  }
+}));
 
 // passport setup
 var passport = require('./helpers/auth.js');

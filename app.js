@@ -45,7 +45,7 @@ app.get('/auth/steam',
 );
 
 app.get('/auth/steam/callback',
-  passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/login' }),
+  passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/' }),
   function(req, res, next) {
     res.redirect('/');
   }

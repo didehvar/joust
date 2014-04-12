@@ -29,14 +29,14 @@ var passport = require('./helpers/auth.js');
 app.use(passport.initialize());
 app.use(passport.session());
 
-// THIS IS REAL UGLY AND NEEDS SOME ATTENTION
 // app routes
-var routes = require('./routes/index.js');
-app.get('/', routes.index);
+var routes = [
+  ['/', 'index#index']
+];
 
-/*var steam_routes = require('./routes/steam_auth.js');
-app.get('/auth/steam', steam_routes.steam_auth);
-app.get('/auth/steam/callback', steam_routes.steam_auth);*/
+require('express-path')(app, routes);
+
+// cannot use paspport.authenticate with express-path (?)
 app.get('/auth/steam',
   passport.authenticate('steam'),
   function(req, res, next) {
@@ -45,7 +45,7 @@ app.get('/auth/steam',
 );
 
 app.get('/auth/steam/callback',
-  passport.authenticate('steam', { failureRedirect: '/login' }),
+  passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/login' }),
   function(req, res, next) {
     res.redirect('/');
   }

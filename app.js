@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var passport = require('passport');
 
 // general utility modules
 var path = require('path');
@@ -20,10 +21,7 @@ app.set('view engine', 'jade');
 require('./helpers/session')(app);
 
 // passport setup
-var passport = require('passport');
-require('./helpers/auth.js')(passport);
-app.use(passport.initialize());
-app.use(passport.session());
+require('./helpers/auth.js')(app);
 
 // app routes
 var routes = [

@@ -1,8 +1,9 @@
+var passport = require('passport');
 var steam_strategy = require('passport-steam').Strategy;
 var User = require('../models/users.js');
 var url = require('url');
 
-module.exports = function(passport) {
+module.exports = function(app) {
   passport.serializeUser(function(user, done) {
     done(null, user.steamid);
   });
@@ -46,4 +47,7 @@ module.exports = function(passport) {
       });
     }
   ));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
 };

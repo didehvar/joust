@@ -44,6 +44,7 @@ app.use(passport.session());
 
 // app routes
 var routes = [
+  ['/*', 'index#fix_www'],
   ['/', 'index#index'],
   ['/auth-failed', 'index#auth_failed']
 ];

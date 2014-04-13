@@ -19,7 +19,9 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  */
 var tournament_schema = mongoose.Schema({
 	name: String,
-	game: { type: ObjectId, ref: 'game' },
+	game: { type: ObjectId, ref: 'Game' },
 	season: { type: Number, min: 1 },
-	participant_list: { type: ObjectId, ref: 'participant_list' }
+	participants: [{ type: ObjectId, ref: 'Participant' }]
 })
+
+module.exports = mongoose.model('Tournament', tournament_schema)

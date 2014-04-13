@@ -25,7 +25,8 @@ require('./helpers/auth')(app);
 var routes = [
   ['/*', 'index#fix_www'],
   ['/', 'index#index'],
-  ['/auth/steam/failed', 'index#auth_failed']
+  ['/auth/steam/failed', 'index#auth_failed'],
+  ['/logout', 'user#logout']
 ];
 
 require('express-path')(app, routes);

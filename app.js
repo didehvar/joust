@@ -4,7 +4,6 @@ var passport = require('passport');
 
 // general utility modules
 var path = require('path');
-var url = require('url');
 
 // database shtuff
 var mongoose = require('mongoose');

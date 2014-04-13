@@ -2,6 +2,10 @@
 var debug = require('debug')('joust');
 var app = require('../app');
 
+if (!process.env.JOUST_STEAM_KEY) {
+  throw new Error("Steam API key must be set");
+}
+
 app.set('port', process.env.PORT || 8111);
 
 var server = app.listen(app.get('port'), function() {

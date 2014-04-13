@@ -17,21 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // session setup
-app.use(require('cookie-parser')());
-
-var session = require('express-session');
-var mongo_session = require('connect-mongo')(session);
-
-app.use(session({
-  store: new mongo_session({
-    mongoose_connection: mongoose.connections[0]
-  }),
-  secret: process.env.JOUST_SESSION_KEY || 'keyboard cat',
-  cookie: {
-    path: '/',
-    maxAge: 1000 * 60 * 60 * 24 // one day
-  }
-}));
+require('./helpers/session')(app);
 
 // passport setup
 var passport = require('passport');

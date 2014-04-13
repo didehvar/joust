@@ -50,4 +50,19 @@ module.exports = function(app) {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // cannot use paspport.authenticate with express-path (?)
+  app.get('/auth/steam',
+    passport.authenticate('steam'),
+    function(req, res, next) {
+      // function not called
+    }
+  );
+
+  app.get('/auth/steam/callback',
+    passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/auth/steam/failed' }),
+    function(req, res, next) {
+      res.redirect('/');
+    }
+  );
 };

@@ -30,7 +30,7 @@ app.use(session({
   store: new mongo_session({
     mongoose_connection: mongoose.connections[0]
   }),
-  secret: 'keyboard cat',
+  secret: process.env.JOUST_SESSION_KEY || 'keyboard cat',
   cookie: {
     path: '/',
     maxAge: 1000 * 60 * 60 * 24 // one day

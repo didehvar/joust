@@ -4,5 +4,8 @@ npm-debug.log
 # exclude production assets directory
 public/
 
-# hide secret keys
+# hide heroku config:dump keys
 .env
+
+# hide environment config for local development
+config.js

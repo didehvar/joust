@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var session = require('express-session');
 var mongo_session = require('connect-mongo')(session);
+var flash = require('connect-flash');
 
 module.exports = function(app) {
   app.use(require('cookie-parser')());
@@ -15,4 +16,6 @@ module.exports = function(app) {
       maxAge: 1000 * 60 * 60 * 24 // one day
     }
   }));
+
+  app.use(flash());
 };

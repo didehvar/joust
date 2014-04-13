@@ -19,6 +19,7 @@
     "passport": "^0.2.0",
     "passport-steam": "^0.1.3",
     "express-path": "^0.3.7",
-    "connect-mongo": "kcbanner/connect-mongo"
+    "connect-mongo": "kcbanner/connect-mongo",
+    "connect-flash": "^0.1.1"
   }
 }

@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 
-var User = mongoose.model('User', {
+var user_schema = mongoose.Schema({
   steamid: Number,
   created: Date
 });
 
-module.exports = User;
+module.exports = mongoose.model('User', user_schema);

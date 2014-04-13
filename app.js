@@ -38,7 +38,8 @@ app.use(session({
 }));
 
 // passport setup
-var passport = require('./helpers/auth.js');
+var passport = require('passport');
+require('./helpers/auth.js')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 

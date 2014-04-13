@@ -60,7 +60,12 @@ module.exports = function(app) {
   );
 
   app.get('/auth/steam/callback',
-    passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/auth/steam/failed' }),
+    passport.authenticate('steam', {
+      successRedirect: '/',
+      failureRedirect: '/auth/steam/failed',
+      failureFlash: true,
+      successFlash: true
+    }),
     function(req, res, next) {
       res.redirect('/');
     }

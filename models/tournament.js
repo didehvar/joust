@@ -22,6 +22,6 @@ var tournament_schema = mongoose.Schema({
 	game: { type: ObjectId, ref: 'Game' },
 	season: { type: Number, min: 1 },
 	participants: [{ type: ObjectId, ref: 'Participant' }]
-})
+});
 
-module.exports = mongoose.model('Tournament', tournament_schema)
+module.exports = mongoose.model('Tournament', tournament_schema);

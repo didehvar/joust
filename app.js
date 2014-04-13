@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var passport = require('passport');
 
 // general utility modules
 var path = require('path');

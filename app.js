@@ -47,7 +47,7 @@ app.use(passport.session());
 var routes = [
   ['/*', 'index#fix_www'],
   ['/', 'index#index'],
-  ['/auth-failed', 'index#auth_failed']
+  ['/auth/steam/failed', 'index#auth_failed']
 ];
 
 require('express-path')(app, routes);
@@ -61,7 +61,7 @@ app.get('/auth/steam',
 );
 
 app.get('/auth/steam/callback',
-  passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/auth-failed' }),
+  passport.authenticate('steam', { successRedirect: '/', failureRedirect: '/auth/steam/failed' }),
   function(req, res, next) {
     res.redirect('/');
   }

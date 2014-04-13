@@ -1,6 +1,6 @@
 var passport = require('passport');
 var steam_strategy = require('passport-steam').Strategy;
-var User = require('../models/users.js');
+var User = require('../models/users');
 var url = require('url');
 
 module.exports = function(app) {

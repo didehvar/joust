@@ -21,7 +21,7 @@ app.set('view engine', 'jade');
 require('./helpers/session')(app);
 
 // passport setup
-require('./helpers/auth.js')(app);
+require('./helpers/auth')(app);
 
 // app routes
 var routes = [

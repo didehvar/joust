@@ -14,7 +14,7 @@ function update_steam_data(steamid, user, done) {
     steamids: [steamid],
     callback: function(err, result) {
       if (err) {
-        throw err;
+        return done(err, user);
       }
 
       var profile = result.response.players[0];
@@ -27,9 +27,7 @@ function update_steam_data(steamid, user, done) {
       user.avatar_full = profile.avatarfull;
 
       user.save(function(err) {
-        if (err) {
-          throw err;
-        }
+        return done(err, user);
       });
     }
   });
@@ -66,7 +64,6 @@ module.exports = function(app) {
 
           if (user) {
             update_steam_data(steamid, user, done);
-            return done(err, user);
           } else {
             var new_user = new User();
 
@@ -79,7 +76,6 @@ module.exports = function(app) {
               }
 
               update_steam_data(steamid, new_user, done);
-              return done(null, new_user);
             });
           }
         });

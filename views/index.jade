@@ -4,7 +4,12 @@ block content
   h1= title
 
   if user
-    p Welcome!
+    | Welcome 
+    a(href=user.profile_url) #{user.display_name}
+
+    p
+      img(src=user.avatar_full)
+
     a(href="/logout") Logout
   else
     a(href="/auth/steam") Login with Steam

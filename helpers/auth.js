@@ -21,6 +21,7 @@ function update_steam_data(steamid, user, done) {
 
       // user has been created by this point, proceed to update their steam info
       user.display_name = profile.personaname;
+      user.profile_url = profile.profileurl;
       user.avatar = profile.avatar;
       user.avatar_medium = profile.avatarmedium;
       user.avatar_full = profile.avatarfull;

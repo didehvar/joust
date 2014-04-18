@@ -86,6 +86,10 @@ module.exports = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.get('/login', function(req, res, next) {
+      req.session.returnTo = url.parse(req.url, true).query.return;
+  });
+
   // cannot use paspport.authenticate with express-path (?)
   app.get('/auth/steam',
     passport.authenticate('openid'),
@@ -96,7 +100,7 @@ module.exports = function(app) {
 
   app.get('/auth/steam/callback',
     passport.authenticate('openid', {
-      successRedirect: '/',
+      successReturnToOrRedirect: '/',
       failureRedirect: '/auth/steam/failed',
       failureFlash: true,
       successFlash: true

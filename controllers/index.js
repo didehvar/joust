@@ -8,7 +8,11 @@ exports.fix_www = function(req, res, next) {
 };
 
 exports.index = function(req, res) {
-  res.render('index', { title: 'Welcome', user: req.user, flash: req.flash('success') });
+  res.render('index', { 
+    title: 'Welcome',
+    user: req.user,
+    flash: req.flash('success')
+  });
 };
 
 exports.auth_failed = function(req, res) {

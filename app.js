@@ -38,9 +38,29 @@ var routes = [
   /* authentication */
   ['/auth/steam/failed', 'index#auth_failed'],
   ['/login', 'user#login'],
-  ['/logout', 'user#logout']
+  ['/logout', 'user#logout'],
+
+  /* user management */
+  ['/user/:id', 'user#profile']
 ];
 
 require('express-path')(app, routes);
+
+// 404 handler
+app.use(function(req, res, next) {
+  res.status(404);
+
+  if (req.accepts('html')) {
+    res.render('error', { message: 'Page not found', url: req.url });
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  res.type('txt').send('Not found');
+});
 
 module.exports = app;

@@ -11,6 +11,9 @@ mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 // set environment
 var env = process.env.NODE_ENV || 'development';
 
+// use static public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // use jade for views
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

@@ -29,6 +29,7 @@ var routes = [
   ['/*', 'index#fix_www'],
   ['/', 'index#index'],
   ['/auth/steam/failed', 'index#auth_failed'],
+  ['/login', 'user#login'],
   ['/logout', 'user#logout']
 ];
 

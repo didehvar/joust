@@ -99,7 +99,7 @@ module.exports = function(app) {
       successReturnToOrRedirect: '/',
       failureRedirect: '/auth/steam/failed',
       failureFlash: true,
-      successFlash: true
+      successFlash: 'You have successfully signed in with Steam.'
     }),
     function(req, res, next) {
       res.redirect('/');

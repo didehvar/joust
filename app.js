@@ -34,6 +34,8 @@ app.use(function(req, res, next) {
 var routes = [
   ['/*', 'index#fix_www'],
   ['/', 'index#index'],
+
+  /* authentication */
   ['/auth/steam/failed', 'index#auth_failed'],
   ['/login', 'user#login'],
   ['/logout', 'user#logout']

@@ -86,8 +86,10 @@ module.exports = function(app) {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // set return get param to the url to redirect to after auth
   app.get('/login', function(req, res, next) {
       req.session.returnTo = url.parse(req.url, true).query.return;
+      res.redirect('/auth/steam');
   });
 
   // cannot use paspport.authenticate with express-path (?)

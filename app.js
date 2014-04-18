@@ -26,6 +26,7 @@ require('./helpers/auth')(app);
 
 app.use(function(req, res, next) {
   res.locals.user = req.user;
+  res.locals.flash = req.flash('success');
   next();
 });
 

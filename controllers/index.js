@@ -9,8 +9,7 @@ exports.fix_www = function(req, res, next) {
 
 exports.index = function(req, res) {
   res.render('index', { 
-    title: 'Welcome',
-    flash: req.flash('success')
+    title: 'Welcome'
   });
 };
 

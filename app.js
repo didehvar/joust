@@ -24,6 +24,11 @@ require('./helpers/session')(app);
 // passport setup
 require('./helpers/auth')(app);
 
+app.use(function(req, res, next) {
+  res.locals.user = req.user;
+  next();
+});
+
 // app routes
 var routes = [
   ['/*', 'index#fix_www'],

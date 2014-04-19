@@ -10,8 +10,8 @@ block content
     p #{user.steamid}
 
     p
-      img(src=user.avatar_full)
+      include parts/user/avatar
 
     a(href="/logout") Logout
   else
-    include parts/steam
+    include parts/steam_login

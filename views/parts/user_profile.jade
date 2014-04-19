@@ -1,0 +1,3 @@
+//- Displays a link to the currently logged in users page (if logged in)
+if user
+  a(href='user/' + user.steamid + '') #{user.display_name}

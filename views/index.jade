@@ -5,7 +5,7 @@ block content
 
   if user
     | Welcome 
-    a(href=user.profile_url) #{user.display_name}
+    include parts/user_profile
 
     p #{user.steamid}
 

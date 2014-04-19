@@ -19,6 +19,6 @@ exports.profile = function(req, res, next) {
       return next();
     }
 
-    res.render('user/profile');
+    res.render('user/profile', { profile: user });
   })
 };

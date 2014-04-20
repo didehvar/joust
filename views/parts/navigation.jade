@@ -16,12 +16,12 @@ nav.navbar.navbar-default(role='navigation')
       ul.nav.navbar-nav.navbar-right
         if user
           li
-            form
+            form(action='/user/' + user.steamid)
               .btn-group
-                button.btn.btn-primary.navbar-btn(href='')
+                button.btn.btn-primary.navbar-btn
                   i.fa.fa-user.fa-fw
                   |  Profile
-                button.btn.btn-primary.navbar-btn.dropdown-toggle(href='', data-toggle='dropdown')
+                button.btn.btn-primary.navbar-btn.dropdown-toggle(data-toggle='dropdown')
                   i.fa.fa-caret-down
                   span.sr-only Toggle Dropdown
                 ul.dropdown-menu(role='menu')

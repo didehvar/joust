@@ -23,6 +23,7 @@
     "connect-flash": "^0.1.1",
     "inflection": "^1.3.5",
     "less-middleware": "^0.2.1-beta",
-    "twitter-bootstrap-3.0.0": "^3.0.0"
+    "twitter-bootstrap-3.0.0": "^3.0.0",
+    "font-awesome": "^4.0.3"
   }
 }

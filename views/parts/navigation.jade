@@ -16,16 +16,20 @@ nav.navbar.navbar-default(role='navigation')
       ul.nav.navbar-nav.navbar-right
         if user
           li
-            .btn-group
-              button.btn.btn-primary.navbar-btn Profile
-              button.btn.btn-primary.navbar-btn.dropdown-toggle(type='button', data-toggle='dropdown')
-                span.caret
-                span.sr-only Toggle Dropdown
-              ul.dropdown-menu(role='menu')
-                li: a(href='#') Action
-                li: a(href='#') Action
-                li
-                  include /parts/user/login
+            form
+              .btn-group
+                button.btn.btn-primary.navbar-btn(href='')
+                  i.fa.fa-user.fa-fw
+                  |  Profile
+                button.btn.btn-primary.navbar-btn.dropdown-toggle(href='', data-toggle='dropdown')
+                  i.fa.fa-caret-down
+                  span.sr-only Toggle Dropdown
+                ul.dropdown-menu(role='menu')
+                  li: a(href='#')
+                    i.fa.fa-pencil.fa-fw
+                    |  Action
+                  li
+                    include /parts/user/login
         else
           li.navbar-steam
             include /parts/user/login

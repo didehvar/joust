@@ -22,7 +22,10 @@ app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
     }
   }
 }, {
-  paths: [path.join(path.join(__dirname, 'node_modules', 'twitter-bootstrap-3.0.0', 'less'))]
+  paths: [
+    path.join(path.join(__dirname, 'node_modules', 'twitter-bootstrap-3.0.0', 'less')),
+    path.join(path.join(__dirname, 'node_modules', 'font-awesome', 'less'))
+  ]
 }, {
   compress: true
 }));

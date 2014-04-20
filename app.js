@@ -65,7 +65,7 @@ var routes = [
   ['/logout', 'user#logout'],
 
   /* user management */
-  ['/user/:id', 'user#profile']
+  ['/users/:id', 'user#profile']
 ];
 
 require('express-path')(app, routes);

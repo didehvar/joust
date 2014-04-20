@@ -13,21 +13,20 @@ nav.navbar.navbar-default(role='navigation')
 
       ul.nav.navbar-nav.navbar-right
         if user
-          li
-            form(action='/user/' + user.steamid)
-              .btn-group
-                button.btn.btn-primary.navbar-btn
-                  i.fa.fa-user.fa-fw
-                  |  Profile
-                button.btn.btn-primary.navbar-btn.dropdown-toggle(data-toggle='dropdown')
-                  i.fa.fa-caret-down
-                  span.sr-only Toggle Dropdown
-                ul.dropdown-menu(role='menu')
-                  li: a(href='#')
-                    i.fa.fa-pencil.fa-fw
-                    |  Action
-                  li
-                    include /parts/user/login
+          li.nav-user
+            .btn-group.navbar-btn
+              a.btn.btn-primary(href='/user/' + user.profile_url)
+                i.fa.fa-user.fa-fw
+                |  Profile
+              button.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')
+                i.fa.fa-caret-down
+                span.sr-only Toggle Dropdown
+              ul.dropdown-menu(role='menu')
+                li: a(href='#')
+                  i.fa.fa-pencil.fa-fw
+                  |  Action
+                li
+                  include /parts/user/login
         else
           li.navbar-steam
             include /parts/user/login

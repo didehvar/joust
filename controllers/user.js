@@ -18,7 +18,8 @@ exports.login = function(req, res) {
 exports.logout = function(req, res) {
   req.logout();
   req.flash('success', 'You have been logged out.');
-  res.redirect('/');
+  
+  res.redirect(url.parse(req.url, true).query.return);
 };
 
 // displays the profile page for the specified user.

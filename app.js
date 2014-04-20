@@ -29,6 +29,7 @@ app.locals.basedir = path.join(__dirname, 'views');
 app.locals.inflection = require('inflection');
 
 app.use(function(req, res, next) {
+  res.locals.url = req.url;
   res.locals.user = req.user;
   res.locals.flash = req.flash();
   next();

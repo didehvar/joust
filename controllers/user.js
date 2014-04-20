@@ -17,6 +17,7 @@ exports.login = function(req, res) {
 // logs the user out and redirects them back to the homepage.
 exports.logout = function(req, res) {
   req.logout();
+  req.flash('success', 'You have been logged out.');
   res.redirect('/');
 };
 

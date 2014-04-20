@@ -1,7 +1,6 @@
 //- Displays a login or logout button, depending on user state.
 //- Uses the current page url to redirect back after login/logout.
-p
-  if user
-    a(href='/logout?return=#{url}') Logout
-  else
-    a(href='/login?return=#{url}'): img(src='/images/steam_small.png')
+if user
+  a(href='/logout?return=#{url}') Logout
+else
+  a(href='/login?return=#{url}'): img(src='/images/steam_small.png')

@@ -19,19 +19,19 @@ html
     //- Check for outdated internet explorer :(
     //- TODO: test this on IE < 8
     <!--[if lt IE 8]>
-    p.alert.alert-warning
+    .alert.alert-warning
       | You are using an outdated browser. Please 
       a(href='http://browsehappy.com/') upgrade your browser
       |  to improve your experience.
     <![endif]-->
 
     .container
-        
+
         if flash.success
-          pre #{flash.success}
+          .alert.alert-success #{flash.success}
 
         if flash.error
-          pre #{flash.error}
+          .alert.alert-danger #{flash.error}
 
         block content
 

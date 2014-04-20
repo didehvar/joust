@@ -18,12 +18,11 @@ exports.fix_www = function(req, res, next) {
 // main site index
 exports.index = function(req, res) {
   res.render('index', { 
-    title: 'Welcome',
-    flash: req.flash('error')
+    title: 'Welcome'
   });
 };
 
 // generic error route for authentication failure
 exports.auth_failed = function(req, res) {
-  res.render('error', { title: 'Steam auth failed', flash: req.flash('error') });
+  res.render('error', { title: 'Steam auth failed' });
 };

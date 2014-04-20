@@ -27,7 +27,7 @@ require('./helpers/auth')(app);
 app.use(function(req, res, next) {
   res.locals.inflection = require('inflection');
   res.locals.user = req.user;
-  res.locals.flash = req.flash('success');
+  res.locals.flash = req.flash();
   next();
 });
 

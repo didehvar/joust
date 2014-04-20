@@ -31,7 +31,7 @@ function update_steam_data(steamid, user, done) {
       user.display_name = profile.personaname;
 
       var extract_id = url.parse(profile.profileurl).pathname.split('/');
-      user.profile_url = extract_id[extract_id.length - 2];
+      user.profile_id = extract_id[extract_id.length - 2];
 
       user.avatar = profile.avatar;
       user.avatar_medium = profile.avatarmedium;

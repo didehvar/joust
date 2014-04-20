@@ -65,6 +65,7 @@ var routes = [
   ['/logout', 'user#logout'],
 
   /* user management */
+  ['/users', 'user#index'],
   ['/users/:id', 'user#profile']
 ];
 
@@ -85,6 +86,13 @@ app.use(function(req, res, next) {
   }
 
   res.type('txt').send('Not found');
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  res.status(500);
+
+  res.render('error', { error: err });
 });
 
 module.exports = app;

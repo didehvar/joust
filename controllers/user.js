@@ -24,7 +24,7 @@ exports.logout = function(req, res) {
 
 // list all users
 exports.index = function(req, res, next) {
-  var per_page = 10;
+  var per_page = 25;
   var page = parseInt(url.parse(req.url, true).query.page, 10) || 1;
 
   // makes url make more sense
@@ -57,7 +57,12 @@ exports.index = function(req, res, next) {
       return next(err);
     }
 
-    res.render('user/index', { users: results[1], page: page, total_pages: Math.ceil(results[0] / per_page) });
+    res.render('user/index', {
+      title: 'Users',
+      users: results[1], 
+      page: page, 
+      total_pages: Math.ceil(results[0] / per_page) 
+    });
   });
 };
 

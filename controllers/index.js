@@ -18,7 +18,7 @@ exports.fix_www = function(req, res, next) {
 // main site index
 exports.index = function(req, res) {
   res.render('index', { 
-    title: 'Welcome'
+    title: 'Home'
   });
 };
 

@@ -13,7 +13,7 @@ var env = process.env.NODE_ENV || 'development';
 
 // compile less files
 app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
-  debug: env === 'development' ? true : false,
+  //debug: env === 'development' ? true : false,
   dest: path.join(__dirname, 'public'),
   force: env === 'development' ? true : false,
   preprocess: {

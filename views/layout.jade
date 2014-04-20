@@ -25,13 +25,15 @@ html
       |  to improve your experience.
     <![endif]-->
 
-    if flash.success
-      pre #{flash.success}
+    .container
+        
+        if flash.success
+          pre #{flash.success}
 
-    if flash.error
-      pre #{flash.error}
+        if flash.error
+          pre #{flash.error}
 
-    block content
+        block content
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
     script.

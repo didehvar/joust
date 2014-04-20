@@ -1,6 +1,6 @@
 //- Set after_auth in controller to the return url (e.g. /example) to redirect
 //- to this page after login.
 if after_auth
-  a(href="/login?return=#{after_auth}"): img(src='images/steam_small.png')
+  a(href="/login?return=#{after_auth}"): img(src='/images/steam_small.png')
 else
-  a(href="/login"): img(src='images/steam_small.png')
+  a(href="/login"): img(src='/images/steam_small.png')

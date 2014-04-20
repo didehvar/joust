@@ -24,8 +24,11 @@ require('./helpers/session')(app);
 // passport setup
 require('./helpers/auth')(app);
 
+// helper functions available in templates
+app.locals.basedir = path.join(__dirname, 'views');
+app.locals.inflection = require('inflection');
+
 app.use(function(req, res, next) {
-  res.locals.inflection = require('inflection');
   res.locals.user = req.user;
   res.locals.flash = req.flash();
   next();

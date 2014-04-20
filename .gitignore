@@ -2,7 +2,10 @@ node_modules/
 npm-debug.log
 
 # hide heroku config:dump keys
-.env
+.
+
+# hide compiled css
+public/stylesheets/
 
 # hide environment config for local development
 config.js

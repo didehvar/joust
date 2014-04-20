@@ -24,9 +24,9 @@ var user_schema = mongoose.Schema({
   steamid: Number,
   display_name: String,
   profile_url: String,
-  avatar: String, // 32x32
-  avatar_medium: String, // 64x64
-  avatar_full: String, // 184x184
+  avatar: String,
+  avatar_medium: String,
+  avatar_full: String,
   created: Date
 });
 

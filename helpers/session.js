@@ -1,3 +1,10 @@
+/**
+ * Initialises sessions and middleware that uses sessions.
+ * 
+ * author: @didehvar
+ * version: 0.0.1
+ */
+
 var mongoose = require('mongoose');
 var session = require('express-session');
 var mongo_session = require('connect-mongo')(session);

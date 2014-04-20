@@ -1,9 +1,17 @@
+/**
+ * Manages all auth functions, including anything related to passport.
+ * 
+ * author: @didehvar
+ * version: 0.0.1
+ */
+
 var passport = require('passport');
 var steam_web = require('steam-web');
 var openid_strategy = require('passport-openid').Strategy;
 var User = require('../models/user');
 var url = require('url');
 
+// fetches users steam data based on steamid
 function update_steam_data(steamid, user, done) {
   var steam = new steam_web({
     apiKey: process.env.JOUST_STEAM_KEY,
@@ -33,6 +41,7 @@ function update_steam_data(steamid, user, done) {
   });
 }
 
+// sets up passport
 module.exports = function(app) {
   passport.serializeUser(function(user, done) {
     done(null, user.steamid);

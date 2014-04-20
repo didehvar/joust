@@ -15,7 +15,7 @@ nav.navbar.navbar-default(role='navigation')
         if user
           li.nav-user
             .btn-group.navbar-btn
-              a.btn.btn-primary(href='/user/' + user.profile_url)
+              a.btn.btn-primary(href='/user/#{user.profile_url}')
                 i.fa.fa-user.fa-fw
                 |  Profile
               button.btn.btn-primary.dropdown-toggle(data-toggle='dropdown')

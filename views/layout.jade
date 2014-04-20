@@ -1,10 +1,24 @@
 doctype html
 html
   head
+    meta(charset='utf8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
     title= title
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
 
     link(href='/stylesheets/style.css', rel='stylesheet')
   body
+    //- Check for outdated internet explorer :(
+    //- TODO: test this on IE < 8
+    <!--[if lt IE 8]>
+    p.alert.alert-warning
+      | You are using an outdated browser. Please 
+      a(href='http://browsehappy.com/') upgrade your browser
+      |  to improve your experience.
+    <![endif]-->
+
     if flash.success
       pre #{flash.success}
 
@@ -13,5 +27,8 @@ html
 
     block content
 
-    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1-beta1/jquery.min.js')
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
+    script.
+      window.jQuery || document.write('<script src="javascript/vendor/jquery-1.11.0.min.js"><\/script>')
+
     script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')

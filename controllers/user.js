@@ -23,8 +23,16 @@ exports.logout = function(req, res) {
 };
 
 // list all users
-exports.index = function(req, res, next) {
-  var per_page = 25;
+exports.get = function(req, res, next) {
+  User.find(function(err, users) {
+    if (err) {
+      return next(new Error("Couldn't get any users."));
+    }
+
+    res.send(users);
+  })
+
+  /*var per_page = 25;
   var page = parseInt(url.parse(req.url, true).query.page, 10) || 1;
 
   // makes url make more sense
@@ -63,5 +71,21 @@ exports.index = function(req, res, next) {
       page: page, 
       total_pages: Math.ceil(results[0] / per_page) 
     });
-  });
+  });*/
 };
+
+exports.post = function(req, res, next) {
+  var user = new User({
+    steamid: req.body.steamid,
+    display_name: req.body.display_name,
+    profile_id: req.body.profile_id
+  });
+
+  user.save(function(err) {
+    if (err) {
+      return next(new Error("Couldn't create user."));
+    }
+  });
+
+  res.send(user);
+}

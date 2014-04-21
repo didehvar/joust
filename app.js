@@ -43,6 +43,8 @@ require('./helpers/session')(app);
 // passport setup
 require('./helpers/auth')(app);
 
+app.use(require('body-parser')());
+
 // helper functions available in templates
 app.locals.basedir = path.join(__dirname, 'views');
 app.locals.inflection = require('inflection');
@@ -65,9 +67,11 @@ var routes = [
   ['/logout', 'user#logout'],
 
   /* user management */
-  ['/users', 'user#index'],
-  ['/users/:id', 'users/profile#index'],
-  ['/users/:id/delete', 'users/profile#delete']
+  ['/users', 'api/user#find_all', 'get'],
+  ['/users', 'api/user#create', 'post'],
+  ['/users/:id', 'api/user#find', 'get'],
+  ['/users/:id', 'api/user#update', 'put'],
+  ['/users/:id', 'api/user#delete', 'delete']
 ];
 
 require('express-path')(app, routes);
@@ -93,7 +97,18 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.status(500);
 
-  res.render('error', { error: err });
+  if (req.accepts('html')) {
+    res.render('error', { error: err });
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.send({ error: err });
+    return;
+  }
+
+  res.type('txt').send(err);
+
 });
 
 module.exports = app;

@@ -28,7 +28,7 @@ html
     include /parts/navigation
 
     .container
-
+      if flash
         if flash.success
           .alert.alert-success #{flash.success}
 

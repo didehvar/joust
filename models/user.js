@@ -22,10 +22,10 @@ var mongoose = require('mongoose');
  * @field created Date of initial account creation.
  */
 var user_schema = mongoose.Schema({
-  steamid: { type: Number, required: true },
+  steamid: { type: Number, unique: true, required: true },
   level: { type: Number, default: 0, required: true },
   display_name: { type: String, required: true },
-  profile_id: { type: String, required: true },
+  profile_id: { type: String, unique: true, required: true },
   avatar: { 
     type: String,
     default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg',

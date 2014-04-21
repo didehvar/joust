@@ -22,14 +22,14 @@ var mongoose = require('mongoose');
  * @field created Date of initial account creation.
  */
 var user_schema = mongoose.Schema({
-  steamid: Number,
-  level: { type: Number, default: 0 },
-  display_name: String,
-  profile_id: String,
-  avatar: String,
-  avatar_medium: String,
-  avatar_full: String,
-  created: { type: Date, default: Date.now() }
+  steamid: { type: Number, required: true },
+  level: { type: Number, default: 0, required: true },
+  display_name: { type: String, required: true },
+  profile_id: { type: String, required: true },
+  avatar: { type: String, required: true },
+  avatar_medium: { type: String, required: true },
+  avatar_full: { type: String, required: true },
+  created: { type: Date, default: Date.now(), required: true }
 });
 
 module.exports = mongoose.model('User', user_schema);

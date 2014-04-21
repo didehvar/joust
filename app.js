@@ -66,7 +66,8 @@ var routes = [
 
   /* user management */
   ['/users', 'user#index'],
-  ['/users/:id', 'user#profile']
+  ['/users/:id', 'users/profile#index'],
+  ['/users/:id/delete', 'users/profile#delete']
 ];
 
 require('express-path')(app, routes);

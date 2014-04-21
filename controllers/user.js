@@ -65,16 +65,3 @@ exports.index = function(req, res, next) {
     });
   });
 };
-
-// displays the profile page for the specified user.
-exports.profile = function(req, res, next) {
-  var id = req.params.id;
-
-  User.findOne({ profile_id: id }, function(err, user) {
-    if (err || user === null) {
-      return next();
-    }
-
-    res.render('user/profile', { profile: user });
-  });
-};

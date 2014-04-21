@@ -8,8 +8,12 @@ nav.navbar.navbar-default(role='navigation')
 
     .collapse.navbar-collapse#navbar-collapse
       ul.nav.navbar-nav
-        li(class=(title === 'Home' ? 'active' : '')): a(href='/') Home
-        li(class=(title === 'Users' ? 'active' : '')): a(href='/users') Users
+        li(class=(title === 'Home' ? 'active' : '')): a(href='/')
+          i.fa.fa-home.fa-fw
+          |  Home
+        li(class=(title === 'Users' ? 'active' : '')): a(href='/users')
+          i.fa.fa-user.fa-fw
+          |  Users
 
       ul.nav.navbar-nav.navbar-right
         if user

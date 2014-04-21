@@ -12,11 +12,11 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
  * Registers permissions to users.
  * 
  * @field user User the permission is being assigned to.
- * @field permission Permission that is being assigned to the user.
+ * @field permissions Permissions that are being assigned to the user.
  */
 var user_permission_schema = mongoose.Schema({
   user: { type: ObjectId, ref: 'User' },
-  permission: { type: ObjectId, ref: 'Permission' }
+  permissions: [{ type: ObjectId, ref: 'Permission' }]
 });
 
 module.exports = mongoose.model('UserPermission', user_permission_schema);

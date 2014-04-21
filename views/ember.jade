@@ -1,0 +1,63 @@
+doctype html
+html
+  head
+    meta(charset='utf8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+
+    title= title
+    meta(name='description', content='')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+    link(href='/css/style.css', rel='stylesheet')
+
+    //- Use shiv and respond for < IE 9.
+    <!--[if lt IE 9]>
+    script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.js')
+    <![endif]-->
+  body
+    script(type='text/x-handlebars', data-template-name='todos')
+      //- Check for outdated internet explorer :(
+      //- TODO: test this on IE < 8
+      <!--[if lt IE 8]>
+      .alert.alert-warning
+        | You are using an outdated browser. Please 
+        a(href='http://browsehappy.com/') upgrade your browser
+        |  to improve your experience.
+      <![endif]-->
+
+      include /parts/navigation
+
+      <h1>todos</h1>
+      {{input type="text" id="new-todo" placeholder="What needs to be done?" value=newTitle action="createTodo"}}
+
+      ul#todo-list
+        {{#each}}
+        <li {{bind-attr class="isCompleted:bg-success"}}>
+        input.toggle(type="checkbox")
+        label {{title}}
+        button.destroy
+        </li>
+        {{/each}}
+
+      .container
+        if flash
+          if flash.success
+            .alert.alert-success #{flash.success}
+          if flash.error
+            .alert.alert-danger #{flash.error}
+
+        block content
+
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js')
+    script.
+      window.jQuery || document.write('<script src="/bower_components/jquery/dist/jquery.js"><\/script>')
+
+    script(src='/bower_components/handlebars/handlebars.js')
+    script(src='/bower_components/ember/ember.js')
+    script(src='/bower_components/ember-data/ember-data.js')
+    script(src='/bower_components/ember-addons.bs_for_ember/dist/js/bs-core.max.js')
+    script(src='/bower_components/ember-addons.bs_for_ember/dist/js/bs-alert.max.js')
+    script(src='/js/app.js')
+    script(src='/js/router.js')
+    script(src='/js/models/todo.js')

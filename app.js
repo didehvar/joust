@@ -17,13 +17,13 @@ app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
   force: env === 'development' ? true : false,
   preprocess: {
     path: function(pathname, req) {
-      return pathname.replace('/stylesheets', '');
+      return pathname.replace('/css', '');
     }
   }
 }, {
   paths: [
-    path.join(path.join(__dirname, 'node_modules', 'twitter-bootstrap-3.0.0', 'less')),
-    path.join(path.join(__dirname, 'node_modules', 'font-awesome', 'less'))
+    path.join(path.join(__dirname, 'public', 'bower_components', 'bootstrap', 'less')),
+    path.join(path.join(__dirname, 'public', 'bower_components', 'fontawesome', 'less'))
   ]
 }, {
   compress: true

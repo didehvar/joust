@@ -26,9 +26,21 @@ var user_schema = mongoose.Schema({
   level: { type: Number, default: 0, required: true },
   display_name: { type: String, required: true },
   profile_id: { type: String, required: true },
-  avatar: { type: String, required: true },
-  avatar_medium: { type: String, required: true },
-  avatar_full: { type: String, required: true },
+  avatar: { 
+    type: String,
+    default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg',
+    required: true
+  },
+  avatar_medium: { 
+    type: String,
+    default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg',
+    required: true
+  },
+  avatar_full: { 
+    type: String,
+    default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
+    required: true
+  },
   created: { type: Date, default: Date.now(), required: true }
 });
 

@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
  *  display_name, profile_id, avatar, avatar_medium, avatar_full
  * 
  * @field steamid 64 bit Steam ID.
+ * @field level Used when trying to use permissions: you can only use your 
+ *              permissions on users who have a lower level than you.
  * @field display_name Steam display name (size >= 2 & <= 32).
  * @field profile_id Full URL to Steam profile.
  * @field avatar 32x32 Steam avatar.
@@ -21,12 +23,13 @@ var mongoose = require('mongoose');
  */
 var user_schema = mongoose.Schema({
   steamid: Number,
+  level: { type: Number, default: 0 },
   display_name: String,
   profile_id: String,
   avatar: String,
   avatar_medium: String,
   avatar_full: String,
-  created: Date
+  created: { type: Date, default: Date.now() }
 });
 
 module.exports = mongoose.model('User', user_schema);

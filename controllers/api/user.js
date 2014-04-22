@@ -17,7 +17,7 @@ exports.create = function(req, res, next) {
 
     res.send(user);
   });
-}
+};
 
 exports.find = function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
@@ -26,8 +26,8 @@ exports.find = function(req, res, next) {
     }
 
     res.send(user);
-  })
-}
+  });
+};
 
 exports.find_all = function(req, res, next) {
   User.find(function(err, users) {
@@ -48,7 +48,7 @@ exports.find_all = function(req, res, next) {
       }
     });
   });
-}
+};
 
 exports.update = function(req, res, next) {
   User.findByIdAndUpdate(req.params.id, req.body, function(err, user) {
@@ -58,7 +58,7 @@ exports.update = function(req, res, next) {
 
     res.send(user);
   });
-}
+};
 
 exports.delete = function(req, res, next) {
   User.findByIdAndRemove(req.params.id, function(err) {
@@ -67,5 +67,5 @@ exports.delete = function(req, res, next) {
     }
 
     res.send('User deleted.');
-  })
-}
+  });
+};

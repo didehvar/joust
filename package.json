@@ -23,6 +23,7 @@
     "less-middleware": "^0.2.1-beta",
     "async": "^0.7.0",
     "body-parser": "^1.0.2",
-    "bower": "^1.3.2"
+    "bower": "^1.3.2",
+    "ember-tools": "^0.2.8"
   }
 }

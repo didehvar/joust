@@ -1,15 +1,15 @@
-node_modules/
-bower_components/
+node_modules
+bower_components
 npm-debug.log
 
-# hide heroku config:dump keys
-.
-
 # hide compiled css
-public/stylesheets/
+public/css
 
-# hide environment config for local development
+# hide environment config
 config.js
+
+# compiled ember js (use ember build)
+public/js/application.js
 
 # platform files
 .DS_Store

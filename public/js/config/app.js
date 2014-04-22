@@ -1,6 +1,3 @@
-// require other, dependencies here, ie:
-// require('./vendor/moment');
-
 require('../../bower_components/jquery/dist/jquery');
 
 require('../../bower_components/handlebars/handlebars');

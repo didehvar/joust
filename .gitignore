@@ -10,6 +10,8 @@ config.js
 
 # compiled ember js (use ember build)
 public/js/application.js
+public/js/index.js
+public/js/templates.js
 
 # platform files
 .DS_Store

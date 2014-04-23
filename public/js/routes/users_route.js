@@ -4,7 +4,7 @@ var UsersRoute = Ember.Route.extend({
   },
 
   model: function() {
-    return App.User.getAllUsers();
+    return App.User.findAll();
   }
 });
 

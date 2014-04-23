@@ -10,7 +10,7 @@ var User = Ember.Object.extend({
 });
 
 User.reopenClass({
-  getAll: function() {
+  findAll: function() {
     var userModel = this;
 
     return Ember.Deferred.promise(function (p) {

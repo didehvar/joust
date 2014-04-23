@@ -1,3 +1,11 @@
+/**
+ * Generic helper/default routes that aren't worthy of their own file.
+ * Please extract as you see fit.
+ * 
+ * author: @didehvar
+ * version: 0.0.1
+ */
+
 // redirects to remove www.
 exports.fix_www = function(req, res, next) {
   if (req.headers.host.match(/^www\./) !== null) {
@@ -7,10 +15,11 @@ exports.fix_www = function(req, res, next) {
   }
 };
 
-exports.index = function(req, res) {
-  res.render('index', { title: 'Welcome', user: req.user, flash: req.flash('success') });
+exports.ember = function(req, res) {
+  res.sendfile('./public/index.html');
 };
 
+// generic error route for authentication failure
 exports.auth_failed = function(req, res) {
-  res.render('error', { title: 'Steam auth failed', flash: req.flash('error') });
+  res.render('error', { title: 'Steam auth failed' });
 };

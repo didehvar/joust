@@ -1,0 +1,27 @@
+{
+  "name": "joust",
+  "version": "0.0.0",
+  "homepage": "https://github.com/didehvar/joust",
+  "authors": [
+    "didehvar <james@didehvar.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "1.10.2",
+    "ember-addons.bs_for_ember": "0.6.1",
+    "bootstrap": "3.1.1",
+    "ember": "1.5.0",
+    "handlebars": "1.1.2",
+    "fontawesome": "~4.0.3"
+  }
+}

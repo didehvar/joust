@@ -2,7 +2,7 @@
 var debug = require('debug')('joust');
 var app = require('../app');
 
-if (process.env.NODE_ENV == 'development') {
+if (!process.env.NODE_ENV) {
   process.env = require('../config');
 }
 

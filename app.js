@@ -59,58 +59,35 @@ app.use(function(req, res, next) {
 
 // app routes
 require('express-path')(app, [
-  ['/*', 'index#fix_www'],
+
+  /*['/*', 'index#fix_www'],
   ['/', 'index#index'],
 
   /* authentication */
-  ['/auth/steam/failed', 'index#auth_failed'],
+  /*['/auth/steam/failed', 'index#auth_failed'],
   ['/login', 'user#login'],
   ['/logout', 'user#logout'],
 
   /* user management */
-  ['/users', 'api/user#find_all', 'get'],
-  ['/users', 'api/user#create', 'post'],
-  ['/users/:id', 'api/user#find', 'get'],
-  ['/users/:id', 'api/user#update', 'put'],
-  ['/users/:id', 'api/user#delete', 'delete']
+  ['/api/users', 'api/user#find_all', 'get'],
+  ['/api/users', 'api/user#create', 'post'],
+  ['/api/users/:id', 'api/user#find', 'get'],
+  ['/api/users/:id', 'api/user#update', 'put'],
+  ['/api/users/:id', 'api/user#delete', 'delete']
+
+  //['*', 'index#index']
 ]);
 
 // 404 handler
 app.use(function(req, res, next) {
   res.status(404);
-
-  res.format({
-    text: function() {
-      res.type('txt').send('Not found');
-    },
-
-    html: function() {
-      res.render('error', { message: 'Page not found', url: req.url });
-    },
-
-    json: function() {
-      res.send({ error: 'Not found!' });
-    }
-  });
+  res.send({ error: 'Not found!' });
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   res.status(500);
-
-  res.format({
-    text: function() {
-      res.type('txt').send(err);
-    },
-
-    html: function() {
-      res.render('error', { error: err });
-    },
-
-    json: function() {
-      res.send({ error: err });
-    }
-  });
+  res.send({ error: err });
 });
 
 module.exports = app;

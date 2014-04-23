@@ -35,18 +35,7 @@ exports.find_all = function(req, res, next) {
       return res.send({ error: "Couldn't get any users: " + err });
     }
 
-    res.format({
-      json: function() {
-        res.send(users);
-      },
-
-      html: function() {
-        res.render('ember', {
-          title: 'Users',
-          users: users
-        });
-      }
-    });
+    res.send(users);
   });
 };
 

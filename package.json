@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "postinstall": "bower install; ember build"
   },
   "dependencies": {
     "express": "^4.0.0",
@@ -25,8 +26,5 @@
     "body-parser": "^1.0.2",
     "bower": "^1.3.2",
     "ember-tools": "^0.2.8"
-  },
-  "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
   }
 }

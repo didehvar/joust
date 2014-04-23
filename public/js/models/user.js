@@ -11,24 +11,15 @@ var User = Ember.Object.extend({
 
 User.reopenClass({
   findAll: function() {
-    var userModel = this;
+    return App.ajax('/api/users').then(function(result) {
+      var users = Ember.A();
 
-    return Ember.Deferred.promise(function (p) {
-      if (userModel._users) {
-        p.resolve(userModel._users);
-      }
+      result.forEach(function(userData) {
+        var user = App.User.create(userData);
+        users.pushObject(user);
+      });
 
-      p.resolve($.getJSON('/api/users').then(function(response) {
-        var users = Ember.A();
-
-        response.forEach(function(userData) {
-          var user = App.User.create(userData);
-          users.pushObject(user);
-        });
-
-        userModel._users = users;
-        return users;
-      }));
+      return users;
     });
   }
 });

@@ -11,11 +11,11 @@ var User = Ember.Object.extend({
 
 User.reopenClass({
   getAllUsers: function() {
+    var user_model = this;
+
     return Ember.Deferred.promise(function (p) {
-        console.log("++++ " + this._users + " ++++");
-      if (this._users) {
-        console.log("++++ REUSING ++++");
-        p.resolve(this._users);
+      if (user_model._users) {
+        p.resolve(user_model._users);
       }
 
       p.resolve($.getJSON('/api/users').then(function(response) {
@@ -26,7 +26,7 @@ User.reopenClass({
           users.pushObject(user);
         });
 
-        this._users = users;
+        user_model._users = users;
         return users;
       }));
     });

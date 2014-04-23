@@ -1,1 +1,12 @@
-<h2>Users</h2>
+<h2>Users!</h2>
+
+{{#each user in model}}
+  {{user.steamid}}
+  {{user.level}}
+  {{user.display_name}}
+  {{user.profile_id}}
+  {{user.avatar}}
+  {{user.avatar_medium}}
+  {{user.avatar_full}}
+  {{user.created}}
+{{/each}}

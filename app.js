@@ -59,9 +59,7 @@ app.use(function(req, res, next) {
 
 // app routes
 require('express-path')(app, [
-
-  /*['/*', 'index#fix_www'],
-  ['/', 'index#index'],
+  ['/*', 'index#fix_www'],
 
   /* authentication */
   /*['/auth/steam/failed', 'index#auth_failed'],
@@ -73,9 +71,10 @@ require('express-path')(app, [
   ['/api/users', 'api/user#create', 'post'],
   ['/api/users/:id', 'api/user#find', 'get'],
   ['/api/users/:id', 'api/user#update', 'put'],
-  ['/api/users/:id', 'api/user#delete', 'delete']
+  ['/api/users/:id', 'api/user#delete', 'delete'],
 
-  //['*', 'index#index']
+  /* send all undefined routes to ember app */
+  ['*', 'index#ember']
 ]);
 
 // 404 handler

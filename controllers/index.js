@@ -15,8 +15,7 @@ exports.fix_www = function(req, res, next) {
   }
 };
 
-// main site index
-exports.index = function(req, res) {
+exports.ember = function(req, res) {
   res.sendfile('./public/index.html');
 };
 

@@ -8,6 +8,8 @@ App.Router.map(function() {
   });*/
   
   this.route("users");
+
+  this.route('catchall', { path: '/*wildcard' });
 });
 
 App.Router.reopen({

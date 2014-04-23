@@ -1,6 +1,10 @@
 var UsersRoute = Ember.Route.extend({
+  activate: function() {
+    $(document).attr('title', 'Users');
+  },
+
   model: function() {
-    return App.Users.list();
+    return App.User.getAllUsers();
   }
 });
 

@@ -9,8 +9,8 @@ Run `npm install` (requires [Python 2.7.3](https://www.python.org/download/relea
 install required modules before running `export PATH="./node_modules/.bin:$PATH"` so you can run local npm 
 modules on the command line.
 
-Use `bower install` to install front-end dependancies, then build the Ember application with `ember build`. 
-You can use `ember build -w` for development to auto-compile Ember js files.
+Build the Ember application with `ember build`. You can use `ember build -w` for development to auto-compile 
+Ember js files.
 
 Rename `config.js.conf` to `config.js` and configure as necessary. With the default configuration,
 the app will run at [localhost](http://localhost:8111) on port 8111.

@@ -1,32 +1,32 @@
 var User = Ember.Object.extend({
   steamid: null,
   level: 0,
-  display_name: null,
-  profile_id: null,
+  displayName: null,
+  profileid: null,
   avatar: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb.jpg',
-  avatar_medium: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg',
-  avatar_full: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
+  avatarMedium: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg',
+  avatarFull: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
   created: null
 });
 
 User.reopenClass({
-  getAllUsers: function() {
-    var user_model = this;
+  getAll: function() {
+    var userModel = this;
 
     return Ember.Deferred.promise(function (p) {
-      if (user_model._users) {
-        p.resolve(user_model._users);
+      if (userModel._users) {
+        p.resolve(userModel._users);
       }
 
       p.resolve($.getJSON('/api/users').then(function(response) {
         var users = Ember.A();
 
-        response.forEach(function(user_data) {
-          var user = App.User.create(user_data);
+        response.forEach(function(userData) {
+          var user = App.User.create(userData);
           users.pushObject(user);
         });
 
-        user_model._users = users;
+        userModel._users = users;
         return users;
       }));
     });

@@ -12,6 +12,12 @@ var User = Ember.Object.extend({
 User.reopenClass({
   getAllUsers: function() {
     return Ember.Deferred.promise(function (p) {
+        console.log("++++ " + this._users + " ++++");
+      if (this._users) {
+        console.log("++++ REUSING ++++");
+        p.resolve(this._users);
+      }
+
       p.resolve($.getJSON('/api/users').then(function(response) {
         var users = Ember.A();
 
@@ -20,6 +26,7 @@ User.reopenClass({
           users.pushObject(user);
         });
 
+        this._users = users;
         return users;
       }));
     });

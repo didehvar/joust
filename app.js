@@ -77,16 +77,15 @@ app.use(function(req, res, next) {
       })
       .exec(function(err, user) {
         if (err) {
-          return next(new Error("Couldn't select permission for user: " + err));
-        }
-
-        if (!user || typeof user.permissions === 'undefined' || user.permissions.length <= 0) {
           return false;
         }
 
-        console.log('Found user: ' + user);
-        console.log('Found user permissions: ' + typeof user.permissions);
+        if (user.has_permission(permission_name)) {
+          return true;
+        }
       });
+
+      return false;
   };
 
   next();

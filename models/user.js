@@ -47,4 +47,46 @@ var user_schema = mongoose.Schema({
   created: { type: Date, default: Date.now(), required: true }
 });
 
+// checks whether a user has a permission
+user_schema.methods.has_permission = function(permission) {
+  for (var i = 0; i < this.permissions.length; i++) {
+    if (this.permissions[i].name === permission) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
+/*
+  res.locals.has_permission = function(user_id, permission_name) {
+    if (!user_id || !permission_name) {
+      return false;
+    }
+
+    console.log('Attempting to find user with id: ' + user_id + ' and permission: ' + permission_name);
+
+    // this should be moved somewhere else
+    require('./models/user')
+      .findOne({ _id: user_id })
+      .populate({
+        path: 'permissions',
+        match: { name: permission_name },
+        select: 'name'
+      })
+      .exec(function(err, user) {
+        if (err) {
+          return next(new Error("Couldn't select permission for user: " + err));
+        }
+
+        if (!user || typeof user.permissions === 'undefined' || user.permissions.length <= 0) {
+          return false;
+        }
+
+        console.log('Found user: ' + user);
+        console.log('Found user permissions: ' + typeof user.permissions);
+      });
+  };
+*/
+
 module.exports = mongoose.model('User', user_schema);

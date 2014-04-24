@@ -6,6 +6,7 @@
  */
 
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 /**
  * The following fields are updated every time the users signs in:

@@ -27,7 +27,13 @@ function update_steam_data(steamid, user, done) {
 
       var profile = result.response.players[0];
 
-      // user has been created by this point, proceed to update their steam info
+      if (!user) {
+        user = new User();
+
+        user.steamid = steamid;
+        user.created = Date.now();
+      }
+
       user.display_name = profile.personaname;
 
       var extract_id = url.parse(profile.profileurl).pathname.split('/');
@@ -74,22 +80,7 @@ module.exports = function(app) {
             return done(err);
           }
 
-          if (user) {
-            update_steam_data(steamid, user, done);
-          } else {
-            var new_user = new User();
-
-            new_user.steamid = steamid;
-            new_user.created = Date.now();
-
-            new_user.save(function(err) {
-              if (err) {
-                throw err;
-              }
-
-              update_steam_data(steamid, new_user, done);
-            });
-          }
+          update_steam_data(steamid, user, done);
         });
       });
     }

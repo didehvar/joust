@@ -49,15 +49,12 @@ exports.find = function(req, res, next) {
     res.render('user/profile', { profile: user });
   };
 
-  if (utility.number(req.params.id)) {
-    User.findById(req.params.id, function(err, user) {
+  User.
+    findOne({ profile_id: req.params.id })
+    .populate('permissions')
+    .exec(function(err, user) {
       render(err, user);
-    });
-  } else {
-    User.findOne({ profile_id: req.params.id }, function(err, user) {
-      render(err, user);
-    });
-  }
+  });
 };
 
 exports.find_all = function(req, res, next) {
@@ -71,7 +68,7 @@ exports.find_all = function(req, res, next) {
 };
 
 exports.update = function(req, res, next) {
-  User.findByIdAndUpdate(req.params.id, req.body, function(err, user) {
+  User.findOneAndUpdate({ profile_id: req.params.id }, req.body, function(err, user) {
     if (err) {
       return next(new Error("Couldn't update user: " + err));
     }
@@ -81,11 +78,12 @@ exports.update = function(req, res, next) {
 };
 
 exports.delete = function(req, res, next) {
-  User.findByIdAndRemove(req.params.id, function(err) {
+  console.log('attempting to delete');
+  User.findOneAndUpdate({ profile_id: req.params.id }, function(err) {
     if (err) {
       return next(new Error("Couldn't remove user: " + err));
     }
-
+    console.log('deleted');
     req.flash('success', 'User deleted.');
     res.render('user/index');
   });

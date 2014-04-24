@@ -58,43 +58,10 @@ app.locals.inflection = require('inflection');
 app.use(function(req, res, next) {
   res.locals.url = req.url;
   res.locals.flash = req.flash();
-
   res.locals.user = req.user;
-  res.locals.has_permission = function(user_id, permission_name) {
-    if (!user_id || !permission_name) {
-      return false;
-    }
-
-    console.log('Attempting to find user with id: ' + user_id + ' and permission: ' + permission_name);
-
-    // this should be moved somewhere else
-    require('./models/user')
-      .findOne({ _id: user_id })
-      .populate({
-        path: 'permissions',
-        match: { name: permission_name },
-        select: 'name'
-      })
-      .exec(function(err, user) {
-        if (err) {
-          return false;
-        }
-
-        if (user.has_permission(permission_name)) {
-          return true;
-        }
-      });
-
-      return false;
-  };
 
   next();
 });
-      /*.populate({
-        path: 'permissions',
-        match: { name: permission_name },
-        select: ''
-      })*/
 
 // app routes
 require('express-path')(app, [

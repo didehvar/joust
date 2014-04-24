@@ -1,0 +1,13 @@
+extends /layout
+
+block content
+  h1= title
+
+  if user
+    | Welcome 
+    include /parts/user/profile
+
+    p #{user.steamid}
+
+    p
+      include /parts/user/avatar

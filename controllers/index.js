@@ -15,8 +15,11 @@ exports.fix_www = function(req, res, next) {
   }
 };
 
-exports.ember = function(req, res) {
-  res.sendfile('./public/index.html');
+// main site index
+exports.index = function(req, res) {
+  res.render('index', { 
+    title: 'Home'
+  });
 };
 
 // generic error route for authentication failure

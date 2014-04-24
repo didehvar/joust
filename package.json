@@ -4,27 +4,26 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "postinstall": "bower install; ember build"
+    "postinstall": "bower install"
   },
   "dependencies": {
     "express": "^4.0.0",
     "express-session": "^1.0.2",
+    "express-path": "^0.3.7",
     "cookie-parser": "^1.0.1",
+    "body-parser": "^1.0.2",
     "debug": "^0.8.0",
     "jade": "^1.3.1",
     "mongodb": "^1.4.0",
     "mongoose": "^3.8.8",
+    "connect-mongo": "kcbanner/connect-mongo",
     "steam-web": "^0.2.1",
     "passport": "^0.2.0",
     "passport-openid": "^0.1.3",
-    "express-path": "^0.3.7",
-    "connect-mongo": "kcbanner/connect-mongo",
     "connect-flash": "^0.1.1",
     "inflection": "^1.3.5",
     "less-middleware": "^0.2.1-beta",
     "async": "^0.7.0",
-    "body-parser": "^1.0.2",
-    "bower": "^1.3.2",
-    "ember-tools": "^0.2.8"
+    "bower": "^1.3.2"
   }
 }

@@ -60,33 +60,55 @@ app.use(function(req, res, next) {
 // app routes
 require('express-path')(app, [
   ['/*', 'index#fix_www'],
+  ['/', 'index#index'],
 
   /* authentication */
-  /*['/auth/steam/failed', 'index#auth_failed'],
+  ['/auth/steam/failed', 'index#auth_failed'],
   ['/login', 'user#login'],
   ['/logout', 'user#logout'],
 
   /* user management */
-  ['/api/users', 'api/user#find_all', 'get'],
-  ['/api/users', 'api/user#create', 'post'],
-  ['/api/users/:id', 'api/user#find', 'get'],
-  ['/api/users/:id', 'api/user#update', 'put'],
-  ['/api/users/:id', 'api/user#delete', 'delete'],
-
-  /* send all undefined routes to ember app */
-  ['*', 'index#ember']
+  ['/users', 'user#find_all', 'get'],
+  ['/users', 'user#create', 'post'],
+  ['/users/:id', 'user#find', 'get'],
+  ['/users/:id', 'user#update', 'put'],
+  ['/users/:id', 'user#delete', 'delete']
 ]);
 
 // 404 handler
 app.use(function(req, res, next) {
   res.status(404);
-  res.send({ error: 'Not found!' });
+
+  if (req.accepts('html')) {
+    res.render('error', { message: 'Page not found', url: req.url });
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.send({ error: 'Not found' });
+    return;
+  }
+
+  res.type('txt').send('Not found');
 });
 
 // error handler
 app.use(function(err, req, res, next) {
   res.status(500);
-  res.send({ error: err });
+
+  console.log('Throwing error: ' + err);
+
+  if (req.accepts('html')) {
+    res.render('error', { error: err });
+    return;
+  }
+
+  if (req.accepts('json')) {
+    res.send({ error: err });
+    return;
+  }
+
+  res.type('txt').send(err);
 });
 
 module.exports = app;

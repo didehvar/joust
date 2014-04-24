@@ -23,31 +23,9 @@ exports.logout = function(req, res) {
   res.redirect(url.parse(req.url, true).query.return);
 };
 
-// list all users
-exports.get = function(req, res, next) {
-  User.find(function(err, users) {
-    if (err) {
-      return next(new Error("Couldn't get any users."));
-    }
-
-    res.send(users);
-  });
-};
-
-exports.post = function(req, res, next) {
-  var user = new User({
-    steamid: req.body.steamid,
-    display_name: req.body.display_name,
-    profile_id: req.body.profile_id
-  });
-
-  user.save(function(err) {
-    if (err) {
-      return next(new Error("Couldn't create user."));
-    }
-  });
-
-  res.send(user);
+// generic error route for authentication failure
+exports.auth_failed = function(req, res) {
+  res.render('error', { title: 'Steam auth failed' });
 };
 
 exports.create = function(req, res, next) {

@@ -21,8 +21,3 @@ exports.index = function(req, res) {
     title: 'Home'
   });
 };
-
-// generic error route for authentication failure
-exports.auth_failed = function(req, res) {
-  res.render('error', { title: 'Steam auth failed' });
-};

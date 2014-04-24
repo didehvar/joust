@@ -11,6 +11,11 @@ mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 // set environment
 var env = process.env.NODE_ENV || 'development';
 
+// generates test data
+if (env === 'development') {
+  require('./test_data')();
+}
+
 // compile less files
 app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
   dest: path.join(__dirname, 'public'),
@@ -52,10 +57,39 @@ app.locals.inflection = require('inflection');
 // variables accessible in views
 app.use(function(req, res, next) {
   res.locals.url = req.url;
-  res.locals.user = req.user;
   res.locals.flash = req.flash();
+
+  res.locals.user = req.user;
+  res.locals.has_permission = function(user_id, permission_name) {
+    if (!user_id || !permission_name) {
+      return false;
+    }
+
+    require('./models/user_permission')
+      .findOne({ user: user_id })
+      .exec(function(err, user) {
+        if (err) {
+          return next(new Error("Couldn't select permission for user: " + err));
+        }
+
+        console.log('abc');
+
+        if (!user) {
+          return false;
+        }
+
+        console.log('Found user: ' + user);
+        //console.log('Found user permission: ' + user.permissions);
+      });
+  };
+
   next();
 });
+      /*.populate({
+        path: 'permissions',
+        match: { name: permission_name },
+        select: ''
+      })*/
 
 // app routes
 require('express-path')(app, [
@@ -63,7 +97,7 @@ require('express-path')(app, [
   ['/', 'index#index'],
 
   /* authentication */
-  ['/auth/steam/failed', 'index#auth_failed'],
+  ['/auth/steam/failed', 'user#auth_failed'],
   ['/login', 'user#login'],
   ['/logout', 'user#logout'],
 

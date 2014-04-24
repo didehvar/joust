@@ -19,6 +19,7 @@ var mongoose = require('mongoose');
  * @field avatar 32x32 Steam avatar.
  * @field avatar_medium 64x64 Steam avatar.
  * @field avatar_full 184x184 Steam avatar.
+ * @field permissions Array of permissions that this user has
  * @field created Date of initial account creation.
  */
 var user_schema = mongoose.Schema({
@@ -41,6 +42,7 @@ var user_schema = mongoose.Schema({
     default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
     required: true
   },
+  permissions: [{ type: ObjectId, ref: 'Permission' }],
   created: { type: Date, default: Date.now(), required: true }
 });
 

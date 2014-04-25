@@ -19,8 +19,6 @@ module.exports = function(app) {
     }),
     secret: process.env.JOUST_SESSION_KEY || 'keyboard cat',
     cookie: {
-      httpOnly: true,
-      secure: true,
       path: '/',
       maxAge: 1000 * 60 * 60 * 24 // one day
     }

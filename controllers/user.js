@@ -8,10 +8,12 @@
 var url = require('url');
 var User = require('../models/user');
 var utility = require('../helpers/utility');
+var config = require('../config');
 
 // passes a user to the login route after setting the return url.
 exports.login = function(req, res) {
-  req.session.returnTo = url.parse(req.url, true).query.return;
+  req.session.returnTo = config.SITE_URL + url.parse(req.url, true).query.return;
+
   res.redirect('/auth/steam');
 };
 
@@ -20,7 +22,7 @@ exports.logout = function(req, res) {
   req.logout();
   req.flash('success', 'You have been logged out.');
   
-  res.redirect(url.parse(req.url, true).query.return);
+  res.redirect(config.SITE_URL + url.parse(req.url, true).query.return);
 };
 
 // generic error route for authentication failure

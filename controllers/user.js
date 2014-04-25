@@ -41,19 +41,15 @@ exports.create = function(req, res, next) {
 };
 
 exports.find = function(req, res, next) {
-  var render = function(err, user) {
-    if (err) {
-      return next(new Error("Couldn't find user: " + err));
-    }
-
-    res.render('user/profile', { profile: user });
-  };
-
   User.
     findOne({ profile_id: req.params.id })
     .populate('permissions')
     .exec(function(err, user) {
-      render(err, user);
+      if (err) {
+        return next(new Error("Couldn't find user: " + err));
+      }
+
+      res.render('user/profile', { profile: user });
   });
 };
 

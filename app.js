@@ -16,6 +16,24 @@ if (env === 'development') {
   require('./test_data')();
 }
 
+// load permissions only once
+var permission_helper = require('./helpers/permission');
+mongoose.connection.on('open', function(ref) {
+  mongoose.connection.db.collectionNames('permissions', function(err, names) {
+    if (err) {
+      console.log(err);
+    } else {
+      if (names.length < 1) {
+        permission_helper.load();
+      } else {
+      }
+    }
+  });
+});
+
+// wait for permissions to be inserted before loading them
+setTimeout(function() { permission_helper.load_existing(); }, 2000);
+
 // compile less files
 app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
   dest: path.join(__dirname, 'public'),
@@ -59,6 +77,7 @@ app.use(function(req, res, next) {
   res.locals.url = req.url;
   res.locals.flash = req.flash();
   res.locals.user = req.user;
+  res.locals.permissions = permission_helper.permissions();
 
   next();
 });

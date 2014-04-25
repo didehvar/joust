@@ -43,14 +43,14 @@ var user_schema = mongoose.Schema({
     default: 'http://media.steampowered.com/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
     required: true
   },
-  permissions: [{ type: ObjectId, ref: 'Permission' }],
+  permissions: [{ type: Number, ref: 'Permission' }],
   created: { type: Date, default: Date.now(), required: true }
 });
 
 // checks whether a user has a permission
 user_schema.methods.has_permission = function(permission) {
   for (var i = 0; i < this.permissions.length; i++) {
-    if (this.permissions[i].name === permission) {
+    if (this.permissions[i]._id === permission) {
       return true;
     }
   }

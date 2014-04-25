@@ -15,7 +15,8 @@ var mongoose = require('mongoose');
  * @field description An explanation of the permission for a user.
  */
 var permission_schema = mongoose.Schema({
-  name: { type: String, unique: true },
+  _id: Number,
+  path: String,
   description: String
 });
 

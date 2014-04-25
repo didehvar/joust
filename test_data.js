@@ -2,7 +2,6 @@
 // Used to quickly generate test data
 
 var generate_users = false;
-var generate_permissions = false;
 var assign_permissions = false;
 
 module.exports = function() {
@@ -49,48 +48,13 @@ module.exports = function() {
     }
   }
 
-  if (generate_permissions) {
-    new Permission({
-      name: 'delete user',
-      description: ''
-    }).save(function(err, perm) {
-      if (err) {
-        console.log('Error creating permission: ' + err);
-      } else {
-        console.log('Created permission with id: ' + perm._id);
-      }
-    });
-
-    new Permission({
-      name: 'create user',
-      description: ''
-    }).save(function(err, perm) {
-      if (err) {
-        console.log('Error creating permission: ' + err);
-      } else {
-        console.log('Created permission with id: ' + perm._id);
-      }
-    });
-
-    new Permission({
-      name: 'update user',
-      description: ''
-    }).save(function(err, perm) {
-      if (err) {
-        console.log('Error creating permission: ' + err);
-      } else {
-        console.log('Created permission with id: ' + perm._id);
-      }
-    });
-  }
-
   if (assign_permissions) {
     User.findOne({ profile_id: 'elfish' }, function(err, user) {
-      if (err) {
+      if (err || !user) {
         console.log('Error finding elfish: ' + err);
       } else {
-        Permission.findOne({ name: 'delete user' }, function(err, perm) {
-          if (err) {
+        Permission.findOne({ description: 'Permanently delete a user' }, function(err, perm) {
+          if (err || !perm) {
             console.log('Error finding delete user: ' + err);
           } else {
             user.permissions.addToSet(perm);

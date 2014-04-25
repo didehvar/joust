@@ -1,5 +1,4 @@
 var Permission = require('../models/permission');
-var count = 0;
 
 /**
  * Just an object full of permission descriptions!
@@ -31,52 +30,33 @@ var permission_descriptions = {
   },
 };
 
-var permissions_obj = {};
-
-var save_permission = function(err, perm) {
+var save = function(err, permission) {
   if (err) {
-    console.log('Failed to add permission: ' + err);
-  } else {
-    console.log('Added permission: ' + perm);
+    console.log(new Error('Failed to add permission: ' + err));
   }
 };
 
-var add_permission = function(obj, path) {
-  var new_path = path;
-  if (path) {
-    new_path += '.';
-  }
-
-  for (var p in obj) {
-    if (typeof obj[p] === 'object') {
-      add_permission(obj[p], new_path + p);
+var count = 0;
+var recurse = function(obj) {
+  for (var a in obj) {
+    if (typeof obj[a] === 'object') {
+      recurse(obj[a]);
     } else {
+      var temp = count++;
+      var desc = obj[a];
+      obj[a] = temp;
+
       new Permission({
-        _id: count++,
-        path: new_path + p,
-        description: obj[p]
-      }).save(save_permission);
+        _id: temp,
+        description: desc
+      }).save(save);
     }
   }
 };
 
-module.exports.permissions = function() {
-  return permissions_obj;
-};
-
+// create permissions collection
 module.exports.load = function() {
-  add_permission(permission_descriptions, '');
+  recurse(permission_descriptions);
 };
 
-module.exports.load_existing = function() {
-  Permission.find({}, function(err, permissions) {
-    if (err) {
-      console.log(err);
-    } else {
-      for (var i = 0; i < permissions.length; i++) {
-        console.log('Adding permission ' + permissions[i].path + ' with id: ' + permissions[i]._id);
-        permissions_obj[permissions[i].path] = permissions[i]._id;
-      }
-    }
-  });
-};
+module.exports.permissions = permission_descriptions;

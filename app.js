@@ -11,27 +11,29 @@ mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
 // set environment
 var env = process.env.NODE_ENV || 'development';
 
-// generates test data
-if (env === 'development') {
-  require('./test_data')();
-}
-
 // load permissions only once
-var permission_helper = require('./helpers/permission');
-mongoose.connection.on('open', function(ref) {
-  mongoose.connection.db.collectionNames('permissions', function(err, names) {
+var permission = require('./helpers/permission');
+mongoose.connection.on('open', function() {
+  mongoose.connection.db.dropCollection('permissions', function(err, results) {
     if (err) {
-      console.log(err);
+      console.log(new Error('Failed to drop permissions: ' + err));
     } else {
-      if (names.length < 1) {
-        permission_helper.load();
-      }
+      console.log('Dropped permissions');
     }
+
+    // proceed to create new permissions collection
+    permission.load();
   });
 });
 
-// wait for permissions to be inserted before loading them
-setTimeout(function() { permission_helper.load_existing(); }, 2000);
+// generates test data
+if (env === 'development') {
+  // wait for other operations (like permissions creation)
+  // before generating test data
+  setTimeout(function() {
+    require('./test_data')();
+  }, 1000);
+}
 
 // compile less files
 app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
@@ -76,7 +78,7 @@ app.use(function(req, res, next) {
   res.locals.url = req.url;
   res.locals.flash = req.flash();
   res.locals.user = req.user;
-  res.locals.permissions = permission_helper.permissions();
+  res.locals.Permission = permission.permissions;
 
   next();
 });

@@ -61,7 +61,6 @@ var add_permission = function(obj, path) {
 };
 
 module.exports.permissions = function() {
-  console.log(permissions_obj);
   return permissions_obj;
 };
 

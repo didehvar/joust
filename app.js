@@ -40,6 +40,7 @@ app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
   force: env === 'development' ? true : false,
   preprocess: {
     path: function(pathname, req) {
+      console.log('returning pathanme:', pathname);
       return pathname.replace('/css', '');
     }
   }

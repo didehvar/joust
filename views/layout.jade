@@ -28,6 +28,7 @@ html
     include /parts/navigation
 
     .container
+      pre= JSON.stringify(user)
       if flash
         if flash.success
           .alert.alert-success #{flash.success}

@@ -63,8 +63,8 @@ module.exports = function(app) {
   });
 
   passport.use(new openid_strategy({
-      returnURL: process.env.AUTH_RETURN_URL || 'http://localhost:8111/auth/steam/callback',
-      realm: process.env.SITE_URL || 'http://localhost:8111',
+      returnURL: process.env.AUTH_RETURN_URL,
+      realm: process.env.SITE_URL,
       providerURL: 'http://steamcommunity.com/openid',
       profile: true,
       stateless: true

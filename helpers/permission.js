@@ -55,8 +55,49 @@ var recurse = function(obj) {
 };
 
 // create permissions collection
-module.exports.load = function() {
+module.exports.create = function() {
   recurse(permission_descriptions);
+};
+
+var recurse_replace = function(obj, callback) {
+  for (var a in obj) {
+    if (typeof obj[a] === 'object') {
+      recurse_replace(obj[a], callback);
+    } else {
+      callback(obj, a);
+    }
+  }
+};
+
+var find_desc_set_id = function(id, desc) {
+  recurse_replace(permission_descriptions, function(obj, accessor) {
+    if (obj[accessor] === desc) {
+      obj[accessor] = id;
+    }
+  });
+};
+
+var perm_found = function(err, permission) {
+  if (err) {
+    console.log(err);
+  } else {
+          // assign this id to the permissions object
+          find_desc_set_id(permission._id, permission.description);
+        }
+      };
+
+var recurse_load = function(obj) {
+  for (var a in obj) {
+    if (typeof obj[a] === 'object') {
+      recurse_load(obj[a]);
+    } else {
+      Permission.findOne({ description: obj[a] }, perm_found);
+    }
+  }
+};
+
+module.exports.load = function() {
+  recurse_load(permission_descriptions);
 };
 
 module.exports.permissions = permission_descriptions;

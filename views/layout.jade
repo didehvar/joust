@@ -29,6 +29,7 @@ html
 
     .container
       pre= JSON.stringify(user)
+      pre= JSON.stringify(Permission)
       if flash
         if flash.success
           .alert.alert-success #{flash.success}

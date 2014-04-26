@@ -14,15 +14,17 @@ var env = process.env.NODE_ENV || 'development';
 // load permissions only once
 var permission = require('./helpers/permission');
 mongoose.connection.on('open', function() {
-  mongoose.connection.db.dropCollection('permissions', function(err, results) {
+  mongoose.connection.db.collectionNames('permissions', function(err, names) {
     if (err) {
       console.log(new Error('Failed to drop permissions: ' + err));
     } else {
-      console.log('Dropped permissions');
+      // if collection doesn't exist, create it
+      if (names.length < 1) {
+        permission.create();
+      } else {
+        permission.load();
+      }
     }
-
-    // proceed to create new permissions collection
-    permission.load();
   });
 });
 

@@ -1,12 +1,11 @@
 /**
- * Generic helper/default routes that aren't worthy of their own file.
- * Please extract as you see fit.
- * 
- * author: @didehvar
- * version: 0.0.1
+ * Index and helper routes.
+ *
+ * @author  James Didehvar <justaelf@gmail.com>
+ * @version 0.0.1
  */
 
-// redirects to remove www.
+/** Removes www. from the URL if set. */
 exports.fix_www = function(req, res, next) {
   if (req.headers.host.match(/^www\./) !== null) {
     res.redirect('http://' + req.headers.host.slice(4) + req.url, 301);
@@ -15,9 +14,9 @@ exports.fix_www = function(req, res, next) {
   }
 };
 
-// main site index
+/** Main site page. */
 exports.index = function(req, res) {
-  res.render('index', { 
+  res.render('index', {
     title: 'Home'
   });
 };

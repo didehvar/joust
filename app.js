@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 
+// controllers
+var auth = require('./controllers/auth');
+
 // general utility modules
 var path = require('path');
 
@@ -66,7 +69,7 @@ app.set('view engine', 'jade');
 require('./helpers/session')(app);
 
 // passport setup
-require('./helpers/auth')(app);
+auth.passport(app);
 
 // needed to parse post requests
 app.use(require('body-parser')());
@@ -102,6 +105,8 @@ require('express-path')(app, [
   ['/users/:id', 'user#update', 'put'],
   ['/users/:id', 'user#delete', 'delete']
 ]);
+
+auth.routes(app);
 
 // 404 handler
 app.use(function(req, res, next) {

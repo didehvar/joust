@@ -12,7 +12,8 @@ var User = require('../models/user');
 var url = require('url');
 
 // fetches users steam data based on steamid
-function update_steam_data(steamid, user, done) {
+// user can be null
+function update_steam_data(steamid, user, callback) {
   var steam = new steam_web({
     apiKey: process.env.JOUST_STEAM_KEY,
     format: 'json'
@@ -22,18 +23,18 @@ function update_steam_data(steamid, user, done) {
     steamids: [steamid],
     callback: function(err, result) {
       if (err) {
-        return done(err, user);
+        return callback(err, user);
       }
 
       var profile = result.response.players[0];
 
       if (!user) {
         User.create_with_steam(profile, function(err, user) {
-          return done(err, user);
+          return callback(err, user);
         });
       } else {
         user.refresh_steam(profile, function(err, user) {
-          return done(err, user);
+          return callback(err, user);
         });
       }
     }
@@ -41,7 +42,7 @@ function update_steam_data(steamid, user, done) {
 }
 
 // sets up passport
-module.exports = function(app) {
+module.exports.passport = function(app) {
   passport.serializeUser(function(user, done) {
     done(null, user.steamid);
   });
@@ -70,7 +71,9 @@ module.exports = function(app) {
             return done(err);
           }
 
-          update_steam_data(steamid, user, done);
+          update_steam_data(steamid, user, function(err, user) {
+            return done(err, user);
+          });
         });
       });
     }
@@ -78,7 +81,9 @@ module.exports = function(app) {
 
   app.use(passport.initialize());
   app.use(passport.session());
+};
 
+module.exports.routes = function(app) {
   // cannot use paspport.authenticate with express-path (?)
   app.get('/auth/steam',
     passport.authenticate('openid'),

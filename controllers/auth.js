@@ -82,6 +82,7 @@ module.exports.passport = function(app) {
   app.use(passport.session());
 };
 
+// sets up passport routes
 module.exports.routes = function(app) {
   // cannot use paspport.authenticate with express-path (?)
   app.get('/auth/steam',

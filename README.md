@@ -11,3 +11,7 @@ Rename `config.js.conf` to `config.js` and configure as necessary. With the defa
 the app will run at [localhost](http://localhost:8111) on port 8111.
 
 Start the app using `npm start` or `DEBUG=joust npm start`.
+
+# Coding Standards
+
+Use (Google's JavaScript Style Guide)[http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml].

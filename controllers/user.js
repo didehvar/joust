@@ -1,6 +1,6 @@
 /**
  * All routes to do with user actions and pages.
- * 
+ *
  * author: @didehvar
  * version: 0.0.1
  */
@@ -21,7 +21,7 @@ exports.login = function(req, res) {
 exports.logout = function(req, res) {
   req.logout();
   req.flash('success', 'You have been logged out.');
-  
+
   res.redirect(config.SITE_URL + url.parse(req.url, true).query.return);
 };
 

@@ -94,7 +94,8 @@ require('express-path')(app, [
   ['/', 'index#index'],
 
   /* authentication */
-  ['/auth/steam/failed', 'user#auth_failed'],
+  ['/auth/steam', 'auth#steam', 'auth#passport', 'get'],
+  ['/auth/steam/failed', 'user#auth_failed', 'get'],
   ['/login', 'user#login'],
   ['/logout', 'user#logout'],
 
@@ -105,8 +106,6 @@ require('express-path')(app, [
   ['/users/:id', 'user#update', 'put'],
   ['/users/:id', 'user#delete', 'delete']
 ]);
-
-auth.routes(app);
 
 // 404 handler
 app.use(function(req, res, next) {

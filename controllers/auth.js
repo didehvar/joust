@@ -1,19 +1,25 @@
 /**
- * Manages all auth functions, including anything related to passport.
- * 
- * author: @didehvar
- * version: 0.0.1
+ * Manages all authentication functions, including anything related to
+ *   passport.
+ *
+ * @author  James Didehvar <justaelf@gmail.com>
+ * @version 0.0.1
  */
 
 var passport = require('passport');
 var strategy = require('passport-openid').Strategy;
 var steam = require('steam-web');
 var url = require('url');
-
 var User = require('../models/user');
 
-// fetches users steam data based on steamid
-// user can be null
+/**
+ * Updates the Steam data for a user. If no user is specified then a new user
+ *   will be created.
+ *
+ * @param  {Number}   steamid   64 bit Steam ID
+ * @param  {Model}    user      Existing user, null otherwise
+ * @param  {Function} callback  Takes error and user as parameters
+ */
 function updateSteamData(steamid, user, callback) {
   new steam({
     apiKey: process.env.JOUST_STEAM_KEY,
@@ -25,6 +31,7 @@ function updateSteamData(steamid, user, callback) {
         return callback(err, user);
       }
 
+      // response returns array, no two players should have the steam id, so there (hopefully) will only ever be one player!
       var profile = result.response.players[0];
 
       if (!user) {
@@ -40,20 +47,32 @@ function updateSteamData(steamid, user, callback) {
   });
 }
 
-// sets up passport
+/**
+ * Initialise Passport for Express.
+ *
+ * @param {express} app
+ */
 module.exports.passport = function(app) {
+  /** Serialize the users Steam ID into the session. */
   passport.serializeUser(function(user, done) {
     done(null, user.steamid);
   });
 
+  /** Destroys the session for a user. */
   passport.deserializeUser(function(steamid, done) {
-    User.findOne({ steamid: steamid }, function (err, user) {
+    User.findOne({
+      steamid: steamid
+    }, function(err, user) {
       done(err, user);
     });
   });
 
+  /**
+   * Sets up the Passport strategy. Will create a database entry for the new
+   *   user and request user data from the Steam API.
+   */
   passport.use(new strategy({
-      returnURL: process.env.AUTH_RETURN_URL,
+      returnURL: process.env.SITE_URL + '/auth/steam',
       realm: process.env.SITE_URL,
       providerURL: 'http://steamcommunity.com/openid',
       profile: true,
@@ -61,11 +80,13 @@ module.exports.passport = function(app) {
     },
     function(identifier, done) {
       process.nextTick(function() {
-        // the returned identifier is a url to the steam user, e.g.
-        // http://steamcommunity.com/openid/id/12345678912345678
+        // http://steamcommunity.com/openid/id/12345678912345678 ->
+        // 12345678912345678
         var steamid = url.parse(identifier).pathname.split('/').pop();
 
-        User.findOne({ steamid: steamid }, function(err, user) {
+        User.findOne({
+          steamid: steamid
+        }, function(err, user) {
           if (err) {
             return done(err);
           }
@@ -82,25 +103,4 @@ module.exports.passport = function(app) {
   app.use(passport.session());
 };
 
-// sets up passport routes
-module.exports.routes = function(app) {
-  // cannot use paspport.authenticate with express-path (?)
-  app.get('/auth/steam',
-    passport.authenticate('openid'),
-    function(req, res, next) {
-      // function not called
-    }
-  );
-
-  app.get('/auth/steam/callback',
-    passport.authenticate('openid', {
-      successReturnToOrRedirect: '/',
-      failureRedirect: '/auth/steam/failed',
-      failureFlash: true,
-      successFlash: 'You have successfully signed in with Steam.'
-    }),
-    function(req, res, next) {
-      res.redirect('/');
-    }
-  );
-};
+module.exports.steam = function() {};

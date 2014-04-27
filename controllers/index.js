@@ -5,7 +5,7 @@
  * @version 0.0.1
  */
 
-/** Removes www. from the URL if set. */
+/** http://www.hello.com -> http://hello.com. */
 exports.fix_www = function(req, res, next) {
   if (req.headers.host.match(/^www\./)) {
     return res.redirect(req.protocol + '://' + req.headers.host.slice(4) +

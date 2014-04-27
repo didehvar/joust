@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 if (!process.env.NODE_ENV) {
-  process.env = require('../config');
+  process.env = require('./config');
 }
 
 if (!process.env.JOUST_STEAM_KEY) {
-  throw new Error("Steam API key must be set");
+  throw new Error('Steam API key must be set');
 }
 
 var debug = require('debug')('joust');
-var app = require('../app');
+var app = require('./app');
 
 app.set('port', process.env.PORT || 8111);
 

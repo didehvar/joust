@@ -7,11 +7,11 @@
 
 /** Removes www. from the URL if set. */
 exports.fix_www = function(req, res, next) {
-  if (req.headers.host.match(/^www\./) !== null) {
-    res.redirect('http://' + req.headers.host.slice(4) + req.url, 301);
-  } else {
-    next();
+  if (req.headers.host.match(/^www\./)) {
+    return res.redirect('http://' + req.headers.host.slice(4) + req.url, 301);
   }
+
+  next();
 };
 
 /** Main site page. */

@@ -9,7 +9,7 @@
 exports.fix_www = function(req, res, next) {
   if (req.headers.host.match(/^www\./)) {
     return res.redirect(req.protocol + '://' + req.get('host') +
-      req.originalUrl, 301);
+        req.originalUrl, 301);
   }
 
   next();

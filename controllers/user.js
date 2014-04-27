@@ -1,8 +1,8 @@
 /**
  * All routes to do with user actions and pages.
  *
- * author: @didehvar
- * version: 0.0.1
+ * @author  James Didehvar <justaelf@gmail.com>
+ * @version 0.0.1
  */
 
 var url = require('url');
@@ -22,7 +22,7 @@ exports.logout = function(req, res) {
   req.logout();
   req.flash('success', 'You have been logged out.');
 
-  res.redirect(config.SITE_URL + url.parse(req.url, true).query.return);
+  res.redirect(process.env.SITE_URL + url.parse(req.url, true).query.return);
 };
 
 // generic error route for authentication failure

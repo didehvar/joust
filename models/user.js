@@ -50,7 +50,7 @@ var user_schema = mongoose.Schema({
 });
 
 // callback takes two args: error & user
-user_schema.statics.create_with_steam = function(steam_data, callback) {
+user_schema.statics.createWithSteamData = function(steam_data, callback) {
   user = new User({
     steamid: steam_data.steamid
   });
@@ -62,7 +62,7 @@ user_schema.statics.create_with_steam = function(steam_data, callback) {
 
 
 // callback takes two args: error & user
-user_schema.methods.refresh_steam = function(steam_data, callback) {
+user_schema.methods.refreshSteamData = function(steam_data, callback) {
   this.display_name = steam_data.personaname;
 
   var extract_id = url.parse(steam_data.profileurl).pathname.split('/');

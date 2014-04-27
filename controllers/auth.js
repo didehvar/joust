@@ -6,20 +6,19 @@
  */
 
 var passport = require('passport');
-var steam_web = require('steam-web');
-var openid_strategy = require('passport-openid').Strategy;
-var User = require('../models/user');
+var strategy = require('passport-openid').Strategy;
+var steam = require('steam-web');
 var url = require('url');
+
+var User = require('../models/user');
 
 // fetches users steam data based on steamid
 // user can be null
-function update_steam_data(steamid, user, callback) {
-  var steam = new steam_web({
+function updateSteamData(steamid, user, callback) {
+  new steam({
     apiKey: process.env.JOUST_STEAM_KEY,
     format: 'json'
-  });
-
-  steam.getPlayerSummaries({
+  }).getPlayerSummaries({
     steamids: [steamid],
     callback: function(err, result) {
       if (err) {
@@ -29,11 +28,11 @@ function update_steam_data(steamid, user, callback) {
       var profile = result.response.players[0];
 
       if (!user) {
-        User.create_with_steam(profile, function(err, user) {
+        User.createWithSteamData(profile, function(err, user) {
           return callback(err, user);
         });
       } else {
-        user.refresh_steam(profile, function(err, user) {
+        user.refreshSteamData(profile, function(err, user) {
           return callback(err, user);
         });
       }
@@ -53,7 +52,7 @@ module.exports.passport = function(app) {
     });
   });
 
-  passport.use(new openid_strategy({
+  passport.use(new strategy({
       returnURL: process.env.AUTH_RETURN_URL,
       realm: process.env.SITE_URL,
       providerURL: 'http://steamcommunity.com/openid',
@@ -71,7 +70,7 @@ module.exports.passport = function(app) {
             return done(err);
           }
 
-          update_steam_data(steamid, user, function(err, user) {
+          updateSteamData(steamid, user, function(err, user) {
             return done(err, user);
           });
         });

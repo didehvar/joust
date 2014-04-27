@@ -8,6 +8,8 @@
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
+var url = require('url');
+
 /**
  * The following fields are updated every time the users signs in:
  *  display_name, profile_id, avatar, avatar_medium, avatar_full
@@ -46,6 +48,34 @@ var user_schema = mongoose.Schema({
   permissions: [{ type: Number, ref: 'Permission' }],
   created: { type: Date, default: Date.now(), required: true }
 });
+
+// callback takes two args: error & user
+user_schema.statics.create_with_steam = function(steam_data, callback) {
+  user = new User({
+    steamid: steam_data.steamid
+  });
+
+  user.refresh_steam(function(err, user) {
+    return callback(err, user);
+  });
+};
+
+
+// callback takes two args: error & user
+user_schema.methods.refresh_steam = function(steam_data, callback) {
+  this.display_name = steam_data.personaname;
+
+  var extract_id = url.parse(steam_data.profileurl).pathname.split('/');
+  this.profile_id = extract_id[extract_id.length - 2];
+
+  this.avatar = steam_data.avatar;
+  this.avatar_medium = steam_data.avatarmedium;
+  this.avatar_full = steam_data.avatarfull;
+
+  this.save(function(err, user) {
+    callback(err, user);
+  });
+};
 
 // checks whether a user has a permission
 user_schema.methods.has_permission = function(permission) {

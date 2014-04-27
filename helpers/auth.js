@@ -28,24 +28,14 @@ function update_steam_data(steamid, user, done) {
       var profile = result.response.players[0];
 
       if (!user) {
-        user = new User();
-
-        user.steamid = steamid;
-        user.created = Date.now();
+        User.create_with_steam(profile, function(err, user) {
+          return done(err, user);
+        });
+      } else {
+        user.refresh_steam(profile, function(err, user) {
+          return done(err, user);
+        });
       }
-
-      user.display_name = profile.personaname;
-
-      var extract_id = url.parse(profile.profileurl).pathname.split('/');
-      user.profile_id = extract_id[extract_id.length - 2];
-
-      user.avatar = profile.avatar;
-      user.avatar_medium = profile.avatarmedium;
-      user.avatar_full = profile.avatarfull;
-
-      user.save(function(err) {
-        return done(err, user);
-      });
     }
   });
 }

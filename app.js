@@ -1,143 +1,112 @@
+/**
+ * Joust is a tournament management website.
+ *
+ * @author  James Didehvar <justaelf@gmail.com>
+ * @version 0.0.1
+ */
+
 var express = require('express');
-var app = express();
-
-// controllers
-var auth = require('./controllers/auth');
-
-// general utility modules
 var path = require('path');
 
-// database shtuff
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
+var app = express();
 
-// set environment
-var env = process.env.NODE_ENV || 'development';
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
+var env = process.env.NODE_ENV;
 
-// load permissions only once
-var permission = require('./helpers/permission');
-mongoose.connection.on('open', function() {
-  mongoose.connection.db.collectionNames('permissions', function(err, names) {
-    if (err) {
-      console.log(new Error('Failed to drop permissions: ' + err));
-    } else {
-      // if collection doesn't exist, create it
-      if (names.length < 1) {
-        permission.create();
-      } else {
-        permission.load();
-      }
-    }
-  });
-});
+// Initialise the database connection.
+require('./controllers/database')();
 
-// generates test data
+// Compile less files from assets/less/ to public/css.
+require('./controllers/asset')(app);
+
 if (env === 'development') {
-  // wait for other operations (like permissions creation)
-  // before generating test data
+  // Wait for other operations before generating test data.
   setTimeout(function() {
     require('./test_data')();
-  }, 1000);
+  }, 2000);
 }
 
-// compile less files
-app.use(require('less-middleware')(path.join(__dirname, 'assets', 'less'), {
-  dest: path.join(__dirname, 'public'),
-  force: env === 'development' ? true : false,
-  preprocess: {
-    path: function(pathname, req) {
-      return pathname.replace('\\css', '');
-    }
-  }
-}, {
-  paths: [
-    path.join(path.join(__dirname, 'public', 'bower_components', 'bootstrap', 'less')),
-    path.join(path.join(__dirname, 'public', 'bower_components', 'fontawesome', 'less'))
-  ]
-}, {
-  compress: true
-}));
-
-// use static public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// use jade for views
+// Use Jade for views.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-// session setup
 require('./helpers/session')(app);
+require('./controllers/auth').passport(app);
 
-// passport setup
-auth.passport(app);
-
-// needed to parse post requests
+// Allows use of POST requests.
 app.use(require('body-parser')());
 
-// helper functions available in templates
+// Pass data to views.
 app.locals.basedir = path.join(__dirname, 'views');
 app.locals.inflection = require('inflection');
 
-// variables accessible in views
 app.use(function(req, res, next) {
   res.locals.url = req.url;
   res.locals.flash = req.flash();
   res.locals.user = req.user;
-  res.locals.Permission = permission.permissions;
+  res.locals.Permission = require('./helpers/permission').permissions;
 
   next();
 });
 
-// app routes
+// Set up routes.
 require('express-path')(app, [
-  ['/*', 'index#fix_www'],
-  ['/', 'index#index'],
+  ['/*',  'index#www'   ],
+  ['/',   'index#index' ],
 
   /* authentication */
-  ['/auth/steam', 'auth#steam', 'auth#passport', 'get'],
-  ['/auth/steam/failed', 'user#auth_failed', 'get'],
-  ['/login', 'user#login'],
-  ['/logout', 'user#logout'],
+  ['/auth',         'index#empty',      'auth#passportReturn',  'get' ],
+  ['/auth/failed',  'auth#authFailed',                          'get' ],
+  ['/login',        'auth#login'                                      ],
+  ['/logout',       'auth#logout'                                     ],
 
   /* user management */
-  ['/users', 'user#find_all', 'get'],
-  ['/users', 'user#create', 'post'],
-  ['/users/:id', 'user#find', 'get'],
-  ['/users/:id', 'user#update', 'put'],
-  ['/users/:id', 'user#delete', 'delete']
+  ['/users',      'user#findAll',   'get'     ],
+  ['/users/:id',  'user#find',      'get'     ],
+  ['/users/:id',  'user#update',    'put'     ],
+  ['/users/:id',  'user#delete',    'delete'  ]
 ]);
 
-// 404 handler
+// Handle 404s.
 app.use(function(req, res, next) {
   res.status(404);
 
   if (req.accepts('html')) {
-    res.render('error', { message: 'Page not found', url: req.url });
-    return;
+    return res.render('error', {
+      message: 'Page not found',
+      url: req.url
+    });
   }
 
   if (req.accepts('json')) {
-    res.send({ error: 'Not found' });
-    return;
+    return res.send({
+      error: 'Not found'
+    });
   }
 
   res.type('txt').send('Not found');
 });
 
-// error handler
+// Handle errors.
 app.use(function(err, req, res, next) {
   res.status(500);
 
   console.log('Throwing error: ' + err);
 
   if (req.accepts('html')) {
-    res.render('error', { error: err });
-    return;
+    return res.render('error', {
+      error: err
+    });
   }
 
   if (req.accepts('json')) {
-    res.send({ error: err });
-    return;
+    return res.send({
+      error: err
+    });
   }
 
   res.type('txt').send(err);

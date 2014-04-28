@@ -1,10 +1,6 @@
 {
   "name": "joust",
   "version": "0.0.0",
-  "homepage": "https://github.com/didehvar/joust",
-  "authors": [
-    "didehvar <james@didehvar.com>"
-  ],
   "moduleType": [
     "node"
   ],
@@ -16,9 +12,18 @@
     "test",
     "tests"
   ],
+  "authors": [
+    "James Didehvar <james@didehvar.com>"
+  ],
+  "homepage": "https://github.com/didehvar/joust",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/didehvar/joust.git"
+  },
   "dependencies": {
     "jquery": "~2.1.0",
     "bootstrap": "~3.1.1",
     "fontawesome": "~4.0.3"
-  }
+  },
+  "private": true
 }

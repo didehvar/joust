@@ -1,9 +1,8 @@
 # Instructions
 
-Install [MongoDB](https://www.mongodb.org/), you can set the environment variable `MONGOHQ_URL` to
-your connection string (default: `mongodb://localhost/joust`), and start it up: 
-`mongod --dbpath data/` (see [MongoDB docs](http://docs.mongodb.org/manual/tutorial/manage-mongodb-processes/) 
-for more information).
+Install [MongoDB](https://www.mongodb.org/), you can set the environment variable `MONGOHQ_URL`  
+to your connection string (default: `mongodb://localhost/joust`), and start it up: `mongod --dbpath data/` 
+(see [MongoDB docs](http://docs.mongodb.org/manual/tutorial/manage-mongodb-rocesses/) for more information).
 
 Run `npm install`.
 

@@ -49,11 +49,11 @@ module.exports = function() {
   }
 
   if (assign_permissions) {
-    User.findOne({ profile_id: 'elfish' }, function(err, user) {
+    User.findOne({ profileid: 'elfish' }, function(err, user) {
       if (err || !user) {
         console.log('Error finding elfish: ' + err);
       } else {
-        Permission.findOne({ description: 'Permanently delete a user' }, function(err, perm) {
+        Permission.findOne({ description: 'Remove president' }, function(err, perm) {
           if (err || !perm) {
             console.log('Error finding delete user: ' + err);
           } else {

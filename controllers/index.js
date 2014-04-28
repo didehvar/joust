@@ -6,7 +6,7 @@
  */
 
 /** http://www.hello.com -> http://hello.com. */
-exports.fix_www = function(req, res, next) {
+exports.www = function(req, res, next) {
   if (req.headers.host.match(/^www\./)) {
     return res.redirect(req.protocol + '://' + req.get('host') +
         req.originalUrl, 301);
@@ -21,3 +21,6 @@ exports.index = function(req, res) {
     title: 'Home'
   });
 };
+
+/** Used for routes that don't execute, for example when using middleware. */
+exports.empty = function() {};

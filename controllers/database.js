@@ -18,7 +18,7 @@ module.exports = function() {
       }
 
       if (names.length < 1) {
-        return permission.create();
+        permission.create();
       }
 
       permission.load();

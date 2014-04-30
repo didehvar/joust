@@ -72,8 +72,24 @@ var updateSteamData = function(steamid, user, callback) {
 };
 module.exports.updateSteamData = updateSteamData;
 
+/** Initialise sessions using the database. */
 /** Initialise Passport for Express. */
-module.exports.passport = function(app) {
+module.exports.setup = function(app) {
+  app.use(require('cookie-parser')());
+
+  app.use(require('express-session')({
+    store: new require('connect-mongo')(require('express-session'))({
+      mongoose_connection: require('mongoose').connections[0]
+    }),
+    secret: process.env.JOUST_SESSION_KEY || 'keyboard cat',
+    cookie: {
+      path: '/',
+      maxAge: 1000 * 60 * 60 * 24 // one day
+    }
+  }));
+
+  app.use(require('connect-flash')());
+
   /** Serialize the users Steam ID into the session. */
   passport.serializeUser(function(user, done) {
     done(null, user.steamid);

@@ -34,8 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-require('./helpers/session')(app);
-require('./controllers/auth').passport(app);
+require('./controllers/auth').setup(app);
 
 // Allows use of POST requests.
 app.use(require('body-parser')());

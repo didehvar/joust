@@ -6,7 +6,6 @@
  */
 
 var auth = require('./auth');
-var utility = require('../helpers/utility');
 var url = require('url');
 var User = require('../models/user');
 

@@ -48,7 +48,7 @@ app.use(function(req, res, next) {
   res.locals.url = req.url;
   res.locals.flash = req.flash();
   res.locals.user = req.user;
-  res.locals.Permission = require('./helpers/permission').permissions;
+  res.locals.Permission = require('./config').permissions;
 
   next();
 });

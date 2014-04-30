@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 if (!process.env.NODE_ENV) {
-  process.env = require('./config');
+  process.env = require('./config').env;
 }
 
 if (!process.env.JOUST_STEAM_KEY) {

@@ -6,7 +6,7 @@
  */
 
 var mongoose = require('mongoose');
-var permission = require('../helpers/permission');
+var permission = require('../controllers/permission');
 
 module.exports = function() {
   mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost/joust');
@@ -18,7 +18,7 @@ module.exports = function() {
       }
 
       if (names.length < 1) {
-        permission.create();
+        return permission.create();
       }
 
       permission.load();

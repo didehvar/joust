@@ -14,7 +14,7 @@ module.exports = function() {
   mongoose.connection.on('open', function() {
     mongoose.connection.db.collectionNames('permissions', function(err, names) {
       if (err) {
-        return console.log(new Error('Failed to drop permissions: ' + err));
+        return console.log(new Error('Failed to find permissions: ' + err));
       }
 
       if (names.length < 1) {

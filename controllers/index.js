@@ -22,5 +22,5 @@ exports.index = function(req, res) {
   });
 };
 
-/** Used for routes that don't execute, for example when using middleware. */
+/** Used for routes that don't execute, for example when using middle-ware. */
 exports.empty = function() {};

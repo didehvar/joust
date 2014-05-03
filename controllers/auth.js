@@ -9,6 +9,9 @@
 var passport = require('passport');
 var strategy = require('passport-openid').Strategy;
 var steam = require('steam-web');
+var mongoose = require('mongoose');
+var session = require('express-session');
+var mongo_session = require('connect-mongo')(session);
 var url = require('url');
 var User = require('../models/user');
 
@@ -134,9 +137,9 @@ module.exports.updateSteamData = updateSteamData;
 module.exports.setup = function(app) {
   app.use(require('cookie-parser')());
 
-  app.use(require('express-session')({
-    store: new require('connect-mongo')(require('express-session'))({
-      mongoose_connection: require('mongoose').connections[0]
+  app.use(session({
+    store: new mongo_session({
+      mongoose_connection: mongoose.connections[0]
     }),
     secret: process.env.JOUST_SESSION_KEY || 'keyboard cat',
     cookie: {

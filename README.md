@@ -11,3 +11,8 @@ Start the app using `npm start` or `DEBUG=joust npm start`.
 # Coding Standards
 
 Use [Google's JavaScript Style Guide](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml).
+
+# Heroku
+
+`heroku git:remote -a jousting`
+`git push heroku master`

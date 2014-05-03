@@ -29,6 +29,10 @@ var userSchema = mongoose.Schema({
     unique: true,
     required: true
   },
+  email: {
+    type: String,
+    unique: true
+  },
   level: {
     type: Number,
     default: 0,

@@ -36,6 +36,63 @@ exports.authFailed = function(req, res) {
   });
 };
 
+var checkRedirect = function(req, res) {
+  if (req.session && req.session.returnTo) {
+    var url = req.session.returnTo;
+    delete req.session.returnTo;
+
+    return url;
+  }
+
+  return '/';
+};
+
+/** Called after login is successful. */
+exports.done = function(req, res, next) {
+  if (!req.user) {
+    return res.render('error', {
+      message: 'Must be logged in'
+    });
+  }
+
+  if (req.user.email) {
+    // Email is set, proceed to redirect.
+    return res.redirect(checkRedirect(req, res));
+  }
+
+  res.render('auth/email');
+};
+
+exports.donePost = function(req, res, next) {
+  req.checkBody('inputEmail', 'Invalid email').notEmpty().isEmail();
+
+  var errors = req.validationErrors(true);
+  if (errors) {
+    return res.render('auth/email', {
+      validationErrors: errors
+    });
+  } else {
+    User.findById(req.user._id, function(err, user) {
+      if (err) {
+        return next(err);
+      }
+
+      if (!user) {
+        return next(new Error("Couldn't find user?"));
+      }
+
+      user.email = req.param('inputEmail');
+      user.save(function(err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        return res.redirect(checkRedirect(req, res));
+      });
+    });
+  }
+};
+
 /**
  * Updates the Steam data for a user. If no user is specified then a new user
  *   will be created.
@@ -140,4 +197,51 @@ module.exports.setup = function(app) {
 
   app.use(passport.initialize());
   app.use(passport.session());
+};
+
+/** Implements single sign on, allowing Discourse to authenticate users. */
+module.exports.singleSignOn = function(req, res) {
+  // Ensure user is logged in.
+  if (!req.user || !req.user.email) {
+    // Send to login.
+    req.session.returnTo = req.protocol + '://' + req.get('host') +
+        req.originalUrl;
+
+    if (!req.user) {
+      return res.redirect('/auth');
+    }
+
+    return res.redirect('/auth/done');
+  }
+
+  // Validate payload & signature.
+  var payload = req.query.sso;
+  var sig = req.query.sig;
+
+  console.log(payload);
+  console.log(sig);
+
+  var discourse_sso = require('discourse-sso');
+  var sso = new discourse_sso(process.env.JOUST_DISCOURSE_SSO_KEY);
+  if (!sso.validate(payload, sig)) {
+    return console.log("Couldn't validate!");
+  }
+
+  var nonce = sso.getNonce(payload);
+
+  console.log(req.user.steamid);
+
+  var userparams = {
+    // Required, will throw exception otherwise
+    "nonce": nonce,
+    "external_id": req.user.steamid,
+    "email": req.user.email,
+    // Optional
+    //"username": "fawawd",
+    //"name": "adwwdawd"
+  };
+  var loginString = sso.buildLoginString(userparams);
+
+  return res.redirect(process.env.JOUST_DISCOURSE_RETURN +
+      '/session/sso_login?' + loginString);
 };

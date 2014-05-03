@@ -17,7 +17,7 @@ module.exports.authenticated = function(req, res, next) {
 
 /** Passport middleware, authenticates a user through Steam. */
 module.exports.passportReturn = require('passport').authenticate('openid', {
-  successReturnToOrRedirect: '/',
+  successRedirect: '/auth/done',
   failureRedirect: '/auth/failed',
   failureFlash: true,
   successFlash: 'You have successfully signed in through Steam.'

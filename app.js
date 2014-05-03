@@ -38,6 +38,7 @@ require('./controllers/auth').setup(app);
 
 // Allows use of POST requests.
 app.use(require('body-parser')());
+app.use(require('express-validator')());
 
 // Pass data to views.
 app.locals.basedir = path.join(__dirname, 'views');
@@ -58,10 +59,13 @@ require('express-path')(app, [
   ['/',   'index#index' ],
 
   /* authentication */
-  ['/auth',         'index#empty',      'auth#passportReturn',  'get' ],
-  ['/auth/failed',  'auth#authFailed',                          'get' ],
-  ['/login',        'auth#login'                                      ],
-  ['/logout',       'auth#logout'                                     ],
+  ['/auth',         'index#empty',      'auth#passportReturn',  'get'   ],
+  ['/auth/failed',  'auth#authFailed',                          'get'   ],
+  ['/auth/sso',     'auth#singleSignOn',                        'get'   ],
+  ['/auth/done',    'auth#done',                                'get'   ],
+  ['/auth/done',    'auth#donePost',                            'post'  ],
+  ['/login',        'auth#login'                                        ],
+  ['/logout',       'auth#logout'                                       ],
 
   /* user management */
   ['/users',      'user#findAll',   'get'     ],

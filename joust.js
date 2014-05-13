@@ -1,6 +1,6 @@
 if (Meteor.isClient) {
-  Meteor.startup(function() {
-    Session.set('errors', []);
+  Accounts.ui.config({
+    passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
 
   Template.hello.greeting = function () {
@@ -12,12 +12,6 @@ if (Meteor.isClient) {
       // template data, if any, is available in 'this'
       if (typeof console !== 'undefined')
         console.log("You pressed the button");
-    }
-  });
-
-  Template.error.helpers({
-    errors: function() {
-      return Session.get('errors');
     }
   });
 }

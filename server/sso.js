@@ -31,12 +31,18 @@ Meteor.methods({
       throw new Meteor.Error(500, 'Nonce not found')
     }
 
+    var user = Meteor.user();
+    console.log(user);
+
+    if (!user.emails || !user.emails[0] || !user.emails[0].address) {
+      throw new Meteor.Error(401, 'Please add an email to your account');
+    }
+
     var newPayload = new Buffer(querystring.stringify({
       'nonce': decodedPayload[1],
-      'external_id': '0',
-      'email': 'test@test.com',
-      'username': 'ausername',
-      'name': 'a real name'
+      'external_id': user._id,
+      'email': user.emails[0].address,
+      'username': user.username || user.profile.name
     }), 'utf8').toString('base64');
 
     // Without recreating causes an error.

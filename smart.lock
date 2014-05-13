@@ -2,24 +2,13 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "accounts-steam": {},
       "bootstrap3-less": {}
     },
     "packages": {
-      "accounts-steam": {
-        "git": "https://github.com/Multiply/meteor-accounts-steam.git",
-        "tag": "v0.0.1",
-        "commit": "29e8b70d047871fc201c475c763e60d87b16ddcc"
-      },
       "bootstrap3-less": {
         "git": "https://github.com/eprochasson/bootstrap3-less",
         "tag": "v0.1.9",
         "commit": "5c812c4d7ce72917a065f0424c3cf54e5ff2d16a"
-      },
-      "steam": {
-        "git": "https://github.com/Multiply/meteor-steam.git",
-        "tag": "v0.0.1",
-        "commit": "54e1d2a4a7870d1d654c0bae87998421a93ad1c4"
       }
     }
   }

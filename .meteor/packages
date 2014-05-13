@@ -6,7 +6,6 @@
 standard-app-packages
 autopublish
 insecure
-accounts-steam
 accounts-base
 accounts-password
 less

@@ -5,8 +5,7 @@ var ssoReturn = function(error, result) {
     return alert.sendDanger(error.reason);
   }
 
-  //window.location.replace('http://discuss.ukgl.org/session/sso_login?' + result);
-  console.log('would redirect');
+  window.location.replace(Meteor.settings.sso.url + '/session/sso_login?' + result);
 };
 
 // Checks the URL for a SSO route.

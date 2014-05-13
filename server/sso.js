@@ -15,7 +15,7 @@ Meteor.methods({
 
     payload = querystring.unescape(payload);
 
-    var hmac = crypto.createHmac('sha256', 'KA7HCMf0ugMs8T4&A9qs#xJx9');
+    var hmac = crypto.createHmac('sha256', Meteor.settings.sso.secret);
     hmac.update(payload);
 
     if (hmac.digest('hex') !== signature) {
@@ -46,7 +46,7 @@ Meteor.methods({
     }), 'utf8').toString('base64');
 
     // Without recreating causes an error.
-    var hmac = crypto.createHmac('sha256', 'KA7HCMf0ugMs8T4&A9qs#xJx9');
+    var hmac = crypto.createHmac('sha256', Meteor.settings.sso.secret);
     hmac.update(newPayload);
 
     return querystring.stringify({

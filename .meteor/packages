@@ -6,3 +6,10 @@
 standard-app-packages
 autopublish
 insecure
+accounts-steam
+accounts-base
+accounts-ui-unstyled
+accounts-password
+less
+bootstrap3-less
+jquery

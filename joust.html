@@ -3,6 +3,8 @@
 </head>
 
 <body>
+  {{> loginButtons}}
+  {{> error}}
   {{> hello}}
 </body>
 
@@ -10,4 +12,10 @@
   <h1>Hello World!</h1>
   {{greeting}}
   <input type="button" value="Click" />
+</template>
+
+<template name="error">
+  {{#each errors}}
+    <div class="alert alert-danger">{{this}}</div>
+  {{/each}}
 </template>

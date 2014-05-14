@@ -18,16 +18,18 @@ Router.map(function() {
   this.route('sso', {
     path: '/sso',
     action: function() {
-  // Only a length check, if they're empty then the auth will just fail.
-  if (!this.params.sso || !this.params.sig) {
-    Deps.autorun(function(c) {
-      if (!Meteor.userId()) {
-        alert.sendWarning('Please sign in');
-        return;
-      }
+      // Only a length check, if they're empty then the auth will just fail.
+      if (!this.params.sso || !this.params.sig) {
+        Deps.autorun(function(c) {
+          if (!Meteor.userId()) {
+            alert.sendWarning('Please sign in');
+            return;
+          }
 
-      c.stop();
-      Meteor.call('ssoValidate', this.params.sso, this.params.sig, ssoReturn);
-    });
-  }
-}})});
+          c.stop();
+          Meteor.call('ssoValidate', this.params.sso, this.params.sig, ssoReturn);
+        });
+      }
+    }
+  });
+});

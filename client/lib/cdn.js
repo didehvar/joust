@@ -11,4 +11,4 @@ var loadCss = function(filename) {
   head.appendChild(style);
 }
 
-loadCss('//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css');
+loadCss('//cdn.jsdelivr.net/fontawesome/4.1.0/css/font-awesome.min.css');

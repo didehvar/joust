@@ -12,4 +12,4 @@ less
 bootstrap3-less
 jquery
 iron-router
-accounts-ui
+accounts-ui-unstyled

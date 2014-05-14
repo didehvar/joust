@@ -1,6 +1,6 @@
 // User helpers, such as to display the current users username.
 
-UI.registerHelper('currentUsername', function() {
+UI.registerHelper('displayName', function() {
   var user = Meteor.user();
   if (user.username) {
     return user.username;

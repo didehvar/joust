@@ -21,29 +21,33 @@
 
           <ul class="nav navbar-nav navbar-right">
             {{#if currentUser}}
-              <li>
-                <div class="btn-group navbar-btn">
-                  <a class="btn btn-primary" href="#">
-                    <i class="fa fa-user fa-fw"></i> Profile
+              {{#if loggingIn}}
+                {{! Optimistic client login. Let's wait for the server!}}
+                <li>
+                  <a>
+                    <i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;
                   </a>
-                  <button class="btn brn-primary dropdown-toggle" data-toggle="dropdown">
-                    <span class="sr-only">Toggle dropdown</span>
-                    <i class="fa fa-caret-down"></i>
-                  </button>
-                  <ul class="dropdown-menu" role="menu">
+                </li>
+              {{else}}
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-user fa-fw"></i> {{displayName}}
+                    <i class="fa fa-caret-down fa-fw"></i>
+                  </a>
+                  <ul class="dropdown-menu">
                     <li>
-                      <a href="#">
-                        <i class="fa fa-pencil fa-fw"></i> Action
+                      <a href="#" id="login-change-password">
+                        <i class="fa fa-wrench fa-fw"></i> Change password
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i class="fa fa-pencil fa-fw"></i> Logout
+                        <i class="fa fa-sign-out fa-fw"></i> Sign out
                       </a>
                     </li>
                   </ul>
-                </div>
-              </li>
+                </li>
+              {{/if}}
             {{else}}
               <li class="{{activeRoute 'signIn'}}">
                 <a href="{{pathFor 'signIn'}}">

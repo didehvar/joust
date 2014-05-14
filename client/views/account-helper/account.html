@@ -1,0 +1,24 @@
+<template name="accountHelper">
+  <!--{{#if changingPassword}}-->
+    {{> accountHelperChangePassword}}
+  <!--{{/if}}-->
+</template>
+
+<template name="accountHelperFormField">
+  <div class="form-group">
+    <label for="{{fieldName}}" class="col-sm-3 control-label">
+      {{fieldLabel}}
+    </label>
+    <div class="col-sm-9">
+      <input type="{{inputType}}" class="form-control" name="{{fieldName}}" id="{{fieldname}}" placeholder="{{fieldLabel}}">
+    </div>
+  </div>
+</template>
+
+<template name="accountHelperChangePassword">
+  <div class="form-horitzontal" role="form">
+    {{#each fields}}
+      {{> accountHelperFormField}}
+    {{/each}}
+  </div>
+</template>

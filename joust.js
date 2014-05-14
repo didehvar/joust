@@ -4,18 +4,18 @@ if (Meteor.isClient) {
   });
 
   Router.map(function() {
-    this.route('hello', { path: '/' });
+    this.route('home', { path: '/' });
   });
 
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });
 
-  Template.hello.greeting = function () {
+  Template.home.greeting = function () {
     return "Welcome to joust.";
   };
 
-  Template.hello.events({
+  Template.home.events({
     'click input': function () {
       // template data, if any, is available in 'this'
       if (typeof console !== 'undefined')

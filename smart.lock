@@ -2,40 +2,13 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "bootstrap3-less": {},
-      "profile": {},
-      "accounts-entry": {}
+      "bootstrap3-less": {}
     },
     "packages": {
       "bootstrap3-less": {
         "git": "https://github.com/eprochasson/bootstrap3-less",
         "tag": "v0.1.9",
         "commit": "5c812c4d7ce72917a065f0424c3cf54e5ff2d16a"
-      },
-      "profile": {
-        "git": "https://github.com/Differential/meteor-profile.git",
-        "tag": "v0.0.10",
-        "commit": "2540cdc76cf5c5fdf6ee0fd0cff1e37c4b1ba519"
-      },
-      "accounts-entry": {
-        "git": "https://github.com/Differential/accounts-entry.git",
-        "tag": "v0.7.3",
-        "commit": "7facaa045d3720eeeba3420c28e48d5709188fe3"
-      },
-      "iron-router": {
-        "git": "https://github.com/EventedMind/iron-router.git",
-        "tag": "v0.7.1",
-        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
-      },
-      "accounts-t9n": {
-        "git": "https://github.com/softwarerero/meteor-accounts-t9n.git",
-        "tag": "v0.0.5",
-        "commit": "ad9539a8818049d5d9fa050d8b2a1f62706483b1"
-      },
-      "blaze-layout": {
-        "git": "https://github.com/EventedMind/blaze-layout.git",
-        "tag": "v0.2.4",
-        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
       }
     }
   }

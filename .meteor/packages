@@ -11,7 +11,5 @@ accounts-password
 less
 bootstrap3-less
 jquery
-profile
 iron-router
-accounts-entry
 accounts-ui

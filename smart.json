@@ -1,7 +1,5 @@
 {
   "packages": {
-    "bootstrap3-less": {},
-    "profile": {},
-    "accounts-entry": {}
+    "bootstrap3-less": {}
   }
 }

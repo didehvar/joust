@@ -1,3 +1,6 @@
+// Setup alert helpers. Used to display alerts to a user. They will appear
+// just below the navigation but above all content.
+
 alerts = new Meteor.Collection(null);
 
 var sendAlert = function(message, style) {
@@ -16,5 +19,9 @@ alert = {
   },
   sendDanger: function(message) {
     sendAlert(message, 'alert-danger');
+  },
+
+  clearAll: function() {
+    alerts.remove({});
   }
 }

@@ -1,0 +1,14 @@
+<head>
+  <title>joust</title>
+</head>
+
+<template name="layout">
+  {{> header}}
+
+  <div class="container">
+    {{> alerts}}
+    {{> yield}}
+  </div>
+
+  {{> footer}}
+</template>

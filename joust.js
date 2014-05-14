@@ -1,4 +1,12 @@
 if (Meteor.isClient) {
+  Router.configure({
+    layoutTemplate: 'layout'
+  });
+
+  Router.map(function() {
+    this.route('hello', { path: '/' });
+  });
+
   Accounts.ui.config({
     passwordSignupFields: 'USERNAME_AND_EMAIL'
   });

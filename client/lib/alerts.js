@@ -18,9 +18,3 @@ alert = {
     sendAlert(message, 'alert-danger');
   }
 }
-
-Template.alerts.helpers({
-  alerts: function() {
-    return alerts.find().fetch();
-  }
-});

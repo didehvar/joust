@@ -4,7 +4,7 @@
 // the server reports no errors.
 var ssoReturn = function(error, result) {
   if (error) {
-    return alert.sendDanger(error.reason);
+    return alert.danger(error.reason);
   }
 
   window.location.replace(Meteor.settings.sso.url + '/session/sso_login?' +
@@ -22,7 +22,7 @@ Router.map(function() {
       if (!this.params.sso || !this.params.sig) {
         Deps.autorun(function(c) {
           if (!Meteor.userId()) {
-            alert.sendWarning('Please sign in');
+            alert.warning('Please sign in');
             return;
           }
 

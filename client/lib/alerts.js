@@ -3,22 +3,43 @@
 
 alerts = new Meteor.Collection(null);
 
-var sendAlert = function(message, style) {
-  alerts.insert({ message: message + '.', style: style, seen: false });
+var sendAlert = function(message, style, identifier, options) {
+  var msg = message + '.';
+  if (alerts.find({ message: msg }).count() === 0) {
+    alerts.insert({
+      // Alert body.
+      message: msg,
+
+      // Added to alert class.
+      style: style,
+
+      // Used for fetching different types of alerts.
+      identifier: identifier || 'general',
+
+      // General options:
+      //   'spinner': true  - adds a fontawesome spinner before message.
+      //   'close': true    - adds close icon.
+      options: options || {},
+    });
+  }
 }
 
 alert = {
-  sendSuccess: function(message) {
-    sendAlert(message, 'alert-success');
+  success: function(message, identifier, options) {
+    sendAlert(message, 'alert-success', identifier, options);
   },
-  sendInfo: function(message) {
-    sendAlert(message, 'alert-info');
+  info: function(message, identifier, options) {
+    sendAlert(message, 'alert-info', identifier, options);
   },
-  sendWarning: function(message) {
-    sendAlert(message, 'alert-warning');
+  warning: function(message, identifier, options) {
+    sendAlert(message, 'alert-warning', identifier, options);
   },
-  sendDanger: function(message) {
-    sendAlert(message, 'alert-danger');
+  danger: function(message, identifier, options) {
+    sendAlert(message, 'alert-danger', identifier, options);
+  },
+
+  clear: function(message) {
+    alerts.remove({ message: message + '.' });
   },
 
   clearAll: function() {

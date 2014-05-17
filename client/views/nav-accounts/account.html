@@ -1,0 +1,166 @@
+<template name="navAccounts">
+  <li class="dropdown {{dropdownOpenClass}}" id="account-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#" id="nav-accounts-dropdown">
+      {{#if loggingIn}}
+        {{! Optimistic client login.}}
+        <li>
+          <a>
+            <i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;
+          </a>
+        </li>
+      {{else}}
+        {{#if currentUser}}
+          <i class="fa fa-user fa-fw"></i> {{displayName}}
+          {{#if dropdownOpen}}
+            <i class="fa fa-caret-up fa-fw"></i>
+          {{else}}
+            <i class="fa fa-caret-down fa-fw"></i>
+          {{/if}}
+        {{else}}
+          Sign in
+          {{#if dropdownOpen}}
+            <i class="fa fa-sign-in fa-rotate-90 fa-fw"></i>
+          {{else}}
+            <i class="fa fa-sign-in fa-fw"></i>
+          {{/if}}
+        {{/if}}
+      {{/if}}
+    </a>
+    <div class="dropdown-menu">
+      {{> navAccountsAlerts}}
+      {{#if currentUser}}
+        {{#if changingPassword}}
+          {{> navAccountsChangePassword}}
+        {{else}}
+          {{#if changingEmail}}
+            {{> navAccountsChangeEmail}}
+          {{else}}
+            <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
+              <i class="fa fa-wrench"></i> Change password
+            </button>
+            <button class="btn btn-default btn-block" id="nav-accounts-sign-out">
+              <i class="fa fa-sign-out"></i> Sign out
+            </button>
+          {{/if}}
+        {{/if}}
+      {{else}}
+        {{> navAccountsServices}}
+      {{/if}}
+    </div>
+  </li>
+</template>
+
+<template name="navAccountsFormField">
+  <div class="form-group">
+    <input type="{{inputType}}" class="form-control" id="{{fieldName}}" placeholder="{{fieldLabel}}">
+  </div>
+</template>
+
+<template name="navAccountsChangePassword">
+  {{#each fields}}
+    {{> navAccountsFormField}}
+  {{/each}}
+
+  <button class="btn btn-primary btn-block" id="nav-accounts-change-password-do">
+    <i class="fa fa-wrench"></i> Change password
+  </button>
+  <button class="btn btn-default btn-block" id="nav-accounts-change-password-close">
+    <i class="fa fa-times"></i> Close
+  </button>
+</template>
+
+<template name="navAccountsChangeEmail">
+  {{#each fields}}
+    {{> navAccountsFormField}}
+  {{/each}}
+
+  <button class="btn btn-primary btn-block" id="nav-accounts-change-email-do">
+    <i class="fa fa-envelope"></i> Change email
+  </button>
+  <button class="btn btn-default btn-block" id="nav-accounts-change-email-close">
+    <i class="fa fa-times"></i> Close
+  </button>
+</template>
+
+<template name="navAccountsServices">
+  {{#each services}}
+    {{#if passwordService}}
+      {{#if otherServices}}
+        {{> navAccountsServicesPasswordSeperator}}
+      {{/if}}
+      {{> navAccountsServicesPassword}}
+    {{else}}
+      {{> navAccountsServicesOther}}
+    {{/if}}
+  {{/each}}
+</template>
+
+<template name="navAccountsServicesPasswordSeperator">
+  <div class="or-line-wrapper">
+    <div class="text-center or-line">&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;</div>
+  </div>
+</template>
+
+<template name="navAccountsServicesPassword">
+  {{#if forgottenPassword}}
+    {{> navAccountsForgotPassword}}
+  {{else}}
+    {{#if signingUp}}
+      {{#each signUpFields}}
+        {{> navAccountsFormField}}
+      {{/each}}
+    {{else}}
+      {{#each signInFields}}
+        {{> navAccountsFormField}}
+      {{/each}}
+    {{/if}}
+
+    <button class="btn btn-primary btn-block" id="nav-accounts-login-do">
+      {{#if signingUp}}
+        <i class="fa fa-magic"></i> Create
+      {{else}}
+        <i class="fa fa-sign-in"></i> Sign in
+      {{/if}}
+    </button>
+    {{#if signingUp}}
+      <button class="btn btn-default btn-block" id="nav-accounts-create-close">
+        <i class="fa fa-times"></i> Close
+      </button>
+    {{/if}}
+    <div class="sign-in-links">
+      <div class="pull-left" id="nav-accounts-login-forgot">
+        <a href="#">Forgot password?</a>
+      </div>
+      <div class="pull-right" id="nav-accounts-login-create">
+        <a href="#">Create account</a>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<template name="navAccountsServicesOther">
+  <div class="nav-accounts-service {{#if configured}}btn btn-info {{else}}configure-button btn btn-danger{{/if}} btn-block" id="nav-accounts-service-{{name}}">
+    <div class="nav-accounts-image" id="login-buttons-image-{{name}}"></div>
+    {{#if configured}}
+      {{#if isSteam}}
+        <i class="fa fa-steam"></i>
+      {{/if}}
+      Sign in with {{capitalizedName}}
+    {{else}}
+      Configure {{capitalizedName}}
+    {{/if}}
+  </div>
+</template>
+
+<template name="navAccountsForgotPassword">
+  {{#each fields}}
+    {{> navAccountsFormField}}
+  {{/each}}
+
+  <button class="btn btn-primary btn-block" id="nav-accounts-forgot-do">
+    <i class="fa fa-refresh"></i> Reset password
+  </button>
+  <button class="btn btn-default btn-block" id="nav-accounts-forgot-close">
+    <i class="fa fa-times"></i> Close
+  </button>
+</template>

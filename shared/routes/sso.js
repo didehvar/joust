@@ -7,7 +7,7 @@ var ssoReturn = function(error, result) {
     return alert.danger(error.reason);
   }
 
-  window.location.replace(Meteor.settings.sso.url + '/session/sso_login?' +
+  window.location.replace(Meteor.settings.public.ssoUrl + '/session/sso_login?' +
     result);
 };
 
@@ -20,16 +20,22 @@ Router.map(function() {
     action: function() {
       // Only a length check, if they're empty then the auth will just fail.
       if (!this.params.sso || !this.params.sig) {
-        Deps.autorun(function(c) {
-          if (!Meteor.userId()) {
-            alert.warning('Please sign in');
-            return;
-          }
-
-          c.stop();
-          Meteor.call('ssoValidate', this.params.sso, this.params.sig, ssoReturn);
-        });
+        return;
       }
+
+      // Can't use this. in deps.autorun ;)
+      var sso = this.params.sso;
+      var sig = this.params.sig;
+
+      Deps.autorun(function(c) {
+        if (!Meteor.userId()) {
+          alert.warning('Please sign in');
+          return;
+        }
+
+        c.stop();
+        Meteor.call('ssoValidate', sso, sig, ssoReturn);
+      });
     }
   });
 });

@@ -1,6 +1,16 @@
+// Clear all session values - reset the dropdown.
+var clearAccountSessions = function() {
+  Session.set('accountChangingPassword', false);
+  Session.set('accountSigningUp', false);
+  Session.set('accountForgotPassword', false);
+  Session.set('accountChangingPassword', false);
+};
+
 // --- Alerts for dropdown --- //
 // --------------------------- //
 
+// Copy the alerts helper and change which alerts it displays.
+Template.__copy__('navAccountsAlerts', 'alerts');
 Template.navAccountsAlerts.helpers({
   alerts: function() {
     return alerts.find({ identifier: /account.*/i }).fetch();
@@ -10,8 +20,12 @@ Template.navAccountsAlerts.helpers({
 // --- Main account dropdown --- //
 // ----------------------------- //
 
-var toggleDropdown = function() {
-  $('#account-dropdown .dropdown-menu').dropdown('toggle');
+Template.navAccounts.rendered = function() {
+  // We don't want the dropdown to close unless we tell it to!
+  $('#account-dropdown').on('hide.bs.dropdown', function(event) {
+    Session.set('accountDropdownVisible', false);
+    return true;
+  });
 };
 
 Template.navAccounts.events({
@@ -23,9 +37,7 @@ Template.navAccounts.events({
 
     // Clear anything that was set on close.
     if (!visible) {
-      Session.set('accountChangingPassword', false);
-      Session.set('accountSigningUp', false);
-      Session.set('accountForgotPassword', false);
+      clearAccountSessions();
     }
   },
 
@@ -34,25 +46,24 @@ Template.navAccounts.events({
     event.stopPropagation();
   },
 
+  // Visit email menu.
+  'click #nav-accounts-change-email': function() {
+    Session.set('accountChangingEmail', true);
+  },
+
   // Visit change password menu on click.
-  'click #nav-accounts-change-password': function(event) {
+  'click #nav-accounts-change-password': function() {
     Session.set('accountChangingPassword', true);
   },
 
   // Sign out on click.
-  'click #nav-accounts-sign-out': function(event) {
+  'click #nav-accounts-sign-out': function() {
     Meteor.logout(function() {
       Session.set('accountDropdownVisible', false);
+      clearAccountSessions();
     });
   }
 });
-
-Template.navAccounts.rendered = function() {
-  // We don't want the dropdown to close unless we tell it to!
-  $('#account-dropdown').on('hide.bs.dropdown', function(event) {
-    return false;
-  });
-};
 
 Template.navAccounts.dropdownOpen = function() {
   return Session.get('accountDropdownVisible') || false;
@@ -65,6 +76,10 @@ Template.navAccounts.dropdownOpenClass = function() {
 Template.navAccounts.changingPassword = function() {
   return Session.get('accountChangingPassword');
 };
+
+Template.navAccounts.changingEmail = function() {
+  return Session.get('accountChangingEmail');
+}
 
 // --- Change password --- //
 // ----------------------- //
@@ -166,27 +181,6 @@ var accountServices = function() {
     return { name: name };
   });
 };
-
-Template.navAccountsServices.services = function() {
-  return accountServices();
-};
-
-Template.navAccountsServices.passwordService = function() {
-  return this.name === 'password';
-};
-
-Template.navAccountsServices.otherServices = function() {
-  return accountServices().length > 1;
-};
-
-var validateEmail = function(email) {
-  var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (!regex.test(email)) {
-    return false;
-  }
-
-  return true;
-}
 
 var signUp = function() {
   alert.clearAll('account-sign-up');
@@ -404,3 +398,65 @@ Template.navAccountsForgotPassword.fields = function() {
     }
   ];
 };
+
+// --- Services --- //
+// ---------------- //
+
+var configureService = function(name) {
+  Session.set('accountServiceDialogVisible', true);
+  Session.set('accountServiceDialogName', name);
+
+  Meteor.setTimeout(function() {
+    $('#nav-dialogs-configure-service').modal('show');
+  }, 250);
+};
+
+Template.navAccountsServices.services = function() {
+  return accountServices();
+};
+
+Template.navAccountsServices.passwordService = function() {
+  return this.name === 'password';
+};
+
+Template.navAccountsServices.otherServices = function() {
+  return accountServices().length > 1;
+};
+
+Template.navAccountsServicesOther.events({
+  'click .nav-accounts-service': function() {
+    alert.clearAll('account-service');
+    var service = this.name;
+
+    Meteor['loginWith' + capitalize(service)](
+      {},
+      function(error) {
+        if (error instanceof Accounts.LoginCancelledError) {
+          return;
+        }
+
+        if (error instanceof Accounts.ConfigError) {
+          return configureService(service);
+        }
+
+        if (error) {
+          return alert.danger(error.reason || 'Unknown error', 'account-service');
+        }
+
+        Session.set('accountDropdownVisible', false);
+      }
+    );
+  }
+});
+
+Template.navAccountsServicesOther.configured = function() {
+  return !!Accounts.loginServiceConfiguration.findOne({ service: this.name });
+}
+
+Template.navAccountsServicesOther.capitalizedName = function() {
+  return capitalize(this.name);
+}
+
+Template.navAccountsServicesOther.isSteam = function() {
+  return this.name === 'steam';
+}

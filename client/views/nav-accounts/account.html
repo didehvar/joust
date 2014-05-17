@@ -1,64 +1,53 @@
 <template name="navAccounts">
-  <!--{{#if currentUser}}-->
-    {{#if loggingIn}}
-      {{! Optimistic client login - lets wait for the server!}}
-      <li>
-        <a>
-          <i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;
-        </a>
-      </li>
-    {{else}}
-      <li class="dropdown {{dropdownOpenClass}}" id="account-dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#" id="nav-accounts-dropdown">
-          {{#if currentUser}}
-            <i class="fa fa-user fa-fw"></i> {{displayName}}
-            {{#if dropdownOpen}}
-              <i class="fa fa-caret-up fa-fw"></i>
-            {{else}}
-              <i class="fa fa-caret-down fa-fw"></i>
-            {{/if}}
+  <li class="dropdown {{dropdownOpenClass}}" id="account-dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-target="#" id="nav-accounts-dropdown">
+      {{#if loggingIn}}
+        {{! Optimistic client login.}}
+        <li>
+          <a>
+            <i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;
+          </a>
+        </li>
+      {{else}}
+        {{#if currentUser}}
+          <i class="fa fa-user fa-fw"></i> {{displayName}}
+          {{#if dropdownOpen}}
+            <i class="fa fa-caret-up fa-fw"></i>
           {{else}}
-            Sign in
-            {{#if dropdownOpen}}
-              <i class="fa fa-sign-in fa-rotate-90 fa-fw"></i>
-            {{else}}
-              <i class="fa fa-sign-in fa-fw"></i>
-            {{/if}}
+            <i class="fa fa-caret-down fa-fw"></i>
           {{/if}}
-        </a>
-        <div class="dropdown-menu">
-          {{> navAccountsAlerts}}
-          {{#if currentUser}}
-            {{#if changingPassword}}
-              {{> navAccountsChangePassword}}
-            {{else}}
-              <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
-                <i class="fa fa-wrench"></i> Change password
-              </button>
-              <button class="btn btn-default btn-block" id="nav-accounts-sign-out">
-                <i class="fa fa-sign-out"></i> Sign out
-              </button>
-            {{/if}}
+        {{else}}
+          Sign in
+          {{#if dropdownOpen}}
+            <i class="fa fa-sign-in fa-rotate-90 fa-fw"></i>
           {{else}}
-            {{> navAccountsServices}}
+            <i class="fa fa-sign-in fa-fw"></i>
           {{/if}}
-        </div>
-      </li>
-    {{/if}}
-</template>
-
-<template name="navAccountsAlerts">
-  {{#each alerts}}
-    <div class="alert {{style}} alert-dismissable">
-      {{#if options.close}}
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{/if}}
       {{/if}}
-      {{#if options.spinner}}
-        <i class="fa fa-circle-o-notch fa-spin"></i>
+    </a>
+    <div class="dropdown-menu">
+      {{> navAccountsAlerts}}
+      {{#if currentUser}}
+        {{#if changingPassword}}
+          {{> navAccountsChangePassword}}
+        {{else}}
+          {{#if changingEmail}}
+            {{> navAccountsChangeEmail}}
+          {{else}}
+            <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
+              <i class="fa fa-wrench"></i> Change password
+            </button>
+            <button class="btn btn-default btn-block" id="nav-accounts-sign-out">
+              <i class="fa fa-sign-out"></i> Sign out
+            </button>
+          {{/if}}
+        {{/if}}
+      {{else}}
+        {{> navAccountsServices}}
       {{/if}}
-      {{message}}
     </div>
-  {{/each}}
+  </li>
 </template>
 
 <template name="navAccountsFormField">
@@ -80,6 +69,19 @@
   </button>
 </template>
 
+<template name="navAccountsChangeEmail">
+  {{#each fields}}
+    {{> navAccountsFormField}}
+  {{/each}}
+
+  <button class="btn btn-primary btn-block" id="nav-accounts-change-email-do">
+    <i class="fa fa-envelope"></i> Change email
+  </button>
+  <button class="btn btn-default btn-block" id="nav-accounts-change-email-close">
+    <i class="fa fa-times"></i> Close
+  </button>
+</template>
+
 <template name="navAccountsServices">
   {{#each services}}
     {{#if passwordService}}
@@ -94,8 +96,8 @@
 </template>
 
 <template name="navAccountsServicesPasswordSeperator">
-  <div class="text-center">
-    or
+  <div class="or-line-wrapper">
+    <div class="text-center or-line">&nbsp;&nbsp;&nbsp;or&nbsp;&nbsp;&nbsp;</div>
   </div>
 </template>
 
@@ -137,7 +139,17 @@
 </template>
 
 <template name="navAccountsServicesOther">
-  other service
+  <div class="nav-accounts-service {{#if configured}}btn btn-info {{else}}configure-button btn btn-danger{{/if}} btn-block" id="nav-accounts-service-{{name}}">
+    <div class="nav-accounts-image" id="login-buttons-image-{{name}}"></div>
+    {{#if configured}}
+      {{#if isSteam}}
+        <i class="fa fa-steam"></i>
+      {{/if}}
+      Sign in with {{capitalizedName}}
+    {{else}}
+      Configure {{capitalizedName}}
+    {{/if}}
+  </div>
 </template>
 
 <template name="navAccountsForgotPassword">

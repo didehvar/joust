@@ -1,6 +1,6 @@
 // User management routes.
 
-Router.map(function() {
+/*Router.map(function() {
   this.route('signIn', {
     path: '/sign-in',
     action: function() {
@@ -14,4 +14,4 @@ Router.map(function() {
 
     }
   });
-});
+});*/

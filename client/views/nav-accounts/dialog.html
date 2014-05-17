@@ -1,7 +1,22 @@
 <template name="navDialogs">
   <div class="nav-dialogs">
     {{> navDialogsResetPassword}}
+    {{> navDialogsConfigureService}}
   </div>
+</template>
+
+<template name="navDialogsAlerts">
+  {{#each alerts}}
+    <div class="alert {{style}} alert-dismissable">
+      {{#if options.close}}
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      {{/if}}
+      {{#if options.spinner}}
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+      {{/if}}
+      {{message}}
+    </div>
+  {{/each}}
 </template>
 
 <template name="navDialogsResetPassword">
@@ -27,16 +42,39 @@
   {{/if}}
 </template>
 
-<template name="navDialogsAlerts">
-  {{#each alerts}}
-    <div class="alert {{style}} alert-dismissable">
-      {{#if options.close}}
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      {{/if}}
-      {{#if options.spinner}}
-        <i class="fa fa-circle-o-notch fa-spin"></i>
-      {{/if}}
-      {{message}}
+<template name="navDialogsConfigureService">
+  {{#if visible}}
+    <div class="modal" id="nav-dialogs-configure-service">
+      <div class="modal-dialog" id="nav-dialogs-configure-service">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Configure login service</h4>
+          </div>
+          <div class="modal-body">
+            {{> navDialogsAlerts}}
+            {{> configurationSteps}}
+            <table class="table">
+              <tbody>
+                {{#each configurationFields}}
+                  <tr>
+                    <td>
+                      <label for="configure-service-{{property}}">{{label}}</label>
+                    </td>
+                    <td>
+                      <input type="text" id="configure-service-{{property}}">
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="configure-service-close">No thanks</button>
+            <button type="button" class="btn btn-primary" id="configure-service-do">Save configuration</button>
+          </div>
+        </div>
+      </div>
     </div>
-  {{/each}}
+  {{/if}}
 </template>

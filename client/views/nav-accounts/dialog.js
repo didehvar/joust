@@ -71,3 +71,58 @@ var resetPassword = function() {
     }
   )
 }
+
+// --- Service configuration --- //
+// ----------------------------- //
+
+var configureLoginServiceDialogTemplateForService = function() {
+  var service = Session.get('accountServiceDialogName');
+  return Template['configureLoginServiceDialogFor' + capitalize(service)];
+};
+
+var configurationFields = function() {
+  var template = configureLoginServiceDialogTemplateForService();
+  return template.fields();
+};
+
+Template.navDialogsConfigureService.events({
+  'click #configure-service-close': function() {
+    Session.set('accountServiceDialogVisible', false);
+  },
+
+  'click #configure-service-do': function() {
+    if (!Session.get('accountServiceDialogVisible')) {
+      return;
+    }
+
+    var service = Session.get('accountServiceDialogName');
+    var configuration = {
+      service: service
+    };
+
+    _.each(configurationFields(), function(field) {
+      configuration[field.property] = trimmedElementValueById('configure-service-' + field.property);
+    });
+
+    Meteor.call('configureLoginService', configuration, function(error, result) {
+      if (error) {
+        return Meteor._debug('Error configuring login service ' + service, error);
+      }
+
+      Session.set('accountServiceDialogVisible', false);
+      $('#nav-dialogs-configure-service').modal('hide');
+    });
+  }
+});
+
+Template.navDialogsConfigureService.configurationFields = function() {
+  return configurationFields();
+}
+
+Template.navDialogsConfigureService.visible = function() {
+  return Session.get('accountServiceDialogVisible');
+}
+
+Template.navDialogsConfigureService.configurationSteps = function() {
+  return configureLoginServiceDialogTemplateForService();
+}

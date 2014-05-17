@@ -1,3 +1,5 @@
+@import '/client/views/index.import.less';
+
 #account-dropdown {
   a {
     cursor: pointer;
@@ -26,5 +28,26 @@
 
   .sign-in-links {
     margin-top: 10px;
+  }
+
+  .or-line {
+    height: 0.8em;
+    border-bottom: 1px solid @brand-primary;
+    margin-bottom: 0.5em;
+  }
+
+  .or-line:first-line {
+    background-color: white;
+  }
+
+  .or-line-wrapper {
+    margin-top: 4px;
+    margin-bottom: 15px;
+  }
+
+  #nav-accounts-service-steam {
+    /*background: url('/images/site_small.png') no-repeat center;*/
+    background-color: #80af3a;
+    border-color: #85b63c;
   }
 }

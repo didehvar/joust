@@ -19,6 +19,7 @@ var sendAlert = function(message, style, identifier, options) {
       // General options:
       //   'spinner': true  - adds a fontawesome spinner before message.
       //   'close': true    - adds close icon.
+      //   'warning': true  - adds a fontawesome warning icon.
       options: options || {},
     });
   }

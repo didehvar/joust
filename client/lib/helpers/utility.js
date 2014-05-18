@@ -11,3 +11,7 @@ validateEmail = function(email) {
 
   return true;
 }
+
+trim = function(str) {
+  return str.replace(/^\s*|\s*$/g, '');
+}

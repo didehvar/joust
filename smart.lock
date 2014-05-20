@@ -5,7 +5,8 @@
       "bootstrap3-less": {},
       "fast-render": {},
       "accounts-steam": {},
-      "copy-template": {}
+      "copy-template": {},
+      "roles": {}
     },
     "packages": {
       "bootstrap3-less": {
@@ -27,6 +28,11 @@
         "git": "https://github.com/apendua/meteor-copy-template.git",
         "tag": "v0.0.2",
         "commit": "69e84e0179d2bd983641c2cda25de54136db4f87"
+      },
+      "roles": {
+        "git": "https://github.com/alanning/meteor-roles.git",
+        "tag": "v1.2.9",
+        "commit": "969b17fac5dfec66b6b12bfce4e37471d1a241d4"
       },
       "steam": {
         "git": "https://github.com/Multiply/meteor-steam.git",

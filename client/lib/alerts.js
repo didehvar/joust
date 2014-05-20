@@ -43,7 +43,14 @@ alert = {
     alerts.remove({ message: message + '.' });
   },
 
-  clearAll: function() {
+  // Remove all alerts with a matching identifier.
+  // Specify no identifier to clear all alerts.
+  clearAll: function(identifier) {
+    if (identifier) {
+      alerts.remove({ identifier: identifier });
+      return;
+    }
+
     alerts.remove({});
   }
 }

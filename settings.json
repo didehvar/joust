@@ -2,5 +2,9 @@
   "public": {
     "ssoUrl": ""
   },
-  "ssoSecret": ""
+  "ssoSecret": "",
+  "kadira": {
+    "appId": "",
+    "appSecret": ""
+  }
 }

@@ -82,9 +82,9 @@ Template.navAccounts.changingEmail = function() {
 }
 
 Template.navAccounts.hasPassword = function() {
-  // A bit hacky, but as far as I'm aware services don't set the username
-  // property.
-  return Meteor.user().hasOwnProperty('username');
+  // Will need updating if any other services are added, I think, unless
+  // all services set the profile property?
+  return Meteor.user().hasOwnProperty('profile');
 }
 
 // --- Change password --- //

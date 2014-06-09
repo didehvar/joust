@@ -1,7 +1,8 @@
 Accounts.onCreateUser(function(options, user) {
   // Is elf!
   Meteor.setTimeout(function() {
-    if (user.services.steam.id === '76561197997330921') {
+    if (user && user.services && user.services.steam &&
+        user.services.steam.id === '76561197997330921') {
     	console.log('setting role: ' + user._id);
     	Roles.addUsersToRoles(user._id, 'admin');
   	}

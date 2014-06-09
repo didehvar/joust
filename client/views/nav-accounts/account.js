@@ -172,8 +172,8 @@ Template.navAccountsChangePassword.fields = function() {
   ];
 };
 
-// --- Sign in services --- //
-// ------------------------ //
+// --- Sign in/up services --- //
+// --------------------------- //
 
 var accountServices = function() {
   var services = Package['accounts-oauth'] ? Accounts.oauth.serviceNames() : [];

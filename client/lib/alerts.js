@@ -4,7 +4,13 @@
 alerts = new Meteor.Collection(null);
 
 var sendAlert = function(message, style, identifier, options) {
-  var msg = message + '.';
+  var msg = message;
+
+  // Add full stop to end of message if not present.
+  if (msg.indexOf('.', msg.length - 1) === -1) {
+    msg = msg + '.';
+  }
+
   if (alerts.find({ message: msg }).count() === 0) {
     alerts.insert({
       // Alert body.

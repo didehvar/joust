@@ -84,7 +84,7 @@ Template.navAccounts.changingEmail = function() {
 Template.navAccounts.hasPassword = function() {
   // Will need updating if any other services are added, I think, unless
   // all services set the profile property?
-  return Meteor.user().hasOwnProperty('profile');
+  return !Meteor.user().hasOwnProperty('profile');
 }
 
 // --- Change password --- //

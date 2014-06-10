@@ -3,9 +3,5 @@ Template.userProfile.userExists = function() {
 }
 
 Template.userProfileHeader.avatar = function() {
-	if (!this.services || !this.services.steam || !this.services.steam.avatar ) {
-		return false;
-	}
-
-	return this.services.steam.avatar.full;
+	return this.avatar.large;
 }

@@ -1,0 +1,21 @@
+<template name="news">
+  <h1>Latest News</h1>
+  {{#each posts}}
+    <span>Let's go topico!</span>
+    {{> newsPost}}
+  {{/each}}
+</template>
+
+<template name="newsPost">
+  <span>I'm a topic</span>
+  <div class="row">
+    <div class="col-sm-12">
+      <!--<h2>{{title}}</h2>
+      {{content}}-->
+      <h2 class="news-title"></h2>
+      <div class="news-content">
+
+      </div>
+    </div>
+  </div>
+</template>

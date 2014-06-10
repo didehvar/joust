@@ -29,6 +29,10 @@ Meteor.methods({
 	},
 
 	// Fetches the first post from a discourse topic.
+	//
+	// Topic title is optional, but can be extremely useful to provide as the post
+	// doesn't provide its topic title. The topic title is simply inserted into
+	// the returned object as .title.
 	'discourseGetPost': function(topicId, topicSlug, topicTitle) {
 		var result = HTTP.get(
 			Meteor.settings.public.ssoUrl + '/t/' + topicSlug + '/' + topicId +
@@ -51,7 +55,7 @@ Meteor.methods({
 
 		// Add topic title to post.
 		var ret = result.data.post_stream.posts[0];
-		ret.title = topicTitle;
+		ret.title = topicTitle || '';
 
 		return ret;
 	}

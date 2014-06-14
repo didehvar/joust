@@ -24,7 +24,12 @@ Template.newsPost.created = function() {
       return console.log(error);
     }
 
-    $('.news-post-' + result.topic_id + ' .news-title').html(result.title);
+    $('.news-post-' + result.topic_id + ' .news-title').html(
+      '<a href="' + Meteor.settings.public.ssoUrl + '/t/' + result.topic_slug +
+      '/' + result.topic_id + '">"' +
+        result.title +
+      '</a>'
+    );
     $('.news-post-' + result.topic_id + ' .news-content').html(result.cooked);
   });
 }

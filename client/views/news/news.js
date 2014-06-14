@@ -4,6 +4,7 @@ Template.news.created = function() {
       return Session.set('discourseNews', error);
     }
 
+    console.log('set news');
     return Session.set('discourseNews', result);
   });
 };
@@ -23,7 +24,15 @@ Template.newsPost.created = function() {
       return console.log(error);
     }
 
-    $('.news-title').html(result.title);
-    $('.news-content').html(result.cooked);
+    $('.news-post-' + result.topic_id + ' .news-title').html(result.title);
+    $('.news-post-' + result.topic_id + ' .news-content').html(result.cooked);
   });
+}
+
+Template.newsPost.id = function() {
+  if (!this || !this.id) {
+    return console.log('id missing');
+  }
+
+  return this.id;
 }

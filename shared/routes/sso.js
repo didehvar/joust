@@ -7,7 +7,7 @@ var ssoReturn = function(error, result) {
     return alert.danger(error.reason);
   }
 
-  window.location.replace(Meteor.settings.public.ssoUrl + '/session/sso_login?' +
+  window.location.replace(Meteor.settings.public.discourseUrl + '/session/sso_login?' +
     result);
 };
 

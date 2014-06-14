@@ -11,10 +11,10 @@ less
 bootstrap3-less
 jquery
 iron-router
-fast-render
 accounts-steam
 copy-template
 roles
 kadira
 http
 moment
+fast-render

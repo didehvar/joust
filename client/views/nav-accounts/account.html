@@ -35,6 +35,9 @@
           {{#if changingEmail}}
             {{> navAccountsChangeEmail}}
           {{else}}
+            <a href="/user/{{displayName}}" class="btn btn-info btn-block" id="nav-accounts-view-profile">
+              <i class="fa fa-user"></i> View profile
+            </a>
             {{#if hasPassword}}
               <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
                 <i class="fa fa-wrench"></i> Change password

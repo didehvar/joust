@@ -7,7 +7,8 @@
       "accounts-steam": {},
       "copy-template": {},
       "roles": {},
-      "kadira": {}
+      "kadira": {},
+      "moment": {}
     },
     "packages": {
       "bootstrap3-less": {
@@ -17,8 +18,8 @@
       },
       "fast-render": {
         "git": "https://github.com/arunoda/meteor-fast-render.git",
-        "tag": "v0.2.6",
-        "commit": "6ff59e07dc5ec9cd2f5d334ff95ff181d86965b5"
+        "tag": "v0.2.8",
+        "commit": "149984b1aff3a5642a270aff9bd9006872c8302e"
       },
       "accounts-steam": {
         "git": "https://github.com/Multiply/meteor-accounts-steam.git",
@@ -37,8 +38,13 @@
       },
       "kadira": {
         "git": "https://github.com/meteorhacks/kadira.git",
-        "tag": "v2.1.5",
-        "commit": "1d33f51a7228fc430fb1823276fcfeeb6f251255"
+        "tag": "v2.2.0",
+        "commit": "0f0f6b90a80f2be3980154977fe19f84cc535cf8"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.6.0",
+        "commit": "26156df681750fd6e6ed77043eef32b6653ebbdf"
       },
       "steam": {
         "git": "https://github.com/Multiply/meteor-steam.git",

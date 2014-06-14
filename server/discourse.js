@@ -24,8 +24,12 @@ Meteor.methods({
 			}
 		}
 
+		var topics = _.sortBy(result.data.topic_list.topics, function(data) {
+			return moment(data.created_at).unix();
+		});
+
 		// Array of topics.
-		return result.data.topic_list.topics.slice(0, 5);
+		return topics.reverse().slice(0, 5);
 	},
 
 	// Fetches the first post from a discourse topic.

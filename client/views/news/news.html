@@ -1,14 +1,14 @@
 <template name="news">
-  <h1>Latest News</h1>
   {{#each posts}}
     {{> newsPost}}
+    <hr>
   {{/each}}
 </template>
 
 <template name="newsPost">
   <div class="row news-post-{{id}}">
     <div class="col-sm-12">
-      <h2 class="news-title"></h2>
+      <h1 class="news-title"></h1>
       <div class="news-content">
 
       </div>

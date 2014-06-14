@@ -1,7 +1,7 @@
 Meteor.methods({
 	// Fetches all discourse topics in the news category.
 	'discourseGetNews': function() {
-		var result = HTTP.get(Meteor.settings.public.ssoUrl + '/category/news.json');
+		var result = HTTP.get(Meteor.settings.public.discourseUrl + '/category/news.json');
 
 		if (!result || result.statusCode !== 200) {
 			return { error: error || 'URL not found' };
@@ -39,7 +39,7 @@ Meteor.methods({
 	// the returned object as .title.
 	'discourseGetPost': function(topicId, topicSlug, topicTitle) {
 		var result = HTTP.get(
-			Meteor.settings.public.ssoUrl + '/t/' + topicSlug + '/' + topicId +
+			Meteor.settings.public.discourseUrl + '/t/' + topicSlug + '/' + topicId +
 			'.json'
 		);
 

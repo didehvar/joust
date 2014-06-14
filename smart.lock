@@ -3,22 +3,18 @@
   "dependencies": {
     "basePackages": {
       "bootstrap3-less": {},
-      "fast-render": {},
       "accounts-steam": {},
       "copy-template": {},
       "roles": {},
-      "kadira": {}
+      "kadira": {},
+      "iron-router": {},
+      "fast-render": {}
     },
     "packages": {
       "bootstrap3-less": {
         "git": "https://github.com/eprochasson/bootstrap3-less",
         "tag": "v0.1.9",
         "commit": "5c812c4d7ce72917a065f0424c3cf54e5ff2d16a"
-      },
-      "fast-render": {
-        "git": "https://github.com/arunoda/meteor-fast-render.git",
-        "tag": "v0.2.6",
-        "commit": "6ff59e07dc5ec9cd2f5d334ff95ff181d86965b5"
       },
       "accounts-steam": {
         "git": "https://github.com/Multiply/meteor-accounts-steam.git",
@@ -37,13 +33,28 @@
       },
       "kadira": {
         "git": "https://github.com/meteorhacks/kadira.git",
-        "tag": "v2.1.5",
-        "commit": "1d33f51a7228fc430fb1823276fcfeeb6f251255"
+        "tag": "v2.2.0",
+        "commit": "0f0f6b90a80f2be3980154977fe19f84cc535cf8"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.7.1",
+        "commit": "d1ffb3f06ea4c112132b030f2eb1a70b81675ecb"
+      },
+      "fast-render": {
+        "git": "https://github.com/arunoda/meteor-fast-render.git",
+        "tag": "v0.2.8",
+        "commit": "149984b1aff3a5642a270aff9bd9006872c8302e"
       },
       "steam": {
         "git": "https://github.com/Multiply/meteor-steam.git",
         "tag": "v0.0.1",
         "commit": "54e1d2a4a7870d1d654c0bae87998421a93ad1c4"
+      },
+      "blaze-layout": {
+        "git": "https://github.com/EventedMind/blaze-layout.git",
+        "tag": "v0.2.4",
+        "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
       }
     }
   }

@@ -15,4 +15,6 @@ accounts-steam
 copy-template
 roles
 kadira
+http
+moment
 fast-render

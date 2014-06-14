@@ -1,0 +1,17 @@
+<template name="news">
+  {{#each posts}}
+    {{> newsPost}}
+    <hr>
+  {{/each}}
+</template>
+
+<template name="newsPost">
+  <div class="row news-post-{{id}}">
+    <div class="col-sm-12">
+      <h1 class="news-title"></h1>
+      <div class="news-content">
+
+      </div>
+    </div>
+  </div>
+</template>

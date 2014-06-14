@@ -15,9 +15,7 @@ Accounts.onCreateUser(function(options, user) {
 
   // Convert a steam name into a username.
   if (options.profile && options.profile.name) {
-    console.log('START USERNAME');
     var username = options.profile.name;
-    console.log(username);
     var inc = 1;
 
     while (Meteor.users.find({ username: username }).count() > 0) {
@@ -26,8 +24,6 @@ Accounts.onCreateUser(function(options, user) {
 
     // No users exist with this username, give it to this user.
     user.username = username;
-    console.log(user.username);
-    console.log('FINISH USERNAME');
   }
 
   // Set a default avatar if one doesn't exist.
@@ -56,6 +52,5 @@ Accounts.onCreateUser(function(options, user) {
     user.avatar = avatar;
   }
 
-  console.log(user);
   return user;
 });

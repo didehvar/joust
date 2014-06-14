@@ -29,7 +29,7 @@ Meteor.methods({
 		});
 
 		// Array of topics.
-		return topics.reverse().slice(0, 5);
+		return topics.reverse().slice(0, Meteor.settings.newsPosts);
 	},
 
 	// Fetches the first post from a discourse topic.

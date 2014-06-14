@@ -3,6 +3,7 @@
     "ssoUrl": ""
   },
   "ssoSecret": "",
+  "newsPosts": "",
   "kadira": {
     "appId": "",
     "appSecret": ""

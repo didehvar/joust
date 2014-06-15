@@ -25,7 +25,7 @@ Template.newsPost.created = function() {
     }
 
     $('.news-post-' + result.topic_id + ' .news-title').html(
-      '<a href="' + Meteor.settings.public.ssoUrl + '/t/' + result.topic_slug +
+      '<a href="' + Meteor.settings.public.discourseUrl + '/t/' + result.topic_slug +
       '/' + result.topic_id + '">' +
         result.title +
       '</a>'

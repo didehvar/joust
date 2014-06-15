@@ -43,10 +43,22 @@ Accounts.onCreateUser(function(options, user) {
         avatar.small = user.services.steam.avatar.medium;
       }
     } else {
-      // Default placeholder avatars.
-      avatar.large = 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/b5/b599127509772f2125568318a38f24e64881de61_full.jpg';
-      avatar.medium = 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/b5/b599127509772f2125568318a38f24e64881de61_medium.jpg';
-      avatar.small = 'http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/b5/b599127509772f2125568318a38f24e64881de61.jpg';
+      if (user.emails && user.emails.length > 0) {
+        // Fetch gravatar avatars (if an email is set).
+        var email = user.emails[0].address.trim().toLowerCase();
+        var md5 = Npm.require('crypto').
+            createHash('md5').update(email).digest('hex');
+
+        email = 'https://secure.gravatar.com/avatar/' + md5 + '?d=identicon';
+
+        avatar.large = email + '&s=184';
+        avatar.medium = email + '&s=64';
+        avatar.small = email + '&s=32';
+      } else {
+        avatar.large = '';
+        avatar.medium = '';
+        avatar.small = '';
+      }
     }
 
     user.avatar = avatar;

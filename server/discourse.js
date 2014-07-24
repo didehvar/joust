@@ -4,16 +4,16 @@ Meteor.methods({
 		var result = HTTP.get(Meteor.settings.public.ssoUrl + '/category/news.json');
 
 		if (!result || result.statusCode !== 200) {
-			return { error: error || 'URL not found' };
+			throw new Meteor.Error(404, 'URL not found');
 		}
 
 		if (!result.data || !result.data.topic_list) {
-			return { title: 'No topic lists found' };
+			throw new Meteor.Error(404, 'No topic lists found');
 		}
 
 		if (!result.data.topic_list.topics ||
 				result.data.topic_list.topics.length === 0) {
-			return { title: 'No topics found' };
+			throw new Meteor.Error(404, 'No topics found');
 		}
 
 		// Remove pinned topics.

@@ -1,7 +1,9 @@
 Template.news.created = function() {
+  Session.set('discourseNews', ['Loading latest news...']);
+
   Meteor.call('discourseGetNews', function(error, result) {
     if (error) {
-      return Session.set('discourseNews', error);
+      return alert.danger('Unable to laod news - ' + error);
     }
 
     return Session.set('discourseNews', result);

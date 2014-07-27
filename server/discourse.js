@@ -1,7 +1,10 @@
 Meteor.methods({
 	// Fetches all discourse topics in the news category.
 	'discourseGetNews': function() {
-		var result = HTTP.get(Meteor.settings.public.ssoUrl + '/category/news.json');
+		var result = HTTP.get(
+			Meteor.settings.public.ssoUrl + '/category/news.json',
+			{ timeout: 3000 }
+		);
 
 		if (!result || result.statusCode !== 200) {
 			throw new Meteor.Error(404, 'URL not found');

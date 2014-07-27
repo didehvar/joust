@@ -6,6 +6,7 @@ Template.news.created = function() {
       return alert.danger('Unable to laod news - ' + error);
     }
 
+    console.log('set news');
     return Session.set('discourseNews', result);
   });
 };
@@ -25,7 +26,20 @@ Template.newsPost.created = function() {
       return console.log(error);
     }
 
-    $('.news-title').html(result.title);
-    $('.news-content').html(result.cooked);
+    $('.news-post-' + result.topic_id + ' .news-title').html(
+      '<a href="' + Meteor.settings.public.discourseUrl + '/t/' + result.topic_slug +
+      '/' + result.topic_id + '">' +
+        result.title +
+      '</a>'
+    );
+    $('.news-post-' + result.topic_id + ' .news-content').html(result.cooked);
   });
+}
+
+Template.newsPost.id = function() {
+  if (!this || !this.id) {
+    return console.log('id missing');
+  }
+
+  return this.id;
 }

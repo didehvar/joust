@@ -1,8 +1,9 @@
 {
   "public": {
-    "ssoUrl": ""
+    "discourseUrl": ""
   },
   "ssoSecret": "",
+  "newsPosts": "",
   "kadira": {
     "appId": "",
     "appSecret": ""

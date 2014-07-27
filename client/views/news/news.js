@@ -6,7 +6,6 @@ Template.news.created = function() {
       return alert.danger('Unable to laod news - ' + error);
     }
 
-    console.log('set news');
     return Session.set('discourseNews', result);
   });
 };

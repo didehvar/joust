@@ -5,7 +5,7 @@
     "copy-template": {},
     "roles": {},
     "kadira": {},
-    "moment": {}
+    "moment": {},
     "iron-router": {},
     "fast-render": {}
   }

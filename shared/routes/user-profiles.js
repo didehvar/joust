@@ -10,7 +10,6 @@ Router.map(function() {
 		},
 
 		data: function() {
-			console.log(Meteor.users.find({}).fetch());
 			return Meteor.users.findOne({ username: this.params.username });
 		}
 	});

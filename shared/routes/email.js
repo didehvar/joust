@@ -4,6 +4,10 @@ Router.onBeforeAction(function(pause) {
     return;
   }
 
-  this.render('emailRequired');
+  this.render('addEmail');
   return pause();
+});
+
+Router.map(function() {
+  this.route('addEmail', { path: '/email/new' });
 });

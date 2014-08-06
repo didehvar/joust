@@ -31,23 +31,33 @@
       {{#if currentUser}}
         {{#if changingPassword}}
           {{> navAccountsChangePassword}}
+        {{else}} {{#if changingEmail}}
+          {{> navAccountsChangeEmail}}
+        {{else}} {{#if verifyingEmail}}
+          {{> navAccountsUnverifiedEmails}}
         {{else}}
-          {{#if changingEmail}}
-            {{> navAccountsChangeEmail}}
-          {{else}}
-            <a href="/user/{{displayName}}" class="btn btn-info btn-block" id="nav-accounts-view-profile">
-              <i class="fa fa-user"></i> View profile
-            </a>
-            {{#if hasPassword}}
-              <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
-                <i class="fa fa-wrench"></i> Change password
-              </button>
-            {{/if}}
-            <button class="btn btn-default btn-block" id="nav-accounts-sign-out">
-              <i class="fa fa-sign-out"></i> Sign out
+          <a href="/user/{{displayName}}" class="btn btn-info btn-block" id="nav-accounts-view-profile">
+            <i class="fa fa-user"></i> View profile
+          </a>
+          {{#if uniUnconfirmed}}
+            <button class="btn btn-primary btn-block" id="nav-accounts-uni-email">
+              <i class="fa fa-university"></i> Confirm university
             </button>
           {{/if}}
-        {{/if}}
+          {{#if emailUnverified}}
+            <button class="btn btn-primary btn-block" id="nav-accounts-verify-email">
+              <i class="fa fa-envelope"></i> Resend verification email
+            </button>
+          {{/if}}
+          {{#if hasPassword}}
+            <button class="btn btn-primary btn-block" id="nav-accounts-change-password">
+              <i class="fa fa-wrench"></i> Change password
+            </button>
+          {{/if}}
+          <button class="btn btn-default btn-block" id="nav-accounts-sign-out">
+            <i class="fa fa-sign-out"></i> Sign out
+          </button>
+        {{/if}}{{/if}}{{/if}}
       {{else}}
         {{> navAccountsServices}}
       {{/if}}
@@ -167,5 +177,20 @@
   </button>
   <button class="btn btn-default btn-block" id="nav-accounts-forgot-close">
     <i class="fa fa-times"></i> Close
+  </button>
+</template>
+
+<template name="navAccountsUnverifiedEmails">
+  {{#each unverifiedEmails}}
+    {{> navAccountsUnverifiedEmailAddress}}
+  {{/each}}
+  <button class="btn btn-default btn-block" id="nav-accounts-unverified-close">
+    <i class="fa fa-times"></i> Close
+  </button>
+</template>
+
+<template name="navAccountsUnverifiedEmailAddress">
+  <button class="btn btn-warning btn-block" id="nav-accounts-email-verify">
+    <i class="fa fa-mail-reply"></i> {{address}}
   </button>
 </template>

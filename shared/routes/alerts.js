@@ -1,4 +1,4 @@
 // Clear all alerts when a route changes.
-Router.onBeforeAction(function() {
+Router.onRun(function() {
   alert.clearAll();
 });

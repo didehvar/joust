@@ -4,6 +4,7 @@ var clearAccountSessions = function() {
   Session.set('accountSigningUp', false);
   Session.set('accountForgotPassword', false);
   Session.set('accountChangingPassword', false);
+  Session.set('accountUnverifiedEmails', false);
 };
 
 // --- Alerts for dropdown --- //
@@ -19,6 +20,17 @@ Template.navAccountsAlerts.helpers({
 
 // --- Main account dropdown --- //
 // ----------------------------- //
+
+// Template.navAccounts.created = function() {
+//   Meteor.call('confirmUniEmail', function(error, result) {
+//     if (error) {
+//       console.log(error);
+//       return alert.danger(error.reason || 'Unknown error', 'account');
+//     }
+//
+//     Session.set('uniEmailConfirmed', result);
+//   });
+// }
 
 Template.navAccounts.rendered = function() {
   // We don't want the dropdown to close unless we tell it to!
@@ -62,6 +74,18 @@ Template.navAccounts.events({
       Session.set('accountDropdownVisible', false);
       clearAccountSessions();
     });
+  },
+
+  // Redirect to add email page.
+  'click #nav-accounts-uni-email': function() {
+    Session.set('addEmailDescription', 'Please enter your .ac.uk email');
+    Session.set('addUniEmail', true);
+
+    Router.go('addEmail');
+  },
+
+  'click #nav-accounts-verify-email': function() {
+    Session.set('accountUnverifiedEmails', true);
   }
 });
 
@@ -85,6 +109,27 @@ Template.navAccounts.hasPassword = function() {
   // Will need updating if any other services are added, I think, unless
   // all services set the profile property?
   return Meteor.user() && !Meteor.user().hasOwnProperty('profile');
+}
+
+Template.navAccounts.uniUnconfirmed = function() {
+  return Meteor.user() && !_.find(Meteor.user().emails, function(element) {
+    var email = element.address;
+    return email.substr(email.length - 6) === '.ac.uk';
+  });
+
+  // return Session.get('uniEmailConfirmed');
+}
+
+Template.navAccounts.emailUnverified = function() {
+  if (!Meteor.user()) {
+    return false;
+  }
+
+  return _.findWhere(Meteor.user().emails, { verified: false });
+}
+
+Template.navAccounts.verifyingEmail = function() {
+  return Session.get('accountUnverifiedEmails');
 }
 
 // --- Change password --- //
@@ -466,3 +511,38 @@ Template.navAccountsServicesOther.capitalizedName = function() {
 Template.navAccountsServicesOther.isSteam = function() {
   return this.name === 'steam';
 }
+
+// --- Verify Email --- //
+// -------------------- //
+
+Template.navAccountsUnverifiedEmails.events({
+  // Support for closing the change password form.
+  'click #nav-accounts-unverified-close': function() {
+    alert.clearAll('account-unverified-email');
+    Session.set('accountUnverifiedEmails', false);
+  }
+});
+
+Template.navAccountsUnverifiedEmails.unverifiedEmails = function() {
+  if (!Meteor.user()) {
+    return [];
+  }
+
+  return _.where(Meteor.user().emails, { verified: false });
+}
+
+Template.navAccountsUnverifiedEmailAddress.events({
+  'click #nav-accounts-email-verify': function() {
+    alert.info('Sending verification email', 'account-unverified-email', { spinner: true });
+
+    Meteor.call('sendVerificationEmail', this.address, function(error, result) {
+      alert.clearAll('account-unverified-email');
+      
+      if (error) {
+        return alert.danger(error || 'Unknown error', 'account-unverified-email');
+      }
+
+      return alert.success('Verification email sent', 'account-unverified-email');
+    });
+  }
+});

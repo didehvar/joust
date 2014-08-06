@@ -1,16 +1,22 @@
-<template name="emailRequired">
+<template name="addEmail">
   <div class="email-required text-center">
-    <div class="row">
-      <h1>Welcome to Joust</h1>
-      <h3 class="text-muted">Please enter your email</h3>
-    </div>
-    <div class="row">
-      <p class="col-sm-offset-3 col-sm-6">
-        We require your email for features such as the forum login and password
-        resets. You can add more emails to your account at any time from the
-        user dropdown.
-      </p>
-    </div>
+    {{#if addEmailDescription}}
+      <div class="row">
+        <h3 class="text-muted">{{addEmailDescription}}</h3>
+      </div>
+    {{else}}
+      <div class="row">
+        <h1>Welcome to Joust</h1>
+        <h3 class="text-muted">Please enter your email</h3>
+      </div>
+      <div class="row">
+        <p class="col-sm-offset-3 col-sm-6">
+          We require your email for features such as the forum login and password
+          resets. You can add more emails to your account at any time from the
+          user dropdown.
+        </p>
+      </div>
+    {{/if}}
     <div class="row">
       <div class="col-sm-offset-3 col-sm-6">
         {{> emailRequiredAlerts}}

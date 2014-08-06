@@ -9,9 +9,13 @@
 // });
 
 Meteor.methods({
-  'addEmailToUser': function(email) {
+  addEmailToUser: function(email) {
     if (!this.userId) {
       throw new Meteor.Error(401, 'Must be logged in');
+    }
+
+    if (Meteor.user().emails.length >= Meteor.settings.public.accountMaxEmails) {
+      throw new Meteor.Error(500, 'Maximum emails for account exceeded');
     }
 
     if (Meteor.users.find({ 'emails.address': email }).count() > 0) {
@@ -32,5 +36,36 @@ Meteor.methods({
 
       return true;
     });
+  },
+
+  confirmUniEmail: function() {
+    if (!this.userId) {
+      throw new Meteor.Error(401, 'Please login');
+    }
+
+    var user = Meteor.user();
+
+    _.each(user.emails, function(element) {
+      if (element.address.substr(element.address.length - 6) === '.ac.uk') {
+        return true
+      }
+    });
+
+    return false;
+  },
+
+  sendVerificationEmail: function(email) {
+    if (!this.userId) {
+      throw new Meteor.Error(401, 'Please login');
+    }
+
+    var user = Meteor.user();
+
+    if (!_.findWhere(user.emails, { address: email })) {
+      throw new Meteor.Error(500, 'Email not attached to this account');
+    }
+
+    Accounts.sendVerificationEmail(user._id, email);
+    return true;
   }
 });

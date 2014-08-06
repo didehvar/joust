@@ -1,6 +1,7 @@
 {
   "public": {
-    "discourseUrl": ""
+    "discourseUrl": "",
+    "accountMaxEmails": ""
   },
   "ssoSecret": "",
   "newsPosts": "",

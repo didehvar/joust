@@ -1,6 +1,6 @@
 <template name="userProfile">
 	<div class="user-profile">
-		{{#if userExists}}
+		{{#if _id}}
 			{{> userProfileHeader}}
 			<div class="row text-center">
 				<div class="col-sm-6">
@@ -19,7 +19,7 @@
 <template name="userProfileHeader">
 	<div class="row">
 		<div class="col-sm-4 col-md-3 col-lg-3 text-center">
-			<img src="{{avatar}}" alt="{{username}}'s avatar" class="img-rounded">
+			<img src="{{avatar.large}}" alt="{{username}}'s avatar" class="img-rounded">
 		</div>
 		<div class="col-sm-8 col-md-9 col-lg-9 username">
 			<h1>{{username}}</h1>

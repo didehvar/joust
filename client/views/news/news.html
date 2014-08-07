@@ -1,8 +1,14 @@
 <template name="news">
-  {{#each posts}}
-    {{> newsPost}}
-    <hr>
-  {{/each}}
+  {{#if posts}}
+    {{#each posts}}
+      {{> newsPost}}
+      <hr>
+    {{/each}}
+  {{else}}
+    <h3>
+      <i class="fa fa-circle-o-notch fa-spin"></i> Loading news...
+    </h3>
+  {{/if}}
 </template>
 
 <template name="newsPost">

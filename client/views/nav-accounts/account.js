@@ -5,6 +5,7 @@ var clearAccountSessions = function() {
   Session.set('accountForgotPassword', false);
   Session.set('accountChangingPassword', false);
   Session.set('accountUnverifiedEmails', false);
+  Session.set('accountNewPassword', false);
 };
 
 // --- Alerts for dropdown --- //
@@ -130,6 +131,10 @@ Template.navAccounts.emailUnverified = function() {
 
 Template.navAccounts.verifyingEmail = function() {
   return Session.get('accountUnverifiedEmails');
+}
+
+Template.navAccounts.settingNewPassword = function() {
+  return Session.get('accountNewPassword');
 }
 
 // --- Change password --- //
@@ -507,7 +512,7 @@ Template.navAccountsServicesOther.isSteam = function() {
   return this.name === 'steam';
 }
 
-// --- Verify Email --- //
+// --- Verify email --- //
 // -------------------- //
 
 Template.navAccountsUnverifiedEmails.events({
@@ -541,3 +546,65 @@ Template.navAccountsUnverifiedEmailAddress.events({
     });
   }
 });
+
+// --- Reset password --- //
+// ---------------------- //
+
+var leaveReset = function() {
+  alert.clearAll('account-reset-password');
+
+  var password = elementValueById('reset-password-new');
+  if (password.length === 0) {
+    return alert.danger('Please enter a new password', 'account-reset-password');
+  }
+
+  var confirmPassword = elementValueById('reset-password-confirm');
+  if (!confirmPassword || confirmPassword !== password) {
+    return alert.danger("Passwords don't match", 'account-reset-password');
+  }
+
+  Session.set('accountNewPasswordValue', password);
+
+  Router.go('/');
+};
+
+// Attempts to change password if enter key is detected.
+var resetChangePassword = function(event) {
+  if (event.keyCode === 13) {
+    leaveReset();
+  }
+};
+
+Template.navAccountsNewPassword.events({
+  // Support for closing the change password form.
+  'click #nav-accounts-reset-close': function(event) {
+    alert.clearAll('account-reset-password');
+    Session.set('accountNewPassword', false);
+
+    Router.go('/');
+  },
+
+  // Change password on enter keypress.
+  'keypress #reset-password-new': resetChangePassword,
+  'keypress #reset-password-confirm': resetChangePassword,
+
+  // Support for submit click.
+  'click #nav-accounts-reset-password-do': function(event) {
+    leaveReset();
+  }
+});
+
+Template.navAccountsNewPassword.fields = function() {
+  return [
+    {
+      fieldName: 'reset-password-new',
+      fieldLabel: 'New password',
+      inputType: 'password'
+    },
+    {
+      fieldName: 'reset-password-confirm',
+      fieldLabel: 'Confirm new password',
+      inputType: 'password'
+    }
+  ];
+};

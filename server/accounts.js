@@ -68,5 +68,9 @@ Accounts.onCreateUser(function(options, user) {
 });
 
 Accounts.urls.verifyEmail = function(token) {
-  return Meteor.absoluteUrl('verify-email/' + token);
+  return Meteor.absoluteUrl('account/verify-email/' + token);
+}
+
+Accounts.urls.resetPassword = function(token) {
+  return Meteor.absoluteUrl('account/reset-password/' + token);
 }

@@ -1,8 +1,8 @@
 <template name="alerts">
   {{#each alerts}}
-    <div class="alert {{style}} alert-dismissable">
+    <div class="alert {{style}}" role="alert">
       {{#if options.close}}
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
       {{/if}}
       {{#if options.spinner}}
         <i class="fa fa-circle-o-notch fa-spin"></i>

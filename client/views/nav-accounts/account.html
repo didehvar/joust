@@ -8,27 +8,27 @@
             <i class="fa fa-circle-o-notch fa-spin"></i> &nbsp;
           </a>
         </li>
-      {{else}}
-        {{#if currentUser}}
-          <i class="fa fa-user fa-fw"></i> {{displayName}}
-          {{#if dropdownOpen}}
-            <i class="fa fa-caret-up fa-fw"></i>
-          {{else}}
-            <i class="fa fa-caret-down fa-fw"></i>
-          {{/if}}
+      {{else}} {{#if currentUser}}
+        <i class="fa fa-user fa-fw"></i> {{displayName}}
+        {{#if dropdownOpen}}
+          <i class="fa fa-caret-up fa-fw"></i>
         {{else}}
-          Sign in
-          {{#if dropdownOpen}}
-            <i class="fa fa-sign-in fa-rotate-90 fa-fw"></i>
-          {{else}}
-            <i class="fa fa-sign-in fa-fw"></i>
-          {{/if}}
+          <i class="fa fa-caret-down fa-fw"></i>
         {{/if}}
-      {{/if}}
+      {{else}}
+        Sign in
+        {{#if dropdownOpen}}
+          <i class="fa fa-sign-in fa-rotate-90 fa-fw"></i>
+        {{else}}
+          <i class="fa fa-sign-in fa-fw"></i>
+        {{/if}}
+      {{/if}}{{/if}}
     </a>
     <div class="dropdown-menu">
       {{> navAccountsAlerts}}
-      {{#if currentUser}}
+      {{#if settingNewPassword}}
+        {{> navAccountsNewPassword}}
+      {{else}} {{#if currentUser}}
         {{#if changingPassword}}
           {{> navAccountsChangePassword}}
         {{else}} {{#if changingEmail}}
@@ -60,7 +60,7 @@
         {{/if}}{{/if}}{{/if}}
       {{else}}
         {{> navAccountsServices}}
-      {{/if}}
+      {{/if}}{{/if}}
     </div>
   </li>
 </template>
@@ -192,5 +192,18 @@
 <template name="navAccountsUnverifiedEmailAddress">
   <button class="btn btn-warning btn-block" id="nav-accounts-email-verify">
     <i class="fa fa-mail-reply"></i> {{address}}
+  </button>
+</template>
+
+<template name="navAccountsNewPassword">
+  {{#each fields}}
+    {{> navAccountsFormField}}
+  {{/each}}
+
+  <button class="btn btn-primary btn-block" id="nav-accounts-reset-password-do">
+    <i class="fa fa-wrench"></i> Reset password
+  </button>
+  <button class="btn btn-default btn-block" id="nav-accounts-reset-close">
+    <i class="fa fa-times"></i> Close
   </button>
 </template>

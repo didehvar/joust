@@ -5,7 +5,6 @@ var getPost = function(post) {
     }
 
     _.extend(result, post);
-    console.log(result);
 
     if (Session.get('discourseNews')) {
       result = Session.get('discourseNews').push(result);

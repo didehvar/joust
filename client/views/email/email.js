@@ -11,7 +11,7 @@ var addEmail = function() {
     return alert.danger('Must be logged in to add an email', 'email-required');
   }
 
-  if (Meteor.user().emails.length >= Meteor.settings.public.accountMaxEmails) {
+  if (Meteor.user().emails && Meteor.user().emails.length >= Meteor.settings.public.accountMaxEmails) {
     return alert.danger('An account can only be assigned a maximum of three emails', 'email-required');
   }
 
@@ -20,11 +20,16 @@ var addEmail = function() {
     return alert.danger('Please enter a valid email', 'email-required');
   }
 
+  console.log(email);
+  console.log(email.length);
+
   // Check that this is a university email if we're trying to add a university
   // email.
   if (Session.get('addUniEmail') && email.substr(email.length - 6) !== '.ac.uk') {
     return alert.danger('A university email must end in .ac.uk', 'email-required');
   }
+
+  console.log('passed');
 
   // Check if email exists.
   Meteor.call('addEmailToUser', email, function(error, result) {

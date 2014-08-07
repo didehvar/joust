@@ -296,12 +296,7 @@ var login = function() {
       return alert.danger(error.reason || 'Unknown error', 'account-login');
     }
 
-    alert.success('Sign in successful', 'account-login');
-
-    // Wait and then remove all related alerts.
-    Meteor.setTimeout(function() {
-      alert.clearAll('account-login');
-    }, 3000);
+    // User will know they're logged in as the dropdown changes.
   });
 };
 
@@ -537,7 +532,7 @@ Template.navAccountsUnverifiedEmailAddress.events({
 
     Meteor.call('sendVerificationEmail', this.address, function(error, result) {
       alert.clearAll('account-unverified-email');
-      
+
       if (error) {
         return alert.danger(error || 'Unknown error', 'account-unverified-email');
       }

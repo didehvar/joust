@@ -34,6 +34,8 @@ Meteor.methods({
         throw new Meteor.Error(error.error || 500, error.reason || 'Unknown error');
       }
 
+      Accounts.sendVerificationEmail(Meteor.user()._id, email);
+
       return true;
     });
   },

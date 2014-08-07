@@ -35,7 +35,7 @@ var addEmail = function() {
 
     Session.set('uniEmailConfirmed', true);
     Router.go('news');
-    alert.success('Email added to your account');
+    alert.success('Email added to your account', '', { close: true });
   });
 };
 

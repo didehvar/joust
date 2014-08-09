@@ -1,17 +1,19 @@
 <template name="news">
-  {{#if posts}}
-    {{#each posts}}
-      {{> newsPost}}
-    {{/each}}
-  {{else}}
-    <h3>
-      <i class="fa fa-circle-o-notch fa-spin"></i> Loading news...
-    </h3>
-  {{/if}}
+  <div class="news-post">
+    {{#if posts}}
+      {{#each posts}}
+        {{> newsPost}}
+      {{/each}}
+    {{else}}
+      <h1 class="title">
+        <i class="fa fa-circle-o-notch fa-spin"></i> Loading news...
+      </h1>
+    {{/if}}
+  </div>
 </template>
 
 <template name="newsPost">
-  <div class="row news-post">
+  <div class="row">
     <div class="col-sm-12">
       <article>
         <header>

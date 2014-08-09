@@ -8,7 +8,8 @@ Meteor.methods({
       throw new Meteor.Error(401, 'Must be logged in');
     }
 
-    if (Meteor.user().emails.length >= Meteor.settings.public.accountMaxEmails) {
+    if (Meteor.user().emails &&
+        Meteor.user().emails.length >= Meteor.settings.public.accountMaxEmails) {
       throw new Meteor.Error(500, 'Maximum emails for account exceeded');
     }
 

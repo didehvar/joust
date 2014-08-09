@@ -33,9 +33,11 @@ var addEmail = function() {
       return alert.danger(error.reason || 'Unknown error', 'email-required');
     }
 
-    Session.set('uniEmailConfirmed', true);
     Router.go('news');
-    alert.success('Email added to your account', '', { close: true });
+    alert.success("Email added to your account. Please follow the link in the" +
+                  " email we've sent you to verify this email address", '',
+                  { close: true }
+    );
   });
 };
 

@@ -8,5 +8,6 @@
   "kadira": {
     "appId": "",
     "appSecret": ""
-  }
+  },
+  "smtpMailUrl": ""
 }

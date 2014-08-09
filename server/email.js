@@ -1,12 +1,6 @@
-// Meteor.methods({
-//   'addEmail': function(email) {
-//     if (!this.userId) {
-//       throw new Meteor.Error('Must be logged in');
-//     }
-//
-//
-//   }
-// });
+Meteor.startup(function() {
+  process.env.MAIL_URL = Meteor.settings.smtpMailUrl;
+});
 
 Meteor.methods({
   addEmailToUser: function(email) {

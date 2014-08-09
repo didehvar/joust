@@ -115,10 +115,12 @@ Template.navAccounts.hasPassword = function() {
 Template.navAccounts.uniUnconfirmed = function() {
   return Meteor.user() && !_.find(Meteor.user().emails, function(element) {
     var email = element.address;
-    return email.substr(email.length - 6) === '.ac.uk';
+    if (email.substr(email.length - 6) === '.ac.uk') {
+      return false;
+    }
   });
 
-  // return Session.get('uniEmailConfirmed');
+  return true;
 }
 
 Template.navAccounts.emailUnverified = function() {
@@ -298,6 +300,10 @@ var login = function() {
 
   Meteor.loginWithPassword(usernameOrEmail, password, function(error) {
     if (error) {
+      if (error.reason === 'User has no password set') {
+        error.reason += ' - perhaps you meant to login with a service';
+      }
+
       return alert.danger(error.reason || 'Unknown error', 'account-login');
     }
 
@@ -476,6 +482,7 @@ Template.navAccountsServices.otherServices = function() {
 
 Template.navAccountsServicesOther.events({
   'click .nav-accounts-service': function() {
+    alert.clearAll('account-login');
     alert.clearAll('account-service');
     var service = this.name;
 
